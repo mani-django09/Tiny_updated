@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - TinyURL.run{% endblock %}
+
+{% block head_extra %}
+<meta name="description" content="Contact the TinyURL.run team. We're here to help with any questions about our URL shortener service.">
+<meta name="keywords" content="contact, url shortener, help, support, tinyurl.run">
+{% endblock %}
+
+{% block content %}
+<!-- Contact Header -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
+                <p class="lead mb-0">We'd love to hear from you. How can we help?</p>
+            </div>
+        </div>
+    </div>
+    <!-- Wave Divider -->
+    <div class="position-relative" style="height: 70px; margin-top: 70px; margin-bottom: -70px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position: absolute; bottom: 0; width: 100%;">
+            <path fill="#ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,117.3C672,107,768,117,864,144C960,171,1056,213,1152,218.7C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-7 mb-5 mb-lg-0" data-aos="fade-right">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 p-lg-5">
+                        <h2 class="h3 fw-bold mb-4"><i class="bi bi-envelope-fill text-primary me-2"></i>Send Us a Message</h2>
+                        
+                        {% if form_success %}
+                        <div class="alert alert-success" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>Your message has been sent! We'll get back to you as soon as possible.
+                        </div>
+                        {% endif %}
+                        
+                        <form method="post" action="{% url 'contact' %}">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="" selected disabled>Select a subject</option>
+                                    <option value="General Inquiry">General Inquiry</option>
+                                    <option value="Technical Support">Technical Support</option>
+                                    <option value="Feature Request">Feature Request</option>
+                                    <option value="Report a Bug">Report a Bug</option>
+                                    <option value="Business Inquiry">Business Inquiry</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Your Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="privacy" name="privacy" required>
+                                <label class="form-check-label" for="privacy">
+                                    I agree to the <a href="{% url 'privacy' %}" target="_blank">Privacy Policy</a> and consent to have my information processed.
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-send-fill me-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="col-lg-5" data-aos="fade-left">
+                <div class="mb-5">
+                    <h2 class="h3 fw-bold mb-4"><i class="bi bi-info-circle-fill text-primary me-2"></i>Contact Information</h2>
+                    
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-bold mb-3">
+                                <i class="bi bi-envelope text-primary me-2"></i>Email Us
+                            </h3>
+                            <p class="mb-0">For general inquiries: <a href="mailto:info@tinyurl.run" class="text-decoration-none">info@tinyurl.run</a></p>
+                            <p class="mb-0">For support: <a href="mailto:support@tinyurl.run" class="text-decoration-none">support@tinyurl.run</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-bold mb-3">
+                                <i class="bi bi-clock text-primary me-2"></i>Response Time
+                            </h3>
+                            <p class="mb-0">We typically respond to all inquiries within 24-48 hours during business days.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-bold mb-3">
+                                <i class="bi bi-question-circle text-primary me-2"></i>Frequently Asked Questions
+                            </h3>
+                            <p class="mb-3">Have a quick question? Our <a href="{% url 'faq' %}" class="text-decoration-none">FAQ page</a> might have the answer you're looking for.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-bold mb-3">
+                                <i class="bi bi-share text-primary me-2"></i>Connect with Us
+                            </h3>
+                            <div class="d-flex gap-3">
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Teaser -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center" data-aos="fade-up">
+                <h2 class="h3 fw-bold mb-4">Still Have Questions?</h2>
+                <p class="mb-4">Check out our comprehensive FAQ section for answers to commonly asked questions.</p>
+                <a href="{% url 'faq' %}" class="btn btn-primary">
+                    <i class="bi bi-question-circle-fill me-2"></i>View FAQ
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

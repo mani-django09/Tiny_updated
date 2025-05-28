@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+
+{% block title %}FAQ - TinyURL{% endblock %}
+
+{% block content %}
+<!-- FAQ Hero Section -->
+<section class="hero py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3" data-aos="fade-up">Frequently Asked Questions</h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100">Find answers to the most common questions about TinyURL</p>
+    </div>
+</section>
+
+<!-- FAQ Content Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- FAQ Accordion -->
+                <div class="accordion" id="faqAccordion">
+                    <!-- General Questions -->
+                    <div class="mb-4" data-aos="fade-up">
+                        <h2 class="h4 mb-3">General Questions</h2>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    What is TinyURL?
+                                </button>
+                            </h3>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>TinyURL is a free URL shortening service that allows you to create shorter, more manageable versions of long URLs. These shortened links are easier to share, remember, and track. Our service also provides analytics to help you understand how your links are being used.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Is TinyURL free to use?
+                                </button>
+                            </h3>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Yes, TinyURL is completely free for basic usage. You can create unlimited shortened URLs, access basic analytics, and use features like custom URLs and QR codes at no cost. We may introduce premium plans in the future for advanced features, but our core service will always remain free.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Do I need to create an account to use TinyURL?
+                                </button>
+                            </h3>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>No, you don't need an account to use TinyURL. You can create shortened URLs immediately without signing up. However, creating an account allows you to save and manage your links, access more detailed analytics, and use advanced features. We recommend creating an account for the best experience.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Features -->
+                    <div class="mb-4" data-aos="fade-up" data-aos-delay="100">
+                        <h2 class="h4 mb-3">Features</h2>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Can I create custom short URLs?
+                                </button>
+                            </h3>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Yes, TinyURL allows you to create custom short codes for your URLs. Instead of using our randomly generated codes, you can specify your own memorable text to make your links more branded and recognizable. Simply use the "Custom Short Code" option when creating a new shortened URL.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Can I set my URLs to expire after a certain time?
+                                </button>
+                            </h3>
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Yes, TinyURL offers URL expiration functionality. When creating a shortened URL, you can set it to expire after a specific time period (1 day, 7 days, 30 days) or on a custom date and time of your choosing. After expiration, the URL will no longer redirect to the original destination, but you'll still be able to view its statistics.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingSix">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    How do I track clicks on my shortened URLs?
+                                </button>
+                            </h3>
+                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>TinyURL automatically tracks clicks on all shortened URLs. To view statistics, simply add "/stats/" before your short code in the URL. For example, if your shortened URL is tinyurl.com/abc123, you can view its statistics at tinyurl.com/stats/abc123. The statistics page shows total clicks, click patterns over time, referrer sources, and browser information.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingSeven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                    What are QR codes and how do I use them?
+                                </button>
+                            </h3>
+                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>QR (Quick Response) codes are two-dimensional barcodes that can be scanned with a smartphone camera to quickly access a URL. TinyURL automatically generates a QR code for every shortened URL you create. You can download these QR codes and use them in printed materials, business cards, presentations, or anywhere physical media connects to digital content. When someone scans the QR code, they'll be directed to your original URL through the TinyURL redirect.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Security & Privacy -->
+                    <div class="mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <h2 class="h4 mb-3">Security & Privacy</h2>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingEight">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                    Is TinyURL secure?
+                                </button>
+                            </h3>
+                            <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Yes, TinyURL takes security seriously. We use HTTPS encryption for all connections, ensuring that your data is transferred securely. We also monitor our platform for malicious links and have systems in place to prevent abuse. Additionally, our password protection feature adds an extra layer of security for sensitive links.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingNine">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                    How does password protection work?
+                                </button>
+                            </h3>
+                            <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Password protection allows you to secure your shortened URLs so that users must enter a password before being redirected to the original URL. When creating a shortened URL, simply check the "Password Protect" option and set your desired password. When someone clicks on your protected URL, they'll be prompted to enter the password before proceeding. This is useful for sharing sensitive information or limiting access to specific individuals.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingTen">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                                    What data does TinyURL collect?
+                                </button>
+                            </h3>
+                            <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>TinyURL collects certain data to provide and improve our service. This includes the original URLs you shorten, click statistics (timestamps, IP addresses, referrers, and user agents), and account information if you create an account. We use this information to provide analytics, prevent abuse, and enhance our service. For complete details on our data practices, please refer to our Privacy Policy.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Troubleshooting -->
+                    <div data-aos="fade-up" data-aos-delay="300">
+                        <h2 class="h4 mb-3">Troubleshooting</h2>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingEleven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                    My shortened URL isn't working. What should I do?
+                                </button>
+                            </h3>
+                            <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>If your shortened URL isn't working, there could be several reasons:</p>
+                                    <ul>
+                                        <li>The URL may have expired if you set an expiration date.</li>
+                                        <li>The original URL may no longer be accessible.</li>
+                                        <li>There might be a typo in the short code.</li>
+                                        <li>In rare cases, there might be a temporary service issue.</li>
+                                    </ul>
+                                    <p>Check the URL statistics page to see if the link is still active. If you're still having issues, please contact our support team for assistance.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingTwelve">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                    Can I edit or delete a shortened URL?
+                                </button>
+                            </h3>
+                            <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>For anonymous users (without an account), once a URL is shortened, it cannot be edited or deleted. This is why we recommend creating an account, which allows you to manage your links. With an account, you can edit the destination of your shortened URLs, change expiration settings, add or remove password protection, and delete links you no longer need.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border mb-2">
+                            <h3 class="accordion-header" id="headingThirteen">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+                                    How long do shortened URLs last?
+                                </button>
+                            </h3>
+                            <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Unless you set a specific expiration date, TinyURL links do not expire and will work indefinitely. We're committed to maintaining the stability and longevity of our shortened URLs. Even very old links from years ago should still work perfectly. If you need a temporary link, you can always use our expiration feature to set a specific timeframe.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Still Have Questions -->
+                <div class="mt-5 text-center p-4 bg-light rounded" data-aos="fade-up">
+                    <h2 class="h4 mb-3">Still Have Questions?</h2>
+                    <p class="mb-4">We're here to help! Contact our support team for assistance.</p>
+                    <a href="#" class="btn btn-primary">
+                        <i class="bi bi-envelope me-2"></i>Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta py-5 bg-primary text-white">
+    <div class="container text-center" data-aos="zoom-in">
+        <h2 class="display-6 fw-bold mb-3">Ready to shorten your first URL?</h2>
+        <p class="lead mb-4">It's free, fast, and no registration required!</p>
+        <a href="{% url 'index' %}" class="btn btn-light btn-lg px-4 py-2">
+            <i class="bi bi-link-45deg me-2"></i>Get Started
+        </a>
+    </div>
+</section>
+{% endblock %}

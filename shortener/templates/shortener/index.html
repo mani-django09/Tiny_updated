@@ -1,0 +1,1197 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+<!-- Optimized SEO Meta Tags -->
+<meta name="description" content="Free URL shortener with analytics & QR codes. Create custom short links, track performance & boost engagement. TinyURL.run - fast, secure, no signup needed.">
+<meta name="keywords" content="url shortener, link shortener, tinyurl, free url shortener, short links, custom URLs, tinyurl.run, link tracking, QR codes, branded links">
+
+<!-- Social Media & Open Graph Tags -->
+<meta property="og:title" content="TinyURL.run - Free URL Shortener | Make Long Links Short">
+<meta property="og:description" content="Free URL shortener with analytics & QR codes. Create custom short links, track performance & boost engagement.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tinyurl.run/">
+<meta property="og:image" content="https://tinyurl.run/static/img/og-image.jpg">
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TinyURL.run - Free URL Shortener">
+<meta name="twitter:description" content="Free URL shortener with analytics & QR codes. Create custom short links, track performance.">
+<meta name="twitter:image" content="https://tinyurl.run/static/img/twitter-image.jpg">
+
+<!-- Preload Critical Resources -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" as="style">
+
+<!-- Fix for input field issues -->
+<style>
+/* Ensure form controls are interactive */
+.form-control, 
+.form-select, 
+.input-group-text, 
+button,
+input,
+textarea,
+select {
+  position: relative !important;
+  z-index: 100 !important; /* Higher z-index to ensure they're above any overlays */
+  pointer-events: auto !important; /* Force pointer events */
+}
+
+/* Fix for position absolute elements that might be interfering */
+.hero-enhanced .position-absolute:not(.particles-container) {
+  pointer-events: none !important; /* Don't capture mouse events */
+}
+
+/* Card styling - fixed to be fully interactive */
+.url-form-card {
+  border: none;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 50 !important;
+}
+
+/* Fix for particles container */
+.particles-container, #particles-js, canvas {
+  pointer-events: none !important; /* Don't block input interactions */
+}
+
+/* Make sure the form is accessible */
+#shortener-form, #url-form {
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+/* Ensure card bodies are interactive */
+.card-body {
+  position: relative;
+  z-index: 60 !important;
+}
+
+/* Fix hero elements */
+.animated-blob,
+.wave-divider,
+.highlight-text,
+.position-relative-wrapper,
+.bg-gradient-primary,
+.z-1 {
+  pointer-events: none !important;
+}
+
+/* Fix for counter boxes */
+.counter-box {
+  position: relative;
+  z-index: 5;
+}
+</style>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TinyURL.run",
+  "url": "https://tinyurl.run/",
+  "description": "Free URL shortener with analytics & QR codes. Create custom short links, track performance & boost engagement.",
+  "applicationCategory": "Utility",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "operatingSystem": "Web",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "1024"
+  }
+}
+</script>
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://tinyurl.run/">
+{% endblock %}
+
+{% block title %}TinyURL.run - Free URL Shortener | Make Long Links Short{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-enhanced position-relative overflow-hidden">
+    <!-- Particles Container -->
+    <div class="particles-container" id="particles-js"></div>
+    
+    <!-- Animated Blobs -->
+    <div class="animated-blob blob-1"></div>
+    <div class="animated-blob blob-2"></div>
+    <div class="animated-blob blob-3"></div>
+    
+    <div class="container position-relative py-4">
+        <div class="row align-items-center">
+            <!-- Form Card -->
+            <div class="col-lg-6 mb-4 mb-lg-0 order-2 order-lg-1" data-aos="fade-right">
+                <div class="card shadow-lg url-form-card" id="url-form">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <h2 class="h4 mb-1 fw-bold">Shorten Your URL</h2>
+                            <p class="text-muted small mb-3">Free, fast, and secure URL shortener</p>
+                        </div>
+                        
+                        <!-- FIXED FORM: Improved for accessibility and interaction -->
+                        <form method="post" id="shortener-form">
+                            {% csrf_token %}
+                            
+                            <!-- Original URL Input - FIXED -->
+                            <div class="mb-3">
+                                <label for="id_original_url" class="form-label fw-medium small mb-1">Enter your long URL</label>
+                                <input type="url" class="form-control form-control-lg" id="id_original_url" name="original_url" placeholder="https://example.com/your-long-url" required>
+                            </div>
+                            
+                            <!-- Customize Link - FIXED -->
+                            <div class="mb-3">
+                                <label for="id_custom_alias" class="form-label fw-medium small mb-1">Customize your link (optional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light fw-medium">tinyurl.run/</span>
+                                    <input type="text" class="form-control" id="id_custom_alias" name="custom_alias" placeholder="my-brand-name">
+                                </div>
+                                <div class="form-text small">Use letters, numbers, and dashes</div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                                <i class="bi bi-scissors me-2"></i>Shorten URL Now
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <p class="mb-0 small text-muted">By using our service, you agree to our <a href="{% url 'terms' %}" class="text-decoration-none">Terms of Service</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Content -->
+            <div class="col-lg-6 text-center text-lg-start order-1 order-lg-2" data-aos="fade-left">
+                
+                
+                <!-- Enhanced Headline with Highlighted Terms -->
+                <h1 class="display-4 fw-bold mb-3 text-white text-shadow">
+                    The #1 <span class="highlight-text">URL Shortener</span> for Your 
+                    <span class="position-relative d-inline-block">
+                        <span class="position-absolute top-0 start-0 w-100 h-100 bg-primary rounded-lg" style="transform: rotate(-1deg); z-index: 0;"></span>
+                        <span class="position-relative z-1 px-2 text-white">Link Needs</span>
+                    </span>
+                </h1>
+                
+                <p class="lead mb-4 text-white opacity-90">TinyURL.run transforms long, complex URLs into short, memorable links that boost click-through rates by up to 34%. Perfect for social media, email campaigns, and QR codes.</p>
+                
+                
+                <!-- CTA Buttons -->
+                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
+                    <a href="#features" class="btn btn-light btn-lg">
+                        <i class="bi bi-arrow-down-circle me-2"></i>Explore Features
+                    </a>
+                    <a href="#testimonials" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-chat-quote me-2"></i>Success Stories
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wave Divider -->
+    <div class="wave-divider">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path fill="#ffffff" fill-opacity="1" d="M0,32L48,37.3C96,43,192,53,288,58.7C384,64,480,64,576,53.3C672,43,768,21,864,16C960,11,1056,21,1152,32C1248,43,1344,53,1392,58.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Why Choose TinyURL.run Section -->
+<section class="py-5" id="why-tinyurl">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">The Free URL Shortener You Can Trust</h2>
+            <p class="lead">Transform your digital presence with short, memorable links</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Feature 1: Click-Through Rates -->
+            <div class="col-lg-6 mb-4" data-aos="fade-up">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-bar-chart-line fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Boost Click-Through Rates</h3>
+                        </div>
+                        <p>Studies show that branded short links with TinyURL.run get 34% more clicks than raw URLs. Our clean, professional links build trust and increase engagement across all channels.</p>
+                        <div class="bg-light p-3 rounded mt-3">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div class="bg-success rounded-circle text-white d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                        <i class="bi bi-check-lg"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="mb-0 text-dark fw-medium">tinyurl.run/summer-sale</p>
+                                    <small class="text-success">34% more clicks</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <div class="me-3">
+                                    <div class="bg-danger rounded-circle text-white d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                        <i class="bi bi-x-lg"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="mb-0 text-muted small" style="font-size: 0.8rem;">https://example.com/products?category=summer&campaign=email&ref=newsletter</p>
+                                    <small class="text-danger">Lower engagement</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 2: Enterprise-Grade Security -->
+            <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-shield-check fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Enterprise-Grade Security</h3>
+                        </div>
+                        <p>Unlike other URL shorteners, TinyURL.run provides industry-leading security features like password protection, link expiration, and HTTPS encryption to keep your data and your users safe.</p>
+                        <div class="row mt-3 g-2">
+                            <div class="col-sm-6">
+                                <div class="bg-light p-3 rounded text-center h-100">
+                                    <i class="bi bi-lock fs-3 text-primary mb-2"></i>
+                                    <h4 class="h6 fw-bold">Password Protection</h4>
+                                    <p class="small mb-0">Restrict access to authorized users only</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="bg-light p-3 rounded text-center h-100">
+                                    <i class="bi bi-clock-history fs-3 text-primary mb-2"></i>
+                                    <h4 class="h6 fw-bold">Link Expiration</h4>
+                                    <p class="small mb-0">Set links to expire automatically</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 3: Link Analytics -->
+            <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-graph-up fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Detailed Link Analytics</h3>
+                        </div>
+                        <p>Our free URL shortener provides comprehensive click tracking. Understand who's clicking your links, when, and from where - all in real-time with beautiful visualizations only at TinyURL.run.</p>
+                        <div class="bg-light p-2 rounded mt-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="small fw-medium">Click Performance</span>
+                                <span class="small text-success">+24% this week</span>
+                            </div>
+                            <div style="height: 100px; position: relative;">
+                                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgMTAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiM2MzY2RjEiIHN0cm9rZS13aWR0aD0iMiIgZD0iTTAsMzUgQzMwLDYwIDYwLDQwIDkwLDQ1IEMxMjAsNTAgMTUwLDIwIDE4MCwzMCBDMjEwLDQwIDI0MCwxNSAyNzAsMjUgTDMwMCwzNSIvPjxwYXRoIGZpbGw9InJnYmEoOTksIDEwMiwgMjQxLCAwLjIpIiBzdHJva2U9Im5vbmUiIGQ9Ik0wLDk5IEwwLDM1IEMzMCw2MCA2MCw0MCA5MCw0NSBDMTIwLDUwIDE1MCwyMCAxODAsMzAgQzIxMCw0MCAyNDAsMTUgMjcwLDI1IEwzMDAsMzUgTDMwMCw5OSBaIi8+PC9zdmc+') no-repeat; background-size: 100% 100%;"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <span class="small text-muted">Mon</span>
+                                <span class="small text-muted">Wed</span>
+                                <span class="small text-muted">Fri</span>
+                                <span class="small text-muted">Sun</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 4: Brand Strengthening -->
+            <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-flag fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Brand Strengthening</h3>
+                        </div>
+                        <p>With TinyURL.run, you can create custom branded links that reinforce your identity across all marketing channels. Consistent branding increases recognition and builds trust with your audience.</p>
+                        <div class="mt-3">
+                            <div class="d-flex align-items-center bg-light p-2 rounded mb-2">
+                                <div class="me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <span class="fw-bold">N</span>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-medium">tinyurl.run/<span class="text-primary">netflix-new</span></p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center bg-light p-2 rounded mb-2">
+                                <div class="me-3 bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <span class="fw-bold">A</span>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-medium">tinyurl.run/<span class="text-info">amzn-deals</span></p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center bg-light p-2 rounded">
+                                <div class="me-3 bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <span class="fw-bold">S</span>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-medium">tinyurl.run/<span class="text-success">spotify-list</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light" id="features">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">Powerful Features at TinyURL.run</h2>
+            <p class="lead">Everything you need in a link shortener, completely free</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Feature 1: Custom Short URLs -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" id="custom-urls">
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Custom Short URLs</h3>
+                        <p class="text-muted">Create memorable, branded links that are easy to share and remember with our free URL shortener.</p>
+                        <hr>
+                        <div class="mt-3 text-start">
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">Choose your own short codes</span>
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">Brand-consistent naming</span>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">URL previews on social media</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 2: QR Codes Generation -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400" id="qr-codes">
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-qr-code"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">QR Codes Generation</h3>
+                        <p class="text-muted">TinyURL.run automatically generates QR codes for your shortened URLs for easy mobile access and offline marketing.</p>
+                        <hr>
+                        <div class="mt-3 text-start">
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">Instant code generation</span>
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">High-resolution downloads</span>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">Print-ready formats</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 3: Advanced Analytics -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="500" id="analytics">
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Advanced Analytics</h3>
+                        <p class="text-muted">Track clicks, referrers, locations, and devices for every shortened URL with our comprehensive analytics dashboard.</p>
+                        <hr>
+                        <div class="mt-3 text-start">
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">Real-time click tracking</span>
+                                </li>
+                                <li class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">Geographic data insights</span>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span class="small">Device & browser analytics</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Use Cases Section -->
+<section class="py-5 bg-white" id="use-cases">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="badge bg-primary-light px-3 py-2 rounded-pill mb-2">Link Shortener Applications</span>
+            <h2 class="display-5 fw-bold">Perfect For Every Channel</h2>
+            <p class="lead">How our customers are using TinyURL.run to drive results</p>
+        </div>
+        
+        <div class="row">
+            <!-- Use Case 1: Email Marketing -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-flex mb-3">
+                            <i class="bi bi-envelope fs-3 text-primary"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Email Marketing</h3>
+                        <p>Boost email click-through rates with our free URL shortener. TinyURL.run creates clean, trustworthy links that improve campaign performance.</p>
+                        <div class="bg-white p-3 rounded border border-light mt-3">
+                            <p class="mb-2 fw-bold small">Example:</p>
+                            <p class="mb-1 small">Instead of:</p>
+                            <p class="text-muted mb-2" style="font-size: 0.75rem;">https://example.com/spring-collection?utm_source=newsletter&utm_medium=email&utm_campaign=spring2025</p>
+                            <p class="mb-1 small">Use:</p>
+<p class="text-primary mb-0 fw-medium">tinyurl.run/spring25</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Use Case 2: SMS & Mobile -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-flex mb-3">
+                            <i class="bi bi-phone fs-3 text-primary"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">SMS & Mobile</h3>
+                        <p>Save precious character space in SMS campaigns with our link shortener. TinyURL.run creates easy-to-type URLs for mobile users to increase conversion rates.</p>
+                        <div class="bg-white p-3 rounded border border-light mt-3">
+                            <div class="p-3 bg-light rounded mb-0" style="max-width: 200px; margin: 0 auto;">
+                                <p class="mb-1 small">Message:</p>
+                                <div class="bg-primary text-white p-2 rounded">
+                                    <p class="small mb-0">Get 25% off your next order! Shop now: tinyurl.run/shop25</p>
+                                </div>
+                                <p class="text-end small text-muted mt-1 mb-0">12:34 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Use Case 3: Social Media -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-flex mb-3">
+                            <i class="bi bi-instagram fs-3 text-primary"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Social Media</h3>
+                        <p>Track engagement across different platforms with our URL shortener. TinyURL.run's clean, branded links improve click-through rates on all social networks.</p>
+                        <div class="bg-white p-3 rounded border border-light mt-3">
+                            <div class="rounded overflow-hidden" style="max-width: 220px; margin: 0 auto; border: 1px solid #dee2e6;">
+                                <div class="p-2 bg-light d-flex align-items-center border-bottom">
+                                    <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center text-white" style="width: 24px; height: 24px;">
+                                        <i class="bi bi-person-fill small"></i>
+                                    </div>
+                                    <span class="small ms-2 fw-medium">YourBrand</span>
+                                </div>
+                                <div class="p-2">
+                                    <p class="small mb-1">Check out our new collection! 👉</p>
+                                    <p class="small mb-0 text-primary">tinyurl.run/new-styles</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Advanced Features Section -->
+<section class="py-5 bg-light" id="advanced-features">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="badge bg-primary-light px-3 py-2 rounded-pill mb-2">Advanced Options</span>
+            <h2 class="display-5 fw-bold">Powerful Tools For Power Users</h2>
+            <p class="lead">Take control of your links with our advanced features</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Advanced Feature 1: Link Expiration -->
+            <div class="col-lg-6 mb-4" data-aos="fade-up">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-clock-history fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Link Expiration</h3>
+                        </div>
+                        <p>Set your links to automatically expire after a specific time period. Perfect for temporary promotions, time-sensitive content, or limited-time offers.</p>
+                        <div class="mt-3">
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-medium">Choose expiration period:</label>
+                                        <select class="form-select" disabled>
+                                            <option>Never expire</option>
+                                            <option>24 hours</option>
+                                            <option>7 days</option>
+                                            <option>30 days</option>
+                                            <option>Custom date and time</option>
+                                        </select>
+                                    </div>
+                                    <p class="small text-muted mb-0"><i class="bi bi-info-circle me-1"></i> Available in the advanced options when creating links.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Advanced Feature 2: Password Protection -->
+            <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-shield-lock fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Password Protection</h3>
+                        </div>
+                        <p>Secure your shortened URLs with password protection. Only users with the correct password can access your content, adding an extra layer of security.</p>
+                        <div class="mt-3">
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-medium">Password:</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" value="••••••••" disabled>
+                                            <button class="btn btn-outline-secondary" type="button" disabled><i class="bi bi-eye"></i></button>
+                                        </div>
+                                    </div>
+                                    <p class="small text-muted mb-0"><i class="bi bi-info-circle me-1"></i> Available in the advanced options when creating links.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-primary">
+                <i class="bi bi-shield-check me-2"></i>Learn More About Advanced Features
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-white" id="testimonials">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">What Our Users Say</h2>
+            <p class="lead">Join thousands of satisfied customers using our free URL shortener</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Testimonial 1 -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-4 text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="mb-4">"TinyURL.run has transformed our marketing campaigns. The analytics feature helps us understand which channels drive the most traffic, and the custom URLs maintain our brand consistency across all platforms."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-gradient text-white d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                <span class="fw-bold">SJ</span>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Sarah Johnson</h4>
+                                <p class="small text-muted mb-0">Marketing Director, TechCorp</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-4 text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="mb-4">"I've tried many URL shorteners, but TinyURL.run is by far the best. The password protection feature has been a game-changer for sharing sensitive documents with clients. It's simple to use but provides the security we need."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-info bg-gradient text-white d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                <span class="fw-bold">MP</span>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Michael Patel</h4>
+                                <p class="small text-muted mb-0">Operations Manager, CloudSolutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-4 text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </div>
+                        <p class="mb-4">"As a social media manager handling multiple platforms, TinyURL.run's analytics has been invaluable. I can see which platform drives the most engagement and adjust our strategy accordingly. The best free URL shortener I've used."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-success bg-gradient text-white d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                <span class="fw-bold">EL</span>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Emma Liu</h4>
+                                <p class="small text-muted mb-0">Social Media Strategist, BrandBoost</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light" id="how-it-works">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">How Our URL Shortener Works</h2>
+            <p class="lead">Shorten, share, and track your URLs in three simple steps with TinyURL.run</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Step 1 -->
+            <div class="col-md-4 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="bg-primary text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; font-weight: bold; font-size: 1.75rem;">1</div>
+                        <h3 class="h5 fw-bold">Paste Your Long URL</h3>
+                        <p class="text-muted mb-3">Enter your long URL in the form. Customize your link with a memorable alias on TinyURL.run.</p>
+                        <div class="bg-white p-3 rounded border">
+                            <div class="p-2 bg-light rounded">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-link-45deg text-primary me-2"></i>
+                                    <span class="small text-muted text-truncate">https://example.com/very-long-url...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="col-md-4 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="bg-primary text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; font-weight: bold; font-size: 1.75rem;">2</div>
+                        <h3 class="h5 fw-bold">Get Your Short URL</h3>
+                        <p class="text-muted mb-3">Click "Shorten URL" and instantly receive your shortened link, QR code, and sharing options from TinyURL.run.</p>
+                        <div class="bg-white p-3 rounded border">
+                            <div class="bg-success bg-opacity-10 p-2 rounded">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="text-success fw-medium">tinyurl.run/abc123</span>
+                                    <i class="bi bi-clipboard text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100 feature-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="bg-primary text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; font-weight: bold; font-size: 1.75rem;">3</div>
+                        <h3 class="h5 fw-bold">Share & Track</h3>
+                        <p class="text-muted mb-3">Share your shortened URL and monitor performance with real-time analytics and detailed insights on TinyURL.run.</p>
+                        <div class="bg-white p-3 rounded border">
+                            <div class="bg-light p-2 rounded">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small text-muted">Clicks:</span>
+                                    <span class="small fw-medium">1,248</span>
+                                </div>
+                                <div class="progress mb-2" style="height: 8px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center mt-1">
+                                    <i class="bi bi-graph-up text-primary me-2"></i>
+                                    <span class="small fw-medium">View Analytics</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-white" id="faq-section">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
+            <p class="lead">Quick answers about our free URL shortener service</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="homeFaqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up">
+                        <h3 class="accordion-header" id="homeFaqOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#homeFaqCollapseOne" aria-expanded="true" aria-controls="homeFaqCollapseOne">
+                                What is TinyURL.run and how does it work?
+                            </button>
+                        </h3>
+                        <div id="homeFaqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="homeFaqOne" data-bs-parent="#homeFaqAccordion">
+                            <div class="accordion-body">
+                                <p>TinyURL.run is a free URL shortener service that converts long URLs into shorter, more manageable links. When you paste a long URL into our form and click "Shorten URL", we generate a unique short code. When someone clicks your shortened link, our system automatically redirects them to the original destination. It's simple, fast, and completely free to use!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="accordion-header" id="homeFaqTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeFaqCollapseTwo" aria-expanded="false" aria-controls="homeFaqCollapseTwo">
+                                Can I customize my shortened URLs on TinyURL.run?
+                            </button>
+                        </h3>
+                        <div id="homeFaqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="homeFaqTwo" data-bs-parent="#homeFaqAccordion">
+                            <div class="accordion-body">
+                                <p>Absolutely! With our custom alias feature, you can create memorable and branded URLs that reflect your content or campaign. For example, instead of tinyurl.run/a1b2c3, you could have tinyurl.run/summer-sale. Custom aliases can contain letters, numbers, and hyphens. Just be aware that popular terms may already be taken. This makes our service perfect for marketing campaigns where brand recognition matters.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="accordion-header" id="homeFaqThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeFaqCollapseThree" aria-expanded="false" aria-controls="homeFaqCollapseThree">
+                                How do I track clicks on my shortened URLs with TinyURL.run?
+                            </button>
+                        </h3>
+                        <div id="homeFaqCollapseThree" class="accordion-collapse collapse" aria-labelledby="homeFaqThree" data-bs-parent="#homeFaqAccordion">
+                            <div class="accordion-body">
+                                <p>We automatically track clicks on all shortened URLs created with our free URL shortener. To view the statistics for your link, simply add "/stats/" before your short code in the URL. For example, if your shortened URL is tinyurl.run/abc123, you can access statistics at tinyurl.run/stats/abc123. The statistics page shows total clicks, click patterns over time, referrer sources, geographic locations, and browser information - all in one convenient dashboard.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <h3 class="accordion-header" id="homeFaqFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeFaqCollapseFour" aria-expanded="false" aria-controls="homeFaqCollapseFour">
+                                Is TinyURL.run's URL shortener service free to use?
+                            </button>
+                        </h3>
+                        <div id="homeFaqCollapseFour" class="accordion-collapse collapse" aria-labelledby="homeFaqFour" data-bs-parent="#homeFaqAccordion">
+                            <div class="accordion-body">
+                                <p>Yes, TinyURL.run is completely free for basic usage. You can create unlimited shortened URLs, access analytics, and use features like custom aliases and QR codes at no cost. Unlike many other URL shortener services, we don't limit the core features behind a paywall. We may introduce premium plans in the future for advanced enterprise features, but our commitment is to keep our basic URL shortening service free for everyone.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="400">
+                    <a href="{% url 'faq' %}" class="btn btn-primary">
+                        <i class="bi bi-question-circle me-2"></i>View All FAQs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- Fix for form interaction issues -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fix for input field focus issues
+    const fixInputFields = function() {
+        // Get all input fields
+        const inputFields = document.querySelectorAll('input, textarea, select, button');
+        
+        // Make sure inputs are enabled and interactive
+        inputFields.forEach(function(input) {
+            input.disabled = false;
+            input.readOnly = false;
+            
+            // Add explicit z-index to ensure inputs are clickable
+            input.style.position = 'relative';
+            input.style.zIndex = '100';
+            input.style.pointerEvents = 'auto';
+        });
+        
+        // Make sure all canvas and decorative elements don't capture events
+        document.querySelectorAll('.particles-container, #particles-js, canvas, .animated-blob, .position-absolute').forEach(function(el) {
+            if (!el.closest('form') && !el.closest('.input-group')) {
+                el.style.pointerEvents = 'none';
+            }
+        });
+        
+        // Ensure form is above other elements
+        const form = document.getElementById('shortener-form');
+        if (form) {
+            form.style.position = 'relative';
+            form.style.zIndex = '100';
+        }
+        
+        // Fix card positioning
+        const card = document.getElementById('url-form');
+        if (card) {
+            card.style.position = 'relative';
+            card.style.zIndex = '50';
+        }
+    };
+    
+    // Run fix immediately
+    fixInputFields();
+    
+    // Also run after a slight delay to catch any dynamic elements
+    setTimeout(fixInputFields, 500);
+    
+    // Run again when particles.js is initialized
+    if (typeof particlesJS !== 'undefined') {
+        const originalParticlesJS = particlesJS;
+        window.particlesJS = function() {
+            originalParticlesJS.apply(this, arguments);
+            // Fix inputs after particles are initialized
+            setTimeout(fixInputFields, 100);
+        };
+    }
+});
+
+// Deferred loading of non-critical JavaScript
+window.addEventListener('load', function() {
+    // Initialize particles.js with optimized settings for mobile
+    if (typeof particlesJS !== 'undefined') {
+        // Detect mobile for reduced particle count
+        const isMobile = window.innerWidth < 768;
+        
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": isMobile ? 30 : 60, // Fewer particles on mobile
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": isMobile ? 0.4 : 0.8, // Slower animation on mobile
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": isMobile ? 2 : 3, // Smaller particles on mobile
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": isMobile ? 1 : 2, // Slower on mobile
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": isMobile ? 100 : 150, // Shorter distance on mobile
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": isMobile ? 0.4 : 0.8, // Slower for mobile
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+"bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": false, // Disable hover effects for better form interaction
+                        "mode": "bubble"
+                    },
+                    "onclick": {
+                        "enable": false, // Disable click effects for better form interaction
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 200,
+                        "size": 6,
+                        "duration": 2,
+                        "opacity": 0.8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": isMobile ? 2 : 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": false // Disable for better performance
+        });
+        
+        // After particles.js initializes, make sure canvas doesn't capture pointer events
+        const canvas = document.querySelector('#particles-js canvas');
+        if (canvas) {
+            canvas.style.pointerEvents = 'none';
+        }
+    }
+    
+    // Animate counter stats with IntersectionObserver
+    const counterElements = document.querySelectorAll('.counter');
+    if (counterElements.length > 0 && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        counterElements.forEach(counter => {
+            observer.observe(counter);
+        });
+        
+        function animateCounter(counter) {
+            const target = parseInt(counter.innerText.replace(/[^0-9]/g, ''));
+            const duration = 2000; // ms
+            const step = Math.ceil(target / (duration / 16)); // 60fps
+            let current = 0;
+            
+            const hasPlus = counter.innerText.includes('+');
+            const hasK = counter.innerText.includes('K');
+            const hasM = counter.innerText.includes('M');
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    counter.innerText = hasM ? target / 1000000 + 'M' : (hasK ? target / 1000 + 'K' : target) + (hasPlus ? '+' : '');
+                    clearInterval(timer);
+                } else {
+                    counter.innerText = hasM ? (current / 1000000).toFixed(1) + 'M' : (hasK ? (current / 1000).toFixed(1) + 'K' : current) + (hasPlus ? '+' : '');
+                }
+            }, 16);
+        }
+    }
+    
+    // Fix any overlays that might be capturing pointer events
+    const possibleOverlays = document.querySelectorAll('.position-absolute, [style*="position: absolute"], .animated-blob, .wave-divider');
+    possibleOverlays.forEach(overlay => {
+        if (!overlay.closest('form') && !overlay.closest('.input-group')) {
+            overlay.style.pointerEvents = 'none';
+        }
+    });
+});
+
+// Form validation with better error handling
+document.addEventListener('DOMContentLoaded', function() {
+    const urlForm = document.getElementById('shortener-form');
+    
+    if (!urlForm) return;
+    
+    urlForm.addEventListener('submit', function(event) {
+        const urlInput = document.getElementById('id_original_url');
+        const customShortCodeInput = document.getElementById('id_custom_alias');
+        
+        if (!urlInput) return;
+        
+        let isValid = true;
+        
+        // Validate URL format
+        if (urlInput.value && !isValidURL(urlInput.value)) {
+            event.preventDefault();
+            showError(urlInput, 'Please enter a valid URL, including http:// or https://');
+            isValid = false;
+        } else {
+            clearError(urlInput);
+        }
+        
+        // Validate custom short code if provided
+        if (customShortCodeInput && customShortCodeInput.value) {
+            if (!isValidShortCode(customShortCodeInput.value)) {
+                event.preventDefault();
+                showError(customShortCodeInput, 'Custom short code can only contain letters, numbers, hyphens, and underscores');
+                isValid = false;
+            } else {
+                clearError(customShortCodeInput);
+            }
+        }
+    });
+    
+    function isValidURL(url) {
+        try {
+            new URL(url);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
+    
+    function isValidShortCode(code) {
+        const pattern = /^[a-zA-Z0-9_-]+$/;
+        return pattern.test(code);
+    }
+    
+    function showError(inputElement, message) {
+        // Clear previous error
+        clearError(inputElement);
+        
+        // Add error class
+        inputElement.classList.add('is-invalid');
+        
+        // Create error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'invalid-feedback';
+        errorDiv.textContent = message;
+        
+        // Add after input
+        inputElement.parentElement.appendChild(errorDiv);
+    }
+    
+    function clearError(inputElement) {
+        // Remove error class
+        inputElement.classList.remove('is-invalid');
+        
+        // Remove error message
+        const existingError = inputElement.parentElement.querySelector('.invalid-feedback');
+        if (existingError) {
+            existingError.remove();
+        }
+    }
+});
+
+// Backup input fix to ensure interaction works
+window.addEventListener('load', function() {
+    // Emergency fix for input interaction issues
+    setTimeout(function() {
+        // Force canvas to not capture events
+        const canvas = document.querySelector('#particles-js canvas');
+        if (canvas) {
+            canvas.style.pointerEvents = 'none';
+            canvas.parentElement.style.pointerEvents = 'none';
+        }
+        
+        // Force inputs to capture events
+        document.querySelectorAll('input, textarea, select, button').forEach(function(el) {
+            el.style.pointerEvents = 'auto';
+            el.style.position = 'relative';
+            el.style.zIndex = '1000';
+        });
+        
+        // Force form to be above other elements
+        const form = document.getElementById('shortener-form');
+        if (form) {
+            form.style.position = 'relative';
+            form.style.zIndex = '1000';
+        }
+    }, 1000);
+});
+</script>
+{% endblock %}

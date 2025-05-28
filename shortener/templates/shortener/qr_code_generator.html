@@ -1,0 +1,1544 @@
+{% extends 'base.html' %}
+
+{% block title %}QR Code Generator | Free Online QR Code Maker | TinyURL.run{% endblock %}
+
+{% block head_extra %}
+<!-- SEO Meta Tags -->
+<meta name="description" content="Free online QR code generator by TinyURL.run. Create custom QR codes for URLs, text, contact info, and more. Download high-quality QR codes instantly without registration.">
+<meta name="keywords" content="qr code, qr code generator, qr code maker, free qr code, create qr code, qr code creator, qr code download, online qr code generator, qr code for website, custom qr code">
+
+<!-- Open Graph Meta Tags for Social Sharing -->
+<meta property="og:title" content="Free QR Code Generator | TinyURL.run">
+<meta property="og:description" content="Create professional QR codes in seconds for URLs, text, contact information, WiFi and more with our free QR code generator. No registration required.">
+<meta property="og:url" content="https://tinyurl.run/qr-code-generator/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://tinyurl.run/static/img/qr-code-generator-og.jpg">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free QR Code Generator | TinyURL.run">
+<meta name="twitter:description" content="Create and download custom QR codes for free. Generate QR codes for URLs, text, contact information and more with TinyURL.run's QR code maker.">
+<meta name="twitter:image" content="https://tinyurl.run/static/img/qr-code-generator-twitter.jpg">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://tinyurl.run/qr-code-generator/">
+
+<!-- Schema.org structured data for rich snippets -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TinyURL.run QR Code Generator",
+  "url": "https://tinyurl.run/qr-code-generator/",
+  "description": "Free online QR code generator. Create custom QR codes for URLs, text, contact information, WiFi and more.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": "Generate QR codes, Customize colors and style, Download in high resolution, No registration required",
+  "screenshot": "https://tinyurl.run/static/img/qr-code-generator-screenshot.jpg",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "1253"
+  }
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section Styling */
+    .qr-hero {
+        background: linear-gradient(135deg, #003A5C 0%, #0F2B46 100%);
+        position: relative;
+        overflow: hidden;
+        padding: 2.5rem 0;
+    }
+
+    .floating-element {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        filter: blur(20px);
+        animation: float 8s ease-in-out infinite;
+        opacity: 0.4;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(5deg); }
+        100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    /* QR Generator Form Card */
+    .qr-generator-card {
+        border-radius: 16px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        transform: translateY(-60px);
+        background: white;
+        position: relative;
+        z-index: 10;
+    }
+
+    /* QR Preview Container */
+    .qr-preview-container {
+        min-height: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #e9ecef;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .qr-preview-container.has-qr {
+        border-style: solid;
+        border-color: #cfd8dc;
+    }
+
+    /* Custom Tab Design */
+    .qr-tabs {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .qr-tabs .nav-link {
+        border: none;
+        padding: 0.75rem 1rem;
+        font-weight: 600;
+        color: #6c757d;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .qr-tabs .nav-link:hover {
+        border-bottom-color: #adb5bd;
+        color: #495057;
+    }
+
+    .qr-tabs .nav-link.active {
+        color: #003A5C;
+        background-color: transparent;
+        border-bottom-color: #003A5C;
+    }
+
+    /* Color Picker Design */
+    .color-picker-item {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .color-picker-item:hover, .color-picker-item.active {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 2px white, 0 0 0 4px #003A5C;
+    }
+
+    /* Button Styles */
+    .btn-qr-primary {
+        background-color: #003A5C;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-qr-primary:hover {
+        background-color: #002A41;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 58, 92, 0.3);
+    }
+    
+    .btn-qr-primary:disabled {
+        background-color: #6c757d;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Features Cards */
+    .feature-card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: rgba(0, 58, 92, 0.1);
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #003A5C;
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+        background: linear-gradient(135deg, #003A5C 0%, #0F2B46 100%);
+        color: white;
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    /* Example Use Cases */
+    .use-case-card {
+        border-radius: 12px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .use-case-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .use-case-icon {
+        font-size: 2rem;
+        color: #003A5C;
+        margin-bottom: 1rem;
+    }
+
+    /* Stats Counter */
+    .stat-counter {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #003A5C, #0F2B46);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .qr-generator-card {
+            transform: translateY(-40px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .qr-hero {
+            padding: 3rem 0;
+        }
+        .qr-generator-card {
+            transform: translateY(-30px);
+        }
+        .qr-preview-container {
+            min-height: 200px;
+        }
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+        }
+        .stat-counter {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .qr-hero {
+            padding: 2rem 0;
+        }
+        .qr-generator-card {
+            transform: translateY(-20px);
+        }
+        .qr-tabs .nav-link {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+        .color-picker-item {
+            width: 25px;
+            height: 25px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Floating Elements -->
+<section class="qr-hero">
+    <!-- Floating Background Elements -->
+    <div class="floating-element" style="top: 20%; left: 10%; width: 150px; height: 150px; animation-delay: 0s;"></div>
+    <div class="floating-element" style="top: 50%; right: 15%; width: 120px; height: 120px; animation-delay: 2s;"></div>
+    <div class="floating-element" style="bottom: 10%; left: 30%; width: 100px; height: 100px; animation-delay: 4s;"></div>
+    
+    <div class="container py-4 position-relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <span class="badge bg-white text-primary px-3 py-2 rounded-pill mb-3">QR CODE GENERATOR</span>
+                <h1 class="display-5 fw-bold mb-2">Create Free QR Codes Instantly</h1>
+                <p class="lead mb-3">Generate high-quality QR codes for URLs, text, contact information, and more with TinyURL.run's free QR code maker.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Improved Wave Divider -->
+    <div class="position-absolute bottom-0 start-0 end-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 150" preserveAspectRatio="none" style="width: 100%; height: auto; display: block; margin-bottom: -2px;">
+            <path fill="#ffffff" fill-opacity="1" d="M0,96L48,85.3C96,75,192,53,288,53.3C384,53,480,75,576,90.7C672,107,768,117,864,112C960,107,1056,85,1152,74.7C1248,64,1344,64,1392,64L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- QR Generator Form Section -->
+<section class="pb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="qr-generator-card">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <!-- QR Code Preview Column -->
+                            <div class="col-lg-5 mb-4 mb-lg-0">
+                                <h2 class="h5 mb-3">Your QR Code</h2>
+                                <div class="qr-preview-container" id="qrPreview">
+                                    <div class="text-center" id="emptyPreview">
+                                        <i class="bi bi-qr-code fs-1 text-muted mb-3"></i>
+                                        <p class="text-muted mb-0">Your QR code will appear here</p>
+                                    </div>
+                                    <div class="text-center d-none" id="loadingPreview">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="text-muted mt-2 mb-0">Generating QR code...</p>
+                                    </div>
+                                    <img src="" alt="Generated QR Code" id="qrImage" class="img-fluid d-none">
+                                </div>
+                                <div class="d-grid gap-2" id="downloadButtons">
+                                    <button class="btn btn-qr-primary" disabled id="downloadBtn">
+                                        <i class="bi bi-download me-2"></i>Download QR Code
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- QR Code Generator Form Column -->
+                            <div class="col-lg-7">
+                                <h2 class="h5 mb-3">QR Code Settings</h2>
+                                
+                                <!-- QR Type Tabs -->
+                                <ul class="nav nav-tabs qr-tabs mb-3" id="qrTypeTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-content" type="button" role="tab" aria-controls="url-content" aria-selected="true">
+                                            <i class="bi bi-link-45deg me-1"></i>URL
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="text-tab" data-bs-toggle="tab" data-bs-target="#text-content" type="button" role="tab" aria-controls="text-content" aria-selected="false">
+                                            <i class="bi bi-font me-1"></i>Text
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-content" type="button" role="tab" aria-controls="contact-content" aria-selected="false">
+                                            <i class="bi bi-person-vcard me-1"></i>Contact
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="wifi-tab" data-bs-toggle="tab" data-bs-target="#wifi-content" type="button" role="tab" aria-controls="wifi-content" aria-selected="false">
+                                            <i class="bi bi-wifi me-1"></i>WiFi
+                                        </button>
+                                    </li>
+                                </ul>
+                                
+                                <!-- QR Content Tab Panes -->
+                                <div class="tab-content mb-4" id="qrTypeContent">
+                                    <!-- URL Tab -->
+                                    <div class="tab-pane fade show active" id="url-content" role="tabpanel" aria-labelledby="url-tab">
+                                        <form id="urlForm">
+                                            <div class="mb-3">
+                                                <label for="urlInput" class="form-label">Enter URL</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text bg-light"><i class="bi bi-link-45deg"></i></span>
+                                                    <input type="url" class="form-control" id="urlInput" placeholder="https://example.com" required>
+                                                </div>
+                                                <div class="form-text">Enter the complete URL including https://</div>
+                                            </div>
+                                            <button type="submit" class="btn btn-qr-primary">
+                                                <i class="bi bi-qr-code me-2"></i>Generate QR Code
+                                            </button>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Text Tab -->
+                                    <div class="tab-pane fade" id="text-content" role="tabpanel" aria-labelledby="text-tab">
+                                        <form id="textForm">
+                                            <div class="mb-3">
+                                                <label for="textInput" class="form-label">Enter Text</label>
+                                                <textarea class="form-control" id="textInput" rows="4" placeholder="Enter your text here..." required></textarea>
+                                                <div class="form-text">
+                                                    <span id="textCounter">0</span>/300 characters
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-qr-primary">
+                                                <i class="bi bi-qr-code me-2"></i>Generate QR Code
+                                            </button>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Contact Tab -->
+                                    <div class="tab-pane fade" id="contact-content" role="tabpanel" aria-labelledby="contact-tab">
+                                        <form id="contactForm">
+                                            <div class="mb-3">
+                                                <label for="contactName" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="contactName" placeholder="John Doe" required>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="contactPhone" class="form-label">Phone</label>
+                                                    <input type="tel" class="form-control" id="contactPhone" placeholder="+1 (123) 456-7890">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="contactEmail" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="contactEmail" placeholder="email@example.com">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="contactWebsite" class="form-label">Website</label>
+                                                <input type="url" class="form-control" id="contactWebsite" placeholder="https://example.com">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="contactAddress" class="form-label">Address</label>
+                                                <textarea class="form-control" id="contactAddress" rows="2" placeholder="123 Example St, City, Country"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-qr-primary">
+                                                <i class="bi bi-qr-code me-2"></i>Generate QR Code
+                                            </button>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- WiFi Tab -->
+                                    <div class="tab-pane fade" id="wifi-content" role="tabpanel" aria-labelledby="wifi-tab">
+                                        <form id="wifiForm">
+                                            <div class="mb-3">
+                                                <label for="wifiName" class="form-label">Network Name (SSID)</label>
+                                                <input type="text" class="form-control" id="wifiName" placeholder="WiFi Network Name" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="wifiPassword" class="form-label">Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="wifiPassword" placeholder="WiFi Password">
+                                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Encryption Type</label>
+                                                <div class="d-flex">
+                                                    <div class="form-check me-3">
+                                                        <input class="form-check-input" type="radio" name="wifiEncryption" id="wifiWPA" value="WPA" checked>
+                                                        <label class="form-check-label" for="wifiWPA">WPA/WPA2</label>
+                                                    </div>
+                                                    <div class="form-check me-3">
+                                                        <input class="form-check-input" type="radio" name="wifiEncryption" id="wifiWEP" value="WEP">
+                                                        <label class="form-check-label" for="wifiWEP">WEP</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="wifiEncryption" id="wifiNone" value="nopass">
+                                                        <label class="form-check-label" for="wifiNone">None</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="wifiHidden">
+                                                    <label class="form-check-label" for="wifiHidden">
+                                                        Hidden Network
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-qr-primary">
+                                                <i class="bi bi-qr-code me-2"></i>Generate QR Code
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <!-- Simplified Customization Options -->
+                                <div class="qr-customization">
+                                    <h3 class="h6 mb-3">QR Code Options</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="errorCorrectionLevel" class="form-label">Error Correction</label>
+                                            <select class="form-select" id="errorCorrectionLevel">
+                                                <option value="M" selected>Medium (15%)</option>
+                                                <option value="L">Low (7%)</option>
+                                                <option value="Q">Quartile (25%)</option>
+                                                <option value="H">High (30%)</option>
+                                            </select>
+                                            <div class="form-text">Higher correction = better readability but larger code</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="qrSize" class="form-label">QR Code Size</label>
+                                            <select class="form-select" id="qrSize">
+                                                <option value="200" selected>Medium (200x200px)</option>
+                                                <option value="100">Small (100x100px)</option>
+                                                <option value="300">Large (300x300px)</option>
+                                                <option value="500">X-Large (500x500px)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Use Our QR Code Generator -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-2">WHY CHOOSE US</span>
+            <h2 class="display-5 fw-bold">Why Use TinyURL.run QR Code Generator?</h2>
+            <p class="lead">Create professional QR codes in seconds with our powerful yet easy-to-use QR code maker</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Instant Generation</h3>
+                        <p class="text-muted">Create QR codes instantly without registration or limits. Our QR code maker works right in your browser.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="bi bi-palette"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Customizable Design</h3>
+                        <p class="text-muted">Personalize your QR codes with custom colors and settings to match your brand identity.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Mobile Optimized</h3>
+                        <p class="text-muted">Every QR code is tested to ensure it scans quickly and accurately on all mobile devices.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Secure & Private</h3>
+                        <p class="text-muted">Your data is never stored on our servers. QR codes are generated locally in your browser for maximum privacy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- QR Code Use Cases -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-2">APPLICATIONS</span>
+            <h2 class="display-5 fw-bold">QR Code Uses & Applications</h2>
+            <p class="lead">Explore the endless possibilities of using QR codes in your business or personal projects</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="use-case-card h-100">
+                    <div class="card-body p-4">
+                        <div class="use-case-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Business Marketing</h3>
+                        <p class="text-muted mb-3">Add QR codes to business cards, brochures, posters, and product packaging to connect customers to your website, special offers, or contact information.</p>
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Drive traffic to promotional pages</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Showcase product videos</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Track marketing campaign performance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="use-case-card h-100">
+                    <div class="card-body p-4">
+                        <div class="use-case-icon">
+                            <i class="bi bi-wifi"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">WiFi Access</h3>
+                        <p class="text-muted mb-3">Create QR codes that automatically connect users to your WiFi network without typing complex passwords. Perfect for businesses, cafes, and guest networks.</p>
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">One-scan WiFi connection</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Works with WPA/WPA2/WEP</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Print and display for easy access</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="use-case-card h-100">
+                    <div class="card-body p-4">
+                        <div class="use-case-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Events & Ticketing</h3>
+                        <p class="text-muted mb-3">Use QR codes for event tickets, visitor registration, and providing event details. Streamline check-in processes and enhance attendee experience.</p>
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Contactless ticket scanning</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Quick access to event details</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Simplified registration process</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="use-case-card h-100">
+                    <div class="card-body p-4">
+                        <div class="use-case-icon">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Digital Business Cards</h3>
+                        <p class="text-muted mb-3">Create digital business cards with QR codes that share your contact details instantly. Eco-friendly and always up-to-date with your latest information.</p>
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Instantly share contact details</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Include social media profiles</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Paperless and eco-friendly</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="use-case-card h-100">
+                    <div class="card-body p-4">
+                        <div class="use-case-icon">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Mobile App Downloads</h3>
+                        <p class="text-muted mb-3">Boost app downloads by creating QR codes that link directly to your app on the App Store or Google Play. Eliminate typing errors and streamline the download process.</p>
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Direct links to app stores</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Track installation rates</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Increase conversion rates</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="use-case-card h-100">
+                    <div class="card-body p-4">
+                        <div class="use-case-icon">
+                            <i class="bi bi-menu-button-wide"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Restaurant Menus</h3>
+                        <p class="text-muted mb-3">Create contactless digital menus with QR codes. Allow customers to browse your menu, place orders, and make payments directly from their smartphones.</p>
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Contactless dining experience</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Update menus instantly</span>
+                            </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <span class="small">Multiple language options</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4" data-aos="fade-up">
+                <div class="p-3">
+                    <div class="stat-counter" data-count="10">10M+</div>
+                    <p class="text-muted mb-0">QR Codes Generated</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="p-3">
+                    <div class="stat-counter" data-count="99">99.9%</div>
+                    <p class="text-muted mb-0">Scan Success Rate</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="p-3">
+                    <div class="stat-counter" data-count="200">200K+</div>
+                    <p class="text-muted mb-0">Happy Users</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Tips & Best Practices Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-2">EXPERT ADVICE</span>
+            <h2 class="display-5 fw-bold">QR Code Best Practices</h2>
+            <p class="lead">Follow these tips to maximize the effectiveness of your QR codes</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-6" data-aos="fade-up">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Size Matters</h3>
+                        <p class="text-muted">Make sure your QR code is large enough to be easily scanned. As a general rule, the minimum size should be 2 x 2 cm (0.8 x 0.8 inches) for print materials. For posters or displays viewed from a distance, increase the size proportionally.</p>
+                        <div class="bg-light p-3 rounded mt-3">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-x-circle text-danger" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-danger mb-1">Too Small</p>
+                                    <p class="small mb-0">QR codes smaller than 2 cm may be difficult to scan in less-than-ideal conditions.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-success mb-1">Good Size</p>
+                                    <p class="small mb-0">2-3 cm for business cards, 8+ cm for posters, with proper quiet zone.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Maintain Good Contrast</h3>
+                        <p class="text-muted">High contrast between the QR code foreground and background is crucial for reliable scanning. The classic black on white offers the best readability, but dark colors on light backgrounds can also work well.</p>
+                        <div class="bg-light p-3 rounded mt-3">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-x-circle text-danger" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-danger mb-1">Poor Contrast</p>
+                                    <p class="small mb-0">Yellow on white, light gray on white, or similar low-contrast combinations.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-success mb-1">Good Contrast</p>
+                                    <p class="small mb-0">Black on white, dark blue on white, or black on light yellow.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Include a Call to Action</h3>
+                        <p class="text-muted">Always include a clear call to action near your QR code. Tell users what they'll get by scanning it. For example, "Scan to view our menu," "Scan for exclusive discounts," or "Scan to connect to WiFi."</p>
+                        <div class="bg-light p-3 rounded mt-3">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-x-circle text-danger" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-danger mb-1">No Context</p>
+                                    <p class="small mb-0">QR code with no explanation about what happens when scanned.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-success mb-1">Clear Instructions</p>
+                                    <p class="small mb-0">"Scan to download our app" with a logo or icon that reinforces the message.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Test Before Distributing</h3>
+                        <p class="text-muted">Always test your QR codes on multiple devices and in different lighting conditions before printing or publishing them. This ensures they work correctly and link to the right content.</p>
+                        <div class="bg-light p-3 rounded mt-3">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-x-circle text-danger" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-danger mb-1">Untested QR Codes</p>
+                                    <p class="small mb-0">Publishing without testing can lead to broken links or poor scanning experience.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p class="small fw-bold text-success mb-1">Thorough Testing</p>
+                                    <p class="small mb-0">Test on multiple devices, in different lighting, and from printed samples if applicable.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="#qrTypeTabs" class="btn btn-outline-primary">
+                <i class="bi bi-qr-code me-2"></i>Create Your QR Code Now
+            </a>
+        </div>
+    </div>
+</section><!-- Testimonials Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-2">TESTIMONIALS</span>
+            <h2 class="display-5 fw-bold">What Our Users Say</h2>
+            <p class="lead">Thousands of satisfied users trust our QR code generator</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 mb-4" data-aos="fade-up">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-4">
+                            <div class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="mb-4">"The QR code generator from TinyURL.run has transformed how we connect with customers. The ability to create WiFi connection QR codes has made it so much easier for guests to access our network without typing complex passwords."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white me-3" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">RW</span>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Robert Wilson</h4>
+                                <p class="small text-muted mb-0">Cafe Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-4">
+                            <div class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="mb-4">"As a marketing manager, I've tried many QR code generators, but TinyURL.run offers the perfect combination of simplicity and powerful features. We use it for all our campaign materials now, and the high-resolution downloads are perfect for print."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-info d-flex align-items-center justify-content-center text-white me-3" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">JL</span>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Jennifer Lee</h4>
+                                <p class="small text-muted mb-0">Marketing Director</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-4">
+                            <div class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </div>
+                        </div>
+                        <p class="mb-4">"Creating digital menus with QR codes has saved our restaurant thousands in printing costs and allows us to update our offerings instantly. The contact information QR codes are also great for our business cards and promotional materials."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-success d-flex align-items-center justify-content-center text-white me-3" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">DP</span>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">David Park</h4>
+                                <p class="small text-muted mb-0">Restaurant Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- How It Works Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-2">SIMPLE PROCESS</span>
+            <h2 class="display-5 fw-bold">How to Generate QR Codes in 3 Simple Steps</h2>
+            <p class="lead">Our streamlined process makes creating QR codes quick and effortless</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4" data-aos="fade-up">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 start-50 translate-middle">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white" style="width: 50px; height: 50px; font-weight: bold; font-size: 1.5rem;">1</div>
+                    </div>
+                    <div class="card-body pt-5 p-4 text-center">
+                        <div class="mb-4">
+                            <img src="https://via.placeholder.com/150x100" alt="Select Content Type" class="img-fluid rounded">
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Choose Content Type</h3>
+                        <p class="text-muted mb-0">Select the type of content you want to encode in your QR code - URL, text, contact information, or WiFi login details.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 start-50 translate-middle">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white" style="width: 50px; height: 50px; font-weight: bold; font-size: 1.5rem;">2</div>
+                    </div>
+                    <div class="card-body pt-5 p-4 text-center">
+                        <div class="mb-4">
+                            <img src="https://via.placeholder.com/150x100" alt="Enter Information" class="img-fluid rounded">
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Enter Your Information</h3>
+                        <p class="text-muted mb-0">Fill in the information you want to encode, such as your website URL, contact details, or WiFi network credentials.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 start-50 translate-middle">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white" style="width: 50px; height: 50px; font-weight: bold; font-size: 1.5rem;">3</div>
+                    </div>
+                    <div class="card-body pt-5 p-4 text-center">
+                        <div class="mb-4">
+                            <img src="https://via.placeholder.com/150x100" alt="Download QR Code" class="img-fluid rounded">
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Download Your QR Code</h3>
+                        <p class="text-muted mb-0">Click the Generate button, customize your settings if needed, and download your high-quality QR code in seconds.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="#qrTypeTabs" class="btn btn-primary btn-lg">
+                <i class="bi bi-qr-code me-2"></i>Create Your QR Code Now
+            </a>
+        </div>
+    </div>
+</section>
+<!-- FAQ Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-2">FAQ</span>
+            <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
+            <p class="lead">Everything you need to know about our QR code generator</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="qrFaqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up">
+                        <h3 class="accordion-header" id="qrFaqOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#qrFaqCollapseOne" aria-expanded="true" aria-controls="qrFaqCollapseOne">
+                                What is a QR code and how does it work?
+                            </button>
+                        </h3>
+                        <div id="qrFaqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="qrFaqOne" data-bs-parent="#qrFaqAccordion">
+                            <div class="accordion-body">
+                                <p>A QR (Quick Response) code is a two-dimensional barcode that can be scanned using a smartphone camera. When scanned, it quickly redirects to websites, displays text, adds contact information to your phone, connects to WiFi networks, and more. Unlike traditional barcodes that can only store information horizontally, QR codes store data both horizontally and vertically, allowing them to contain much more information in a smaller space.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="accordion-header" id="qrFaqTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qrFaqCollapseTwo" aria-expanded="false" aria-controls="qrFaqCollapseTwo">
+                                Is TinyURL.run's QR code generator free to use?
+                            </button>
+                        </h3>
+                        <div id="qrFaqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="qrFaqTwo" data-bs-parent="#qrFaqAccordion">
+                            <div class="accordion-body">
+                                <p>Yes, our QR code generator is completely free to use with no hidden costs or limitations. You can create unlimited QR codes for various purposes including URLs, text, contact information, and WiFi networks. All QR codes can be customized with different colors and downloaded in high resolution for both digital and print use.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="accordion-header" id="qrFaqThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qrFaqCollapseThree" aria-expanded="false" aria-controls="qrFaqCollapseThree">
+                                What's the difference between the error correction levels?
+                            </button>
+                        </h3>
+                        <div id="qrFaqCollapseThree" class="accordion-collapse collapse" aria-labelledby="qrFaqThree" data-bs-parent="#qrFaqAccordion">
+                            <div class="accordion-body">
+                                <p>Error correction allows QR codes to be readable even if they're partially damaged or obscured. We offer four error correction levels:</p>
+                                <ul>
+                                    <li><strong>Low (L):</strong> 7% of the code can be restored if damaged</li>
+                                    <li><strong>Medium (M):</strong> 15% of the code can be restored if damaged (recommended for most uses)</li>
+                                    <li><strong>Quartile (Q):</strong> 25% of the code can be restored if damaged</li>
+                                    <li><strong>High (H):</strong> 30% of the code can be restored if damaged</li>
+                                </ul>
+                                <p>Higher error correction makes your QR code more resilient, but also makes the code more complex and slightly larger. For marketing materials that might get dirty or partially obscured, we recommend Quartile (Q) or High (H) correction levels.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <h3 class="accordion-header" id="qrFaqFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qrFaqCollapseFour" aria-expanded="false" aria-controls="qrFaqCollapseFour">
+                                Why should I shorten my URL before creating a QR code?
+                            </button>
+                        </h3>
+                        <div id="qrFaqCollapseFour" class="accordion-collapse collapse" aria-labelledby="qrFaqFour" data-bs-parent="#qrFaqAccordion">
+                            <div class="accordion-body">
+                                <p>Shortening your URL before creating a QR code offers several benefits:</p>
+                                <ol>
+                                    <li><strong>Simpler QR Code:</strong> Long URLs create more complex QR codes that can be harder to scan, especially when printed small or in low lighting conditions.</li>
+                                    <li><strong>Faster Scanning:</strong> Simpler QR codes with fewer data points can be scanned more quickly and reliably.</li>
+                                    <li><strong>Better Printing:</strong> Simpler QR codes print more clearly on various materials and at smaller sizes.</li>
+                                    <li><strong>Analytics:</strong> When you use TinyURL.run's URL shortener, you also get access to click analytics for your QR code, letting you track scans and user behavior.</li>
+                                </ol>
+                                <p>For the best results, we recommend checking the "Shorten URL with TinyURL.run first" option when creating QR codes for long website addresses.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item border mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                        <h3 class="accordion-header" id="qrFaqFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qrFaqCollapseFive" aria-expanded="false" aria-controls="qrFaqCollapseFive">
+                                How do I scan a QR code with my phone?
+                            </button>
+                        </h3>
+                        <div id="qrFaqCollapseFive" class="accordion-collapse collapse" aria-labelledby="qrFaqFive" data-bs-parent="#qrFaqAccordion">
+                            <div class="accordion-body">
+                                <p>Most modern smartphones can scan QR codes directly through their built-in camera apps:</p>
+                                <p><strong>For iPhone (iOS 11 or later):</strong></p>
+                                <ol>
+                                    <li>Open the Camera app</li>
+                                    <li>Point the camera at the QR code</li>
+                                    <li>A notification will appear when the code is recognized</li>
+                                    <li>Tap the notification to open the encoded content</li>
+                                </ol>
+                                <p><strong>For Android phones:</strong></p>
+                                <ol>
+                                    <li>Open the Camera app</li>
+                                    <li>If your phone supports it, point the camera at the QR code</li>
+                                    <li>Tap the notification that appears</li>
+                                    <li>If your camera doesn't automatically scan QR codes, you may need to enable Google Lens or download a QR code scanner app from the Google Play Store</li>
+                                </ol>
+                                <p>For older phones that don't have built-in QR code scanning, there are many free QR code scanner apps available in the App Store or Google Play Store.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Integrate With URL Shortener CTA -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center" data-aos="zoom-in">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="display-6 fw-bold mb-3">Need shorter URLs for your QR codes?</h2>
+                <p class="lead mb-4">Combine our QR code generator with TinyURL.run's URL shortener for simpler, more scannable QR codes and detailed analytics.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{% url 'index' %}" class="btn btn-light btn-lg px-4 py-2 fw-bold">
+                        <i class="bi bi-link-45deg me-2"></i>Try Our URL Shortener
+                    </a>
+                    <a href="#qrTypeTabs" class="btn btn-outline-light btn-lg px-4 py-2">
+                        <i class="bi bi-qr-code me-2"></i>Create QR Code Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form elements
+        const urlForm = document.getElementById('urlForm');
+        const textForm = document.getElementById('textForm');
+        const contactForm = document.getElementById('contactForm');
+        const wifiForm = document.getElementById('wifiForm');
+        
+        // QR preview elements
+        const qrPreview = document.getElementById('qrPreview');
+        const emptyPreview = document.getElementById('emptyPreview');
+        const loadingPreview = document.getElementById('loadingPreview');
+        const qrImage = document.getElementById('qrImage');
+        const downloadBtn = document.getElementById('downloadBtn');
+        
+        // Customization elements
+        const errorCorrectionLevel = document.getElementById('errorCorrectionLevel');
+        const qrSize = document.getElementById('qrSize');
+        
+        // Text counter for the text form
+        const textInput = document.getElementById('textInput');
+        const textCounter = document.getElementById('textCounter');
+        
+        // WiFi password toggle
+        const wifiPassword = document.getElementById('wifiPassword');
+        const togglePassword = document.getElementById('togglePassword');
+        
+        // Default QR settings
+        let currentQRData = '';
+        let currentQRType = 'url';
+        let fgColor = '000000'; // Black
+        let bgColor = 'FFFFFF'; // White
+        let currentErrorLevel = 'M';
+        let currentSize = '200';
+        
+        // Update text counter on input
+        if (textInput && textCounter) {
+            textInput.addEventListener('input', function() {
+                const length = this.value.length;
+                textCounter.textContent = length;
+                
+                if (length > 300) {
+                    textInput.value = textInput.value.substring(0, 300);
+                    textCounter.textContent = 300;
+                }
+            });
+        }
+        
+        // Toggle WiFi password visibility
+        if (togglePassword && wifiPassword) {
+            togglePassword.addEventListener('click', function() {
+                const type = wifiPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                wifiPassword.setAttribute('type', type);
+                
+                // Toggle the icon
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('bi-eye')) {
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                } else {
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            });
+        }
+        
+        // Handle error correction and size changes
+        if (errorCorrectionLevel) {
+            errorCorrectionLevel.addEventListener('change', function() {
+                currentErrorLevel = this.value;
+                if (currentQRData) {
+                    generateQRCode();
+                }
+            });
+        }
+        
+        if (qrSize) {
+            qrSize.addEventListener('change', function() {
+                currentSize = this.value;
+                if (currentQRData) {
+                    generateQRCode();
+                }
+            });
+        }
+        
+        // URL Form Submission
+        if (urlForm) {
+            urlForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const urlInput = document.getElementById('urlInput');
+                
+                if (urlInput && urlInput.value) {
+                    currentQRType = 'url';
+                    currentQRData = urlInput.value;
+                    
+                    // Show loading state
+                    showLoading();
+                    
+                    // Generate QR code
+                    generateQRCode();
+                }
+            });
+        }
+        
+        // Text Form Submission
+        if (textForm) {
+            textForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const textInput = document.getElementById('textInput');
+                
+                if (textInput && textInput.value) {
+                    currentQRType = 'text';
+                    currentQRData = textInput.value;
+                    
+                    // Show loading state
+                    showLoading();
+                    
+                    // Generate QR code
+                    generateQRCode();
+                }
+            });
+        }
+        
+        // Contact Form Submission
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('contactName').value || '';
+                const phone = document.getElementById('contactPhone').value || '';
+                const email = document.getElementById('contactEmail').value || '';
+                const website = document.getElementById('contactWebsite').value || '';
+                const address = document.getElementById('contactAddress').value || '';
+                
+                // Create vCard format
+                const vCard = [
+                    'BEGIN:VCARD',
+                    'VERSION:3.0',
+                    `FN:${name}`,
+                    phone ? `TEL:${phone}` : '',
+                    email ? `EMAIL:${email}` : '',
+                    website ? `URL:${website}` : '',
+                    address ? `ADR:;;${address};;;` : '',
+                    'END:VCARD'
+                ].filter(line => line !== '').join('\n');
+                
+                currentQRType = 'contact';
+                currentQRData = vCard;
+                
+                // Show loading state
+                showLoading();
+                
+                // Generate QR code
+                generateQRCode();
+            });
+        }
+        
+        // WiFi Form Submission
+        if (wifiForm) {
+            wifiForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const ssid = document.getElementById('wifiName').value;
+                const password = document.getElementById('wifiPassword').value || '';
+                const encryption = document.querySelector('input[name="wifiEncryption"]:checked').value;
+                const hidden = document.getElementById('wifiHidden').checked;
+                
+                // Create WiFi connection string in format: WIFI:T:WPA;S:SSID;P:PASSWORD;H:true/false;;
+                const wifiString = `WIFI:T:${encryption};S:${ssid};P:${password};${hidden ? 'H:true' : ''};`;
+                
+                currentQRType = 'wifi';
+                currentQRData = wifiString;
+                
+                // Show loading state
+                showLoading();
+                
+                // Generate QR code
+                generateQRCode();
+            });
+        }
+        
+        // Show loading state
+        function showLoading() {
+            emptyPreview.classList.add('d-none');
+            qrImage.classList.add('d-none');
+            loadingPreview.classList.remove('d-none');
+            qrPreview.classList.remove('has-qr');
+            downloadBtn.disabled = true;
+        }
+        
+        // Generate QR Code
+        function generateQRCode() {
+            // In a real implementation, this would call a QR code generation API
+            // For this demo, we'll simulate the generation with a timeout
+            
+            setTimeout(() => {
+                // Hide loading, show QR code
+                loadingPreview.classList.add('d-none');
+                qrImage.classList.remove('d-none');
+                qrPreview.classList.add('has-qr');
+                
+                // Generate a placeholder QR code image URL
+                // In a real implementation, this would be the URL to your QR code generation endpoint
+                const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(currentQRData)}&size=${currentSize}x${currentSize}&color=${fgColor}&bgcolor=${bgColor}&ecc=${currentErrorLevel}`;
+                
+                // Set the QR code image source
+                qrImage.src = qrCodeUrl;
+                
+                // Enable download button
+                downloadBtn.disabled = false;
+                
+                // Set up download button
+                downloadBtn.onclick = function() {
+                    // Direct download approach using fetch
+                    fetch(qrImage.src)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const blobUrl = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = blobUrl;
+                            a.download = `tinyurl-qr-code.png`;
+                            
+                            // Append to body, click, and remove
+                            document.body.appendChild(a);
+                            a.click();
+                            
+                            // Clean up
+                            setTimeout(() => {
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(blobUrl);
+                            }, 100);
+                        })
+                        .catch(error => {
+                            console.error('Error downloading QR code:', error);
+                            alert('Failed to download QR code. Please try again.');
+                        });
+                };
+            }, 1000);
+        }
+        
+        // Generate random string for shortened URL
+        function generateRandomString(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        // Animate stats counters
+        const counterElements = document.querySelectorAll('.stat-counter');
+        if (counterElements.length) {
+            const animateCounter = (counter) => {
+                const target = counter.innerText;
+                let count = 0;
+                const plusIndex = target.indexOf('+');
+                let hasPlus = false;
+                let targetNum = target;
+                
+                if (plusIndex !== -1) {
+                    hasPlus = true;
+                    targetNum = target.substring(0, plusIndex);
+                }
+                
+                // Check if the target has a K/M suffix
+                let multiplier = 1;
+                let suffix = '';
+                if (targetNum.endsWith('K')) {
+                    multiplier = 1000;
+                    targetNum = targetNum.substring(0, targetNum.length - 1);
+                    suffix = 'K';
+                } else if (targetNum.endsWith('M')) {
+                    multiplier = 1000000;
+                    targetNum = targetNum.substring(0, targetNum.length - 1);
+                    suffix = 'M';
+                }
+                
+                // Convert to number
+                const finalNum = parseFloat(targetNum) * multiplier;
+                const duration = 2000; // Animation duration in milliseconds
+                const frameRate = 30; // Frames per second
+                const totalFrames = duration * frameRate / 1000;
+                const incrementPerFrame = finalNum / totalFrames;
+                
+                let currentFrame = 0;
+                const interval = setInterval(() => {
+                    currentFrame++;
+                    count += incrementPerFrame;
+                    
+                    if (currentFrame === totalFrames) {
+                        count = finalNum;
+                        clearInterval(interval);
+                    }
+                    
+                    // Format the number based on suffixes
+                    let displayValue;
+                    if (suffix === 'K') {
+                        displayValue = (count / 1000).toFixed(count >= 10000 ? 0 : 1) + 'K';
+                    } else if (suffix === 'M') {
+                        displayValue = (count / 1000000).toFixed(count >= 10000000 ? 0 : 1) + 'M';
+                    } else if (count >= 1000000) {
+                        displayValue = (count / 1000000).toFixed(1) + 'M';
+                    } else if (count >= 1000) {
+                        displayValue = (count / 1000).toFixed(1) + 'K';
+                    } else {
+                        displayValue = Math.round(count).toString();
+                    }
+                    
+                    if (hasPlus) {
+                        displayValue += '+';
+                    }
+                    
+                    counter.innerText = displayValue;
+                }, 1000 / frameRate);
+            };
+            
+            // Use Intersection Observer to trigger animation
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            counterElements.forEach(counter => {
+                observer.observe(counter);
+            });
+        }
+        
+        // Smooth scroll to anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === "#") return;
+                
+                e.preventDefault();
+                const target = document.querySelector(href);
+                
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

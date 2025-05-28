@@ -1,0 +1,1334 @@
+/* Base Styles */
+:root {
+    --primary-color: #6366F1;
+    --primary-dark: #4F46E5;
+    --primary-light: #A5B4FC;
+    --secondary-color: #6c757d;
+    --success-color: #22C55E;
+    --info-color: #06B6D4;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+}
+
+/* --- CRITICAL FIX FOR INPUT FIELD INTERACTION --- */
+/* These must come first to ensure they're not overridden */
+input, 
+textarea, 
+select, 
+button, 
+.form-control, 
+.input-group,
+.form-select, 
+.input-group-text {
+    position: relative !important;
+    z-index: 1000 !important; /* Very high z-index */
+    pointer-events: auto !important; /* Force pointer events */
+}
+
+/* Make sure form containers have proper z-index */
+#shortener-form,
+#url-form,
+.card-body,
+.card,
+.url-form-card {
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+/* Disable pointer events on decoration elements */
+.particles-container,
+#particles-js,
+canvas,
+.animated-blob,
+.blob-1,
+.blob-2,
+.blob-3,
+.wave-divider,
+.position-absolute:not(.form-floating):not(.input-group-text),
+.bg-gradient-primary,
+.highlight-text,
+.position-relative-wrapper,
+.z-1 {
+    pointer-events: none !important;
+}
+
+/* End of critical fixes */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--gray-800);
+    overflow-x: hidden;
+}
+
+main {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+.lead {
+    font-weight: 300;
+}
+
+.text-shadow {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.highlight-text {
+    position: relative;
+    color: #fff;
+    padding: 0 5px;
+    background: linear-gradient(90deg, #8B5CF6, #3B82F6);
+    border-radius: 4px;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative; /* Ensure buttons are clickable */
+    z-index: 10; /* Higher than decorative elements */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.btn-light {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: transparent;
+}
+
+.btn-outline-light {
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+/* Cards */
+.card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    position: relative; /* For proper stacking */
+    z-index: 5; /* Above decorative elements */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.hover-card {
+    transform: translateY(0);
+    transition: all 0.5s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    border-bottom: none;
+    padding: 1rem 1.25rem;
+}
+
+/* Enhanced Hero Section */
+.hero-enhanced {
+    min-height: 550px;
+    background-color: #003A5C !important;
+    position: relative;
+}
+
+.hero-enhanced::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    animation: pulse 15s infinite;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.8), rgba(67, 56, 202, 0.95));
+    z-index: 2;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.hero-enhanced .container {
+    position: relative;
+    z-index: 3;
+}
+
+/* Animated Blobs */
+.animated-blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.blob-1 {
+    top: 20%;
+    left: 10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.05);
+    animation: blob-move-1 25s infinite linear;
+}
+
+.blob-2 {
+    bottom: 10%;
+    right: 15%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.05);
+    animation: blob-move-2 30s infinite linear;
+}
+
+.blob-3 {
+    top: 40%;
+    right: 30%;
+    width: 150px;
+    height: 150px;
+    background: rgba(255,255,255,0.05);
+    animation: blob-move-3 20s infinite linear;
+}
+
+@keyframes blob-move-1 {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, 50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes blob-move-2 {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-50px, 20px) scale(1.2); }
+    66% { transform: translate(20px, -30px) scale(0.8); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes blob-move-3 {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -40px) scale(1.15); }
+    66% { transform: translate(-30px, -20px) scale(0.85); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Counter box styling */
+.counter-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    position: relative; /* Ensure proper stacking */
+    z-index: 5; /* Higher than decorative elements */
+}
+
+.counter-box:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+/* Features */
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.75rem;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* How it works steps */
+.step-number {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.75rem;
+    margin: 0 auto 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.text-center:hover .step-number {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Stats Cards */
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* QR Code Container */
+.qr-code-container {
+    display: inline-block;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.qr-code-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* --- CRITICAL FIX: Form Styling --- */
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-300);
+    transition: all 0.3s ease;
+    background-color: #fff;
+    position: relative !important; /* Ensure proper stacking */
+    z-index: 10 !important; /* Higher than decorative elements */
+    pointer-events: auto !important; /* Force pointer events */
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+    z-index: 15 !important; /* Even higher when focused */
+}
+
+/* Form floating fix */
+.form-floating {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.form-floating > .form-control, 
+.form-floating > .form-control-plaintext {
+    padding: 1rem 1rem;
+}
+
+.form-floating > .form-control:focus,
+.form-floating > .form-control:not(:placeholder-shown) {
+    padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+}
+
+.form-floating > label {
+    padding: 1rem;
+    pointer-events: none !important; /* Allow clicks to pass through */
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--gray-700);
+    position: relative; /* Ensure proper stacking */
+    z-index: 5; /* Above decorative elements */
+}
+
+/* Input group fix */
+.input-group {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.input-group-text {
+    position: relative !important;
+    z-index: 15 !important; /* Higher than inputs */
+    pointer-events: auto !important;
+}
+
+/* URL Form Card fix */
+.url-form-card {
+    border: none;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s ease;
+    position: relative !important;
+    z-index: 50 !important; /* High z-index to ensure it's above background elements */
+}
+
+#url-form {
+    position: relative !important;
+    z-index: 50 !important;
+}
+
+#shortener-form {
+    position: relative !important;
+    z-index: 100 !important; /* Very high z-index */
+}
+
+/* End of critical form fixes */
+
+/* Custom Form Switch */
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Social Media Icons */
+.social-icons a {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.social-icons a:hover {
+    transform: translateY(-3px);
+}
+
+/* Chart Container */
+.chart-container {
+    height: 300px;
+    position: relative;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: var(--primary-color) !important;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-weight: 500;
+}
+
+/* FAQ Section */
+.faq-section {
+    background-color: #f9fafb;
+    position: relative;
+    overflow: hidden;
+}
+
+.faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%236366f1' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.accordion-item {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.accordion-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-button {
+    font-weight: 500;
+    padding: 1.25rem;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+}
+
+.accordion-body {
+    padding: 1.25rem;
+    background-color: #fff;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--gray-800);
+    color: var(--gray-300);
+}
+
+/* CTA Section */
+.cta {
+    background: linear-gradient(135deg, #4338CA, #6366F1);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+/* Recent URLs Table */
+.table-hover tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.05);
+    transform: scale(1.01);
+}
+
+.text-truncate {
+    max-width: 300px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Password Protected Page */
+.shield-icon {
+    font-size: 4rem;
+    color: var(--warning-color);
+}
+
+/* Expired URL Page */
+.hourglass-icon {
+    font-size: 4rem;
+    color: var(--danger-color);
+}
+
+/* Copy Button Animation */
+@keyframes copySuccess {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.copy-success {
+    animation: copySuccess 0.5s ease-out;
+}
+
+/* Wave Divider fix */
+.wave-divider {
+    position: relative;
+    z-index: 1;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.wave-divider svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: translateY(1px);
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+/* Fixed positions for gradient text elements */
+.position-relative-wrapper {
+    position: relative;
+    display: inline-block;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.bg-gradient-primary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #6366F1, #8B5CF6);
+    border-radius: 8px;
+    transform: rotate(-1deg);
+    z-index: 0;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.z-1 {
+    position: relative;
+    z-index: 1;
+    padding: 0 8px;
+    color: #fff;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .hero-enhanced {
+        padding: 4rem 0;
+        min-height: 550px;
+    }
+    
+    .display-3 {
+        font-size: 2.75rem;
+    }
+    
+    .display-4 {
+        font-size: 2.25rem;
+    }
+    
+    .display-5 {
+        font-size: 1.75rem;
+    }
+    
+    .display-6 {
+        font-size: 1.5rem;
+    }
+    
+    .lead {
+        font-size: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-enhanced {
+        padding: 3rem 0;
+        text-align: center;
+    }
+    
+    .counter-stats {
+        justify-content: center;
+    }
+    
+    .display-3 {
+        font-size: 2.25rem;
+    }
+    
+    /* CRITICAL FIX: Ensure form is interactive on mobile */
+    input, textarea, select, button, .form-control, .input-group-text {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        position: relative !important;
+        z-index: 2000 !important; /* Very high z-index for mobile */
+    }
+    
+    .url-form-card {
+        z-index: 1000 !important; /* Very high z-index for mobile */
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Mobile optimizations */
+@media (max-width: 575.98px) {
+    .hero-enhanced {
+        min-height: 450px;
+        padding: 2rem 0;
+    }
+    
+    .display-5 {
+        font-size: 1.5rem;
+    }
+    
+    .counter-box {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .lead {
+        font-size: 0.9rem;
+    }
+    
+    .feature-icon, .step-number {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    /* CRITICAL FIX: Ensure form is interactive on small mobile */
+    .form-control, .form-select, button, input, textarea, select {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        position: relative !important;
+        z-index: 3000 !important; /* Extremely high z-index for small mobile */
+    }
+    
+    /* Make buttons easier to tap */
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        min-height: 44px; /* Better touch target */
+    }
+    
+    /* Adjust font sizes for smaller screens */
+    .h5, h5 {
+        font-size: 1.1rem;
+    }
+    
+    /* Make spacing more compact */
+    section {
+        padding: 2rem 0;
+    }
+    
+    /* Ensure tables scroll horizontally */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Add some pulsing animation to CTA buttons */
+.btn-primary.btn-lg {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary.btn-lg:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.btn-primary.btn-lg:hover:after {
+    animation: ripple 1.5s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* Modern Navbar Styles */
+.navbar {
+    background: linear-gradient(135deg, rgba(11, 16, 38, 0.95) 0%, rgba(30, 58, 138, 0.95) 100%);
+    transition: all 0.4s ease;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-scrolled {
+    background: linear-gradient(135deg, rgba(11, 16, 38, 0.98) 0%, rgba(30, 58, 138, 0.98) 100%);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+    color: #fff;
+}
+
+.navbar-brand:hover {
+transform: translateY(-2px);
+    color: #fff;
+}
+
+.navbar-brand::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366F1, #8B5CF6);
+    transition: width 0.3s ease;
+}
+
+.navbar-brand:hover::after {
+    width: 100%;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.25rem;
+    color: rgba(255, 255, 255, 0.85) !important;
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Nav Links Animation */
+.nav-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366F1, #8B5CF6);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-item:hover::after {
+    width: 80%;
+}
+
+/* Auth Buttons */
+.auth-btn {
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.auth-btn-outline {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.auth-btn-outline:hover {
+    border-color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.auth-btn-primary {
+    background: linear-gradient(90deg, #6366F1, #4F46E5);
+    border: none;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.auth-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+    color: #fff;
+}
+
+/* Main Content Area */
+.main-content {
+    padding-top: 5rem;
+    min-height: calc(100vh - 400px);
+}
+
+/* Page Transition Animation */
+.page-transition {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Footer Enhancements */
+.footer {
+    background: linear-gradient(135deg, #0B1026 0%, #1E3A8A 100%);
+    padding: 5rem 0 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z' fill='%236366f1' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none; /* CRITICAL FIX */
+}
+
+.footer-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.footer-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #6366F1, #8B5CF6);
+}
+
+.footer-link {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 6px 0;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #6366F1;
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+.copyright-text {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.copyright-text:hover {
+    opacity: 1;
+}
+
+.footer-bottom-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.footer-bottom-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Alert Messages */
+.alert {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Back to top button */
+.back-to-top {
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 1rem;
+    background-color: #6366F1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 100; /* Ensure it's clickable */
+}
+
+/* CRITICAL FIX: Specific fixes for making form elements interactive */
+#url-form {
+    border: none;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+    z-index: 50 !important;
+}
+
+#url-form:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+#url-form input, 
+#url-form select, 
+#url-form textarea,
+#url-form label,
+#url-form button {
+    font-weight: 500;
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+#shortener-form {
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+#shortener-form * {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+.input-group * {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+/* Ensure input fields are tappable on mobile */
+@media (max-width: 767.98px) {
+    input, button, select, textarea, .form-control, .form-select, .input-group-text {
+        min-height: 44px !important; /* Larger touch target */
+        font-size: 16px !important; /* Prevent iOS zoom */
+    }
+    
+    label {
+        font-size: 14px !important;
+    }
+    
+    /* Make sure form is above everything on mobile */
+    #url-form, #shortener-form {
+        position: relative !important;
+        z-index: 5000 !important; /* Extremely high z-index */
+    }
+    
+    /* Ensure inputs can be tapped on mobile */
+    input, button, select, textarea {
+        position: relative !important;
+        z-index: 5001 !important; /* Higher than containing form */
+    }
+}
+
+/* Specific fixes for special browsers */
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+    input, button, select, textarea, .form-control, .form-select, .input-group-text {
+        position: relative !important;
+        z-index: 2000 !important;
+    }
+    
+    .particles-container, #particles-js, canvas {
+        pointer-events: none !important;
+    }
+}
+
+/* Safari specific fixes */
+@media not all and (min-resolution:.001dpcm) {
+    @supports (-webkit-appearance:none) {
+        input, button, select, textarea, .form-control, .form-select, .input-group-text {
+            position: relative !important;
+            z-index: 2000 !important;
+            -webkit-transform: translateZ(0);
+        }
+        
+        #url-form, #shortener-form {
+            position: relative !important;
+            z-index: 1000 !important;
+            -webkit-transform: translateZ(0);
+        }
+    }
+}
+
+/* Fix for iOS devices */
+@supports (-webkit-touch-callout: none) {
+    input, button, select, textarea, .form-control, .form-select, .input-group-text {
+        position: relative !important;
+        z-index: 5000 !important;
+    }
+    
+    .particles-container, #particles-js, canvas {
+        pointer-events: none !important;
+    }
+}
+
+/* Fix for input focus */
+input:focus, textarea:focus, select:focus, button:focus {
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: 0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25) !important;
+    position: relative !important;
+    z-index: 5000 !important; /* Very high z-index when focused */
+}
+
+/* Last resort - catch-all fix for all elements that might interfere with form interaction */
+.position-absolute,
+.particles-container,
+#particles-js,
+canvas,
+.animated-blob,
+.gradient-overlay,
+.wave-divider,
+svg,
+[style*="position: absolute"] {
+    pointer-events: none !important;
+}
+
+/* Fix for absolute positioned gradients and decorations */
+.position-relative.d-inline-block,
+.position-absolute.top-0.start-0.w-100.h-100.bg-gradient-primary.rounded-lg,
+.position-relative.z-1.px-2.text-white {
+    pointer-events: none !important;
+}
+
+/* Fix for feature cards */
+.feature-card {
+    position: relative;
+    z-index: 5;
+}
+
+/* Make sure the form is accessible over everything */
+.hero-enhanced .container {
+    position: relative;
+    z-index: 50 !important; /* Higher than decorative elements */
+}
+
+/* Ensure card bodies are interactive */
+.card-body {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Emergency z-index fixes for specific problematic elements */
+.hero-enhanced .col-lg-6 {
+    position: relative;
+    z-index: 50 !important;
+}
+
+/* Improved visibility for validation states */
+.is-invalid {
+    border-color: var(--danger-color) !important;
+    z-index: 5000 !important;
+}
+
+.invalid-feedback {
+    color: var(--danger-color);
+    font-weight: 500;
+    margin-top: 0.25rem;
+    position: relative;
+    z-index: 5000 !important;
+}
+
+.is-valid {
+    border-color: var(--success-color) !important;
+    z-index: 5000 !important;
+}
+
+/* Reset styles - to ensure nothing interferes with basic input behavior */
+input[type="text"], 
+input[type="url"], 
+input[type="email"], 
+input[type="password"], 
+input[type="search"], 
+input[type="tel"], 
+input[type="number"],
+textarea,
+select,
+button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative !important;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+    cursor: text;
+}
+
+button, 
+[type="button"], 
+[type="reset"], 
+[type="submit"] {
+    cursor: pointer !important;
+}
+
+/* Fix for iOS Safari focus issues */
+input, select, textarea, button {
+    -webkit-tap-highlight-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Ensuring specific problematic elements are fixed */
+#id_original_url, 
+#id_custom_alias,
+.input-group-text,
+button[type="submit"] {
+    position: relative !important;
+    z-index: 5000 !important; /* Very high z-index */
+    pointer-events: auto !important;
+}
+
+/* CSS to fix the hero blobs and positioning */
+.hero-enhanced {
+    position: relative;
+    z-index: 1;
+}
+
+/* CSS for print */
+@media print {
+    input, select, textarea, button {
+        background-color: white !important;
+        color: black !important;
+        border: 1px solid black !important;
+    }
+    
+    .hero-enhanced {
+        background-color: white !important;
+        min-height: auto !important;
+    }
+    
+    .particles-container, .animated-blob, .wave-divider {
+        display: none !important;
+    }
+}    

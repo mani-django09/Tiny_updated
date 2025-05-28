@@ -1,0 +1,2328 @@
+{% extends 'base.html' %}
+
+{% block title %}TinyURL.run - Create Premium Custom URLs | Brand-Building Link Shortener{% endblock %}
+
+{% block meta %}
+<!-- Enhanced SEO Meta Tags -->
+<meta name="description" content="Create branded custom short URLs that increase click rates by 34%. Personalize domains, track analytics, and boost brand recognition with TinyURL.run's premium URL shortener.">
+<meta name="keywords" content="custom URL shortener, branded links, short URL, personalized links, URL redirect, link management, tracking links, marketing links, custom domains">
+<meta name="author" content="TinyURL.run">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+<!-- Open Graph Meta Tags for social sharing -->
+<meta property="og:title" content="TinyURL.run - Create Premium Custom URLs | Brand-Building Link Shortener">
+<meta property="og:description" content="Create branded custom short URLs that increase click rates by 34%. Personalize domains, track analytics, and boost brand recognition with TinyURL.run.">
+<meta property="og:image" content="https://tinyurl.run/static/images/og-custom-url-2025.jpg">
+<meta property="og:url" content="https://tinyurl.run/custom-url/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TinyURL.run">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@tinyurlrun">
+<meta name="twitter:title" content="TinyURL.run - Create Premium Custom URLs | Brand-Building Link Shortener">
+<meta name="twitter:description" content="Create branded custom short URLs that increase click rates by 34%. Personalize domains, track analytics, and boost brand recognition.">
+<meta name="twitter:image" content="https://tinyurl.run/static/images/twitter-custom-url-2025.jpg">
+<meta name="twitter:creator" content="@tinyurlrun">
+
+<!-- Canonical URL -->
+<meta rel="canonical" href="https://tinyurl.run/custom-url/">
+
+<!-- Structured data improvements for rich snippets -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TinyURL.run Custom URL Shortener",
+  "url": "https://tinyurl.run/custom-url/",
+  "description": "Create branded custom short URLs that increase click rates by 34%. Personalize domains, track analytics, and boost brand recognition with TinyURL.run's premium URL shortener.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "1542",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "screenshot": "https://tinyurl.run/static/images/custom-url-screenshot.jpg",
+  "featureList": "Custom Domain Support, Branded Short Links, Click Analytics, QR Code Generation, UTM Parameter Support",
+  "creator": {
+    "@type": "Organization",
+    "name": "TinyURL.run",
+    "url": "https://tinyurl.run/",
+    "logo": "https://tinyurl.run/static/images/logo.png"
+  }
+}
+</script>
+
+<!-- FAQ Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a custom URL shortener?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A custom URL shortener allows you to create branded short links using your own domain name or our provided domains. Instead of using generic short URLs, you can create memorable, branded links that reinforce your brand identity and increase click-through rates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use my own domain name?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! You can use your own domain name for your short URLs. This provides the highest level of brand recognition and trust. To set up your custom domain, select 'Use my own domain' from the domain dropdown menu and follow the instructions. You'll need to set up a CNAME record with your domain registrar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there any limits to the number of URLs I can create?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Free accounts can create up to 50 custom URLs per month. Premium accounts have higher or unlimited quotas depending on your subscription plan. Enterprise customers receive unlimited custom URLs and additional features like team management and advanced analytics."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you provide analytics for the shortened URLs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we provide comprehensive analytics for all your shortened URLs. You can track clicks, geographic location of visitors, referral sources, devices, and more. Premium users get access to advanced analytics features including conversion tracking, campaign comparison, and custom reporting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How secure are the shortened URLs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All shortened URLs are secured with HTTPS encryption. Premium users can add additional security features like password protection, expiration dates, and geo-restrictions. We also scan destination URLs for malware and phishing to protect your users."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- How-to Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Create a Custom Short URL",
+  "description": "Step-by-step guide to creating branded custom short URLs with TinyURL.run",
+  "totalTime": "PT2M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Enter your long URL",
+      "text": "Paste the original long URL that you want to shorten into the form field.",
+      "image": "https://tinyurl.run/static/images/howto-step1.jpg",
+      "url": "https://tinyurl.run/custom-url/#step1"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Choose your domain",
+      "text": "Select from one of our domains or use your own custom domain for maximum brand recognition.",
+      "image": "https://tinyurl.run/static/images/howto-step2.jpg",
+      "url": "https://tinyurl.run/custom-url/#step2"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Create your custom path",
+      "text": "Enter a memorable, branded path for your short URL that reflects your content or campaign.",
+      "image": "https://tinyurl.run/static/images/howto-step3.jpg",
+      "url": "https://tinyurl.run/custom-url/#step3"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Generate your custom URL",
+      "text": "Click the 'Create Custom URL' button to generate your branded short link.",
+      "image": "https://tinyurl.run/static/images/howto-step4.jpg",
+      "url": "https://tinyurl.run/custom-url/#step4"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Web browser"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Original URL to shorten"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Enhanced Hero Section */
+    .hero-enhanced {
+        background: linear-gradient(135deg, #3730A3 0%, #6366F1 100%);
+        position: relative;
+        overflow: hidden;
+        min-height: 260px; /* Increased height for impact */
+    }
+    
+    /* Improved Floating Elements with 3D effect */
+    .floating-element {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        filter: blur(20px);
+        animation: float 8s ease-in-out infinite;
+        opacity: 0.6;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        will-change: transform;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg) translateZ(0); }
+        50% { transform: translateY(-15px) rotate(5deg) translateZ(0); }
+        100% { transform: translateY(0) rotate(0deg) translateZ(0); }
+    }
+    
+    /* Premium Form Styling with Refined Shadows */
+    .custom-form-card {
+        border-radius: 16px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(99, 102, 241, 0.12);
+        transform: translateY(-40px);
+        background: white;
+        position: relative;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-form-card:hover {
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(99, 102, 241, 0.15);
+        transform: translateY(-45px);
+    }
+    
+    /* Gradient Border with Animation */
+    .gradient-border {
+        position: relative;
+        padding: 4px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #4338CA, #EC4899);
+        background-size: 300% 300%;
+        animation: gradientShift 8s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* Enhanced Button Styling */
+    .btn-custom-primary {
+        background: linear-gradient(135deg, #6366F1, #4F46E5);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-custom-primary:hover {
+        background: linear-gradient(135deg, #4F46E5, #4338CA);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+    }
+    
+    .btn-custom-primary::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+        transform: rotate(30deg);
+        transition: all 0.6s ease;
+        opacity: 0;
+    }
+    
+    .btn-custom-primary:hover::after {
+        opacity: 1;
+        transform: rotate(30deg) translate(10%, 10%);
+    }
+    
+    /* Domain Input Enhancement with Focus Effects */
+    .domain-input-group {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .domain-input-group:focus-within {
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+        transform: translateY(-2px);
+    }
+    
+    /* Enhanced Feature Cards with Depth */
+    .feature-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(79, 70, 229, 0.05));
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: -1;
+    }
+    
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+    
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.1));
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #6366F1;
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover .feature-icon {
+        background: linear-gradient(135deg, #6366F1, #4F46E5);
+        color: white;
+        transform: scale(1.1) rotate(10deg);
+    }
+    
+    /* Testimonial Cards with Enhanced Design */
+    .testimonial-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .testimonial-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 0;
+        background: linear-gradient(to bottom, #6366F1, #4F46E5);
+        transition: all 0.6s ease;
+    }
+    
+    .testimonial-card:hover::before {
+        height: 100%;
+    }
+    
+    .avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .testimonial-card:hover .avatar {
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    /* Stats Counter Animation */
+    .stat-counter {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #6366F1, #EC4899);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .stat-counter:hover {
+        transform: scale(1.05);
+        background-position: right center;
+    }
+    
+    /* Error Message Styling */
+    .error-message {
+        color: #EF4444;
+        margin-top: 8px;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .error-message::before {
+        content: '•';
+        margin-right: 5px;
+        font-size: 1.2em;
+    }
+    
+    /* Enhanced Contact Section */
+    .contact-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .contact-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.1));
+        margin-right: 15px;
+        font-size: 20px;
+        color: #6366F1;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-card:hover .contact-icon {
+        background: linear-gradient(135deg, #6366F1, #4F46E5);
+        color: white;
+        transform: rotate(10deg);
+    }
+    
+    /* Social Icon Enhancements */
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.1));
+        font-size: 18px;
+        color: #6366F1;
+        transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        background: linear-gradient(135deg, #6366F1, #4F46E5);
+        color: white;
+        transform: translateY(-5px) rotate(10deg);
+    }
+    
+    /* Animated Arrow */
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .bounce-arrow {
+        animation: bounce 2s infinite;
+    }
+    
+    /* Enhanced Accordion Styling */
+    .accordion-item {
+        border: none !important;
+        margin-bottom: 15px;
+        border-radius: 12px !important;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .accordion-item:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .accordion-button {
+        padding: 1.25rem;
+        font-weight: 600;
+        color: #1F2937;
+        background-color: white;
+    }
+    
+    .accordion-button:not(.collapsed) {
+        color: #4F46E5;
+        background-color: rgba(99, 102, 241, 0.05);
+    }
+    
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    .accordion-button::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234F46E5' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    }
+    
+    /* New Use Case Section Styling */
+    .use-case-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .use-case-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .use-case-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.1));
+        margin-right: 20px;
+        font-size: 24px;
+        color: #6366F1;
+        flex-shrink: 0;
+    }
+    
+    .use-case-card:hover .use-case-icon {
+        background: linear-gradient(135deg, #6366F1, #4F46E5);
+        color: white;
+        transform: rotate(15deg);
+    }
+    
+    /* Demo URL Section */
+    .demo-url-box {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(79, 70, 229, 0.05));
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .demo-url-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .demo-url {
+        font-family: 'Courier New', monospace;
+        background: white;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border-left: 4px solid #6366F1;
+        font-weight: 600;
+        color: #4F46E5;
+        display: inline-block;
+    }
+    
+    /* New Steps Section */
+    .step-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
+        padding-left: 30px;
+    }
+    
+    .step-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 100%;
+        background: linear-gradient(to bottom, #6366F1, #4F46E5);
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #6366F1, #4F46E5);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    }
+    
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 768px) {
+        .hero-enhanced {
+            min-height: 220px;
+        }
+        
+        .custom-form-card {
+            transform: translateY(-30px);
+        }
+        
+        .stat-counter {
+            font-size: 2rem;
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .hero-enhanced {
+            min-height: 180px;
+        }
+        
+        .custom-form-card {
+            transform: translateY(-20px);
+        }
+        
+        .domain-input-group .input-group-text,
+        .domain-input-group .form-control {
+            font-size: 0.875rem;
+        }
+    }
+    
+    /* New Animation for Comparison Section */
+    .comparison-slider-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .comparison-item {
+        transition: all 0.5s ease;
+    }
+    
+    .comparison-item:hover {
+        transform: scale(1.02);
+    }
+    
+    /* New Pricing Table Styles */
+    .pricing-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pricing-popular {
+        position: relative;
+        overflow: hidden;
+        border: 2px solid transparent;
+        background: linear-gradient(white, white) padding-box, 
+                    linear-gradient(135deg, #6366F1, #EC4899) border-box;
+    }
+    
+    .pricing-popular::before {
+        content: 'MOST POPULAR';
+        position: absolute;
+        top: 15px;
+        right: -30px;
+        background: linear-gradient(135deg, #6366F1, #EC4899);
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 5px 40px;
+        transform: rotate(45deg);
+        z-index: 1;
+    }
+    
+    .pricing-header {
+        padding: 25px;
+        text-align: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .pricing-popular .pricing-header {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+    }
+    
+    .pricing-price {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #1F2937;
+    }
+    
+    .pricing-popular .pricing-price {
+        background: linear-gradient(135deg, #6366F1, #EC4899);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .pricing-duration {
+        color: #6B7280;
+        font-size: 0.875rem;
+    }
+    
+    .pricing-features {
+        padding: 25px;
+    }
+    
+    .pricing-feature-item {
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .pricing-feature-icon {
+        color: #22C55E;
+        margin-right: 10px;
+    }
+    
+    .pricing-cta {
+        padding: 0 25px 25px;
+    }
+    
+    /* New Integration Section Styles */
+    .integration-logo {
+        height: 40px;
+        opacity: 0.7;
+        filter: grayscale(100%);
+        transition: all 0.3s ease;
+    }
+    
+    .integration-logo:hover {
+        opacity: 1;
+        filter: grayscale(0%);
+        transform: scale(1.1);
+    }
+    
+    /* New Gradient Border Utility */
+    .gradient-bottom-border {
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .gradient-bottom-border::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(to right, #6366F1, #EC4899);
+        border-radius: 2px;
+    }
+    
+    .text-center .gradient-bottom-border::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Enhanced Hero Section with Particle Effect -->
+<section class="hero-enhanced">
+    <!-- Floating Background Elements -->
+    <div class="floating-element" style="top: 20%; left: 10%; width: 180px; height: 180px; animation-delay: 0s;"></div>
+    <div class="floating-element" style="top: 50%; right: 15%; width: 150px; height: 150px; animation-delay: 2s;"></div>
+    <div class="floating-element" style="bottom: 10%; left: 30%; width: 120px; height: 120px; animation-delay: 4s;"></div>
+    
+    <!-- Enhanced Content -->
+    <div class="container py-4 position-relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+<h1 class="display-5 fw-bold mb-2">Create Premium Custom URLs</h1>
+                <p class="lead mb-0 fs-5">Branded short links that boost click rates by up to 34%</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Form Section - Elevated Card -->
+<section class="pb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="custom-form-card">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            
+                            <h2 class="h4 fw-bold mb-1">Customize Your Brand URL</h2>
+                            <p class="text-muted small">Transform long URLs into memorable, branded short links</p>
+                        </div>
+                        
+                        <!-- Enhanced Form with Anchor for Direct Navigation -->
+                        <form method="post" id="custom-url-form">
+                            {% csrf_token %}
+                            
+                            <!-- Step 1: Original URL Input with Enhanced Validation -->
+                            <div class="mb-3" id="step1">
+                                <label for="id_original_url" class="form-label fw-medium mb-1">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-circle me-1">1</span>
+                                    Enter your long URL
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-link text-muted"></i></span>
+                                    <input type="url" class="form-control" id="id_original_url" name="original_url" placeholder="https://example.com/your-long-url" required>
+                                </div>
+                                <div class="form-text small mt-1">
+                                    <i class="bi bi-info-circle me-1"></i>Make sure to include http:// or https://
+                                </div>
+                                {% if form.original_url.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.original_url.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Step 2: Domain Selection with Enhanced UI -->
+                            <div class="mb-3" id="step2">
+                                <label for="id_domain" class="form-label fw-medium mb-1">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-circle me-1">2</span>
+                                    Choose your domain
+                                </label>
+                                <select class="form-select" id="id_domain" name="domain">
+                                    <option value="tinyurl.run">tinyurl.run (default)</option>
+                                    <option value="tiny.one">tiny.one</option>
+                                    <option value="shrt.link">shrt.link</option>
+                                    <option value="custom">Use my own domain...</option>
+                                </select>
+                                <div class="form-text small mt-1">
+                                    <i class="bi bi-shield-check me-1"></i>All domains include SSL encryption
+                                </div>
+                            </div>
+                            
+                            <!-- Custom Domain Input (Initially Hidden) with Improved Guidance -->
+                            <div id="customDomainField" class="mb-3 d-none">
+                                <label for="id_custom_domain" class="form-label fw-medium mb-1">Enter your domain name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-globe2 text-muted"></i></span>
+                                    <input type="text" class="form-control" id="id_custom_domain" name="custom_domain" placeholder="yourbrand.com">
+                                </div>
+                                <div class="form-text small mt-1">
+                                    <i class="bi bi-info-circle me-1"></i>Enter domain without http:// or https://
+                                </div>
+                                <div class="alert alert-primary small mt-2 mb-0">
+                                    <i class="bi bi-lightbulb-fill me-2"></i>
+                                    <strong>Using your own domain?</strong> You'll need to add a CNAME record pointing to <code>redirect.tinyurl.run</code>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Custom Short Code Input with Real-time Validation -->
+                            <div class="mb-4" id="step3">
+                                <label for="id_custom_short_code" class="form-label fw-medium mb-1">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-circle me-1">3</span>
+                                    Create your custom path
+                                </label>
+                                <div class="input-group domain-input-group">
+                                    <span class="input-group-text bg-light fw-medium" id="domain-prefix">tinyurl.run/</span>
+                                    <input type="text" class="form-control" id="id_custom_short_code" name="custom_short_code" placeholder="my-brand-name" required maxlength="20" pattern="[a-zA-Z0-9-]+">
+                                </div>
+                                <div class="form-text small mt-1">
+                                    <i class="bi bi-info-circle me-1"></i>Use letters, numbers, and hyphens (3-20 characters)
+                                </div>
+                                <div class="mt-2 mb-0" id="path-suggestions" style="display: none;">
+                                    <p class="small fw-medium mb-1">Suggested paths:</p>
+                                    <div class="d-flex flex-wrap gap-2" id="suggestion-buttons">
+                                        <!-- Dynamically filled by JavaScript -->
+                                    </div>
+                                </div>
+                                {% if form.custom_short_code.errors %}
+                                <div class="error-message">
+                                    {{ form.custom_short_code.errors.0 }}
+                                </div>
+                                {% endif %}
+                                {% if error_message %}
+                                <div class="error-message">
+                                    {{ error_message }}
+                                </div>
+                                {% endif %}
+                            </div> 
+                            
+                            <!-- Final Preview -->
+                            <div class="p-3 bg-light rounded mb-4">
+                                <p class="small fw-medium mb-2">Your custom URL preview:</p>
+                                <div class="p-2 bg-white rounded d-flex align-items-center">
+                                    <span class="me-2" id="preview-url">tinyurl.run/your-custom-path</span>
+                                    <span class="badge bg-success ms-auto">Ready to create</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Button with Enhanced Style -->
+                            <button type="submit" id="step4" class="btn btn-custom-primary w-100 py-3">
+                                <i class="bi bi-link-45deg me-2"></i>Create Custom URL
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <p class="mb-0 small text-muted">By using our service, you agree to our <a href="#" class="text-decoration-none">Terms of Service</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Stats Section with Long-tail Keywords -->
+<section class="py-5 bg-gradient-to-r from-blue-50 to-indigo-50" style="background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">Why TinyURL.run is the Best Custom URL Shortener</h2>
+            <p class="text-muted">Join millions who trust TinyURL.run for their custom URL shortening needs</p>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-lg-3 col-md-6 fade-in-up">
+                <div class="p-4">
+                    <div class="stat-counter mb-2" data-count="25">25M+</div>
+                    <h4 class="h6 fw-semibold mb-2">Custom Short URLs Created</h4>
+                    <p class="text-muted small mb-0">Businesses worldwide trust TinyURL.run for their custom URL shortener needs</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 fade-in-up" style="animation-delay: 0.1s;">
+                <div class="p-4">
+                    <div class="stat-counter mb-2" data-count="42">42%</div>
+                    <h4 class="h6 fw-semibold mb-2">Higher Click-Through Rates</h4>
+                    <p class="text-muted small mb-0">Custom URLs with branded domains get 42% more clicks than generic short links</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="p-4">
+                    <div class="stat-counter mb-2" data-count="750">750K+</div>
+                    <h4 class="h6 fw-semibold mb-2">QR Codes Generated</h4>
+                    <p class="text-muted small mb-0">Free QR code generator creates high-quality codes for all custom URLs</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 fade-in-up" style="animation-delay: 0.3s;">
+                <div class="p-4">
+                    <div class="stat-counter mb-2" data-count="99">99.9%</div>
+                    <h4 class="h6 fw-semibold mb-2">Uptime Guarantee</h4>
+                    <p class="text-muted small mb-0">Enterprise-grade infrastructure ensures your custom domains are always accessible</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Custom URL vs Generic URL Comparison -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">Custom URL Shortener vs Generic Short Links</h2>
+            <p class="text-muted">See why custom short URLs with your own domain perform better</p>
+        </div>
+        
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6 fade-in-up">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="rounded-circle bg-danger bg-opacity-10 text-danger me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-x-lg"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0 text-danger">Generic Short URLs</h3>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="h6 fw-semibold mb-2">Typical Examples:</h4>
+                            <div class="p-3 bg-light rounded">
+                                <p class="mb-1 small font-monospace text-muted">bit.ly/3x7h2kL</p>
+                                <p class="mb-1 small font-monospace text-muted">tinyurl.com/4nk8m</p>
+                                <p class="mb-0 small font-monospace text-muted">short.link/B7x9Z</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="h6 fw-semibold mb-3">Problems with Generic URLs:</h4>
+                            <ul class="list-unstyled">
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-x-circle text-danger me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Random characters are impossible to remember</span>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-x-circle text-danger me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Look suspicious and unprofessional in emails</span>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-x-circle text-danger me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Miss valuable branding opportunities</span>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-x-circle text-danger me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Lower click-through rates due to lack of trust</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-x-circle text-danger me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Can't be used effectively in offline marketing</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <span class="badge bg-success">Recommended</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="rounded-circle bg-success bg-opacity-10 text-success me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-check-lg"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0 text-success">TinyURL.run Custom URLs</h3>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="h6 fw-semibold mb-2">Custom Domain Examples:</h4>
+                            <div class="p-3 bg-success bg-opacity-5 rounded">
+                                <p class="mb-1 small fw-medium text-primary">yourbrand.com/summer-sale</p>
+                                <p class="mb-1 small fw-medium text-primary">tinyurl.run/new-product</p>
+                                <p class="mb-0 small fw-medium text-primary">links.company.com/webinar</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="h6 fw-semibold mb-3">Benefits of Custom URLs:</h4>
+                            <ul class="list-unstyled">
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-check-circle text-success me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Memorable, descriptive paths that make sense</span>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-check-circle text-success me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Professional appearance builds trust and credibility</span>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-check-circle text-success me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Reinforces brand identity in every click</span>
+                                </li>
+                                <li class="d-flex align-items-start mb-2">
+                                    <i class="bi bi-check-circle text-success me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">42% higher click-through rates proven</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">Perfect for print, radio, and offline campaigns</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- QR Code Generator Feature Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">Free QR Code Generator for Custom URLs</h2>
+            <p class="text-muted">Every custom short URL includes a professional QR code - completely free</p>
+        </div>
+        
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6 order-lg-2 fade-in-up">
+                <div class="qr-demo-card">
+                    <div class="card-body p-4 text-center">
+                        <h3 class="h5 fw-bold mb-3">Your QR Code Preview</h3>
+                        <div class="qr-code-display mb-3">
+                            <!-- QR Code Placeholder -->
+                            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="120" height="120" fill="white"/>
+                                <g fill="#1f2937">
+                                    <!-- Simplified QR code pattern -->
+                                    <rect x="10" y="10" width="20" height="20"/>
+                                    <rect x="90" y="10" width="20" height="20"/>
+                                    <rect x="10" y="90" width="20" height="20"/>
+                                    <rect x="40" y="20" width="5" height="5"/>
+                                    <rect x="50" y="20" width="5" height="5"/>
+                                    <rect x="60" y="20" width="5" height="5"/>
+                                    <rect x="70" y="20" width="10" height="5"/>
+                                    <!-- More pattern elements -->
+                                    <rect x="40" y="40" width="40" height="5"/>
+                                    <rect x="20" y="50" width="5" height="20"/>
+                                    <rect x="60" y="50" width="20" height="5"/>
+                                    <rect x="40" y="70" width="5" height="10"/>
+                                    <rect x="60" y="70" width="15" height="5"/>
+                                    <rect x="80" y="60" width="5" height="20"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="small text-muted mb-3">High-quality QR codes for <span class="fw-medium text-primary">tinyurl.run/your-link</span></p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-download me-1"></i>PNG
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-vector-pen me-1"></i>SVG
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-file-pdf me-1"></i>PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 order-lg-1 fade-in-up" style="animation-delay: 0.2s;">
+                <h3 class="h4 fw-bold mb-4">Professional QR Codes for Every Custom URL</h3>
+                <p class="text-muted mb-4">
+                    TinyURL.run's QR code generator creates high-resolution, scannable QR codes for all your custom short URLs. 
+                    Perfect for business cards, flyers, posters, and any print marketing materials.
+                </p>
+                
+<div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-phone"></i>
+                            </div>
+                            <div>
+                                <h5 class="h6 fw-semibold mb-1">Mobile Optimized</h5>
+                                <p class="small text-muted mb-0">Scans perfectly on all devices</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-printer"></i>
+                            </div>
+                            <div>
+                                <h5 class="h6 fw-semibold mb-1">Print Ready</h5>
+                                <p class="small text-muted mb-0">High-resolution for print materials</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-palette"></i>
+                            </div>
+                            <div>
+                                <h5 class="h6 fw-semibold mb-1">Customizable</h5>
+                                <p class="small text-muted mb-0">Add logos and brand colors</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <div>
+                                <h5 class="h6 fw-semibold mb-1">Analytics Tracked</h5>
+                                <p class="small text-muted mb-0">Monitor QR code scan rates</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-primary border-0">
+                    <div class="d-flex">
+                        <i class="bi bi-lightbulb-fill text-primary me-3 mt-1"></i>
+                        <div>
+                            <h6 class="alert-heading mb-2">Pro Tip for QR Code Success:</h6>
+                            <p class="mb-0 small">
+                                Use descriptive custom URLs like "yourbrand.com/menu" or "tinyurl.run/contact-us" 
+                                so people know where the QR code leads before scanning.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Features Section with Focus Keywords -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">Why Choose TinyURL.run's Custom URL Shortener</h2>
+            <p class="text-muted">Advanced features that make TinyURL.run the best custom domain URL shortener</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 fade-in-up">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Custom Domain Support</h3>
+                        <p class="text-muted mb-3">
+                            Use your own domain for maximum brand recognition. Create custom short URLs like 
+                            yourbrand.com/sale instead of generic links. Easy DNS setup with full SSL support.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">Popular Custom Domain Examples:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>links.yourbrand.com</li>
+                                <li>go.yourcompany.com</li>
+                                <li>short.yoursite.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.1s;">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-qr-code-scan"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Free QR Code Generator</h3>
+                        <p class="text-muted mb-3">
+                            Every custom URL automatically generates a professional QR code. Download in multiple formats 
+                            (PNG, SVG, PDF) for print materials, business cards, and marketing campaigns.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">QR Code Features:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>High-resolution print quality</li>
+                                <li>Custom branding options</li>
+                                <li>Mobile-optimized scanning</li>
+                                <li>Analytics tracking included</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Advanced Analytics & Tracking</h3>
+                        <p class="text-muted mb-3">
+                            Track every click on your custom short URLs with detailed analytics. Monitor geographic 
+                            location, device types, referral sources, and conversion rates in real-time.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">Analytics Include:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>Real-time click tracking</li>
+                                <li>Geographic visitor data</li>
+                                <li>Device & browser analytics</li>
+                                <li>UTM parameter tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.3s;">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Enterprise Security & Reliability</h3>
+                        <p class="text-muted mb-3">
+                            All custom domains include SSL encryption, malware scanning, and 99.9% uptime guarantee. 
+                            Optional password protection and link expiration for sensitive campaigns.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">Security Features:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>HTTPS SSL encryption</li>
+                                <li>Malware & phishing protection</li>
+                                <li>Password protection options</li>
+                                <li>Link expiration controls</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.4s;">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Bulk URL Creation & API</h3>
+                        <p class="text-muted mb-3">
+                            Create hundreds of custom short URLs at once with CSV upload or integrate with our REST API. 
+                            Perfect for large marketing campaigns and enterprise workflows.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">Bulk Features:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>CSV upload for bulk creation</li>
+                                <li>REST API integration</li>
+                                <li>Webhook notifications</li>
+                                <li>Campaign organization tools</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.5s;">
+                <div class="feature-card h-100">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Team Collaboration & Management</h3>
+                        <p class="text-muted mb-3">
+                            Collaborate with team members on custom URL campaigns. Share access, organize links by 
+                            projects, and manage permissions for different team roles.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">Team Features:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>Multi-user accounts</li>
+                                <li>Role-based permissions</li>
+                                <li>Project organization</li>
+                                <li>Shared analytics dashboards</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Industry Use Cases for Custom URL Shortener -->
+<section class="py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">Custom URL Shortener Use Cases by Industry</h2>
+            <p class="text-muted">See how different industries leverage TinyURL.run's custom domain features</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-6 fade-in-up">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-shop fs-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">E-commerce & Retail</h3>
+                                <p class="text-muted small mb-0">Online stores and retail businesses</p>
+                            </div>
+                        </div>
+                        <p class="text-muted mb-3">
+                            Create memorable product links, seasonal campaign URLs, and trackable promotional codes 
+                            that drive higher conversion rates and build customer trust.
+                        </p>
+                        <div class="p-3 bg-light rounded mb-3">
+                            <h6 class="small fw-semibold mb-2">Example Custom URLs:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li><code>yourbrand.com/black-friday</code> - Black Friday sales</li>
+                                <li><code>yourbrand.com/new-arrivals</code> - Latest products</li>
+                                <li><code>yourbrand.com/summer-collection</code> - Seasonal items</li>
+                            </ul>
+                        </div>
+                        <div class="alert alert-success border-0 small">
+                            <i class="bi bi-graph-up me-2"></i>
+                            <strong>Result:</strong> 35% higher click-through rates on social media campaigns
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 fade-in-up" style="animation-delay: 0.1s;">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-megaphone fs-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Digital Marketing Agencies</h3>
+                                <p class="text-muted small mb-0">Marketing and advertising agencies</p>
+                            </div>
+                        </div>
+                        <p class="text-muted mb-3">
+                            Track campaign performance across channels, create client-branded links, and provide 
+                            detailed analytics reporting with custom domain URL shortening.
+                        </p>
+                        <div class="p-3 bg-light rounded mb-3">
+                            <h6 class="small fw-semibold mb-2">Agency Use Cases:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li><code>agency.com/client-campaign</code> - Client campaigns</li>
+                                <li><code>client.com/facebook-ads</code> - Platform-specific tracking</li>
+                                <li><code>brand.com/influencer-promo</code> - Influencer partnerships</li>
+                            </ul>
+                        </div>
+                        <div class="alert alert-info border-0 small">
+                            <i class="bi bi-people me-2"></i>
+                            <strong>Benefit:</strong> White-label solution for client branding
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-book fs-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Education & Training</h3>
+                                <p class="text-muted small mb-0">Schools, universities, and training providers</p>
+                            </div>
+                        </div>
+                        <p class="text-muted mb-3">
+                            Create easy-to-remember links for course materials, registration pages, and virtual 
+                            classrooms that students can access quickly from any device.
+                        </p>
+                        <div class="p-3 bg-light rounded mb-3">
+                            <h6 class="small fw-semibold mb-2">Educational Applications:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li><code>university.edu/register</code> - Course registration</li>
+                                <li><code>school.edu/virtual-classroom</code> - Online learning</li>
+                                <li><code>training.com/certification</code> - Certificate programs</li>
+                            </ul>
+                        </div>
+                        <div class="alert alert-primary border-0 small">
+                            <i class="bi bi-qr-code me-2"></i>
+                            <strong>Feature:</strong> QR codes perfect for printed course materials
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 fade-in-up" style="animation-delay: 0.3s;">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-heart-pulse fs-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Healthcare & Medical</h3>
+                                <p class="text-muted small mb-0">Hospitals, clinics, and healthcare providers</p>
+                            </div>
+                        </div>
+                        <p class="text-muted mb-3">
+                            Build patient trust with branded links for appointment booking, telehealth sessions, 
+                            and health resources that look professional and secure.
+                        </p>
+                        <div class="p-3 bg-light rounded mb-3">
+                            <h6 class="small fw-semibold mb-2">Healthcare Examples:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li><code>clinic.com/book-appointment</code> - Online booking</li>
+                                <li><code>hospital.org/patient-portal</code> - Patient access</li>
+                                <li><code>health.com/telehealth</code> - Virtual consultations</li>
+                            </ul>
+                        </div>
+                        <div class="alert alert-warning border-0 small">
+                            <i class="bi bi-shield-check me-2"></i>
+                            <strong>Security:</strong> HIPAA-compliant with SSL encryption
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Step-by-Step Custom Domain Setup Guide -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">How to Set Up Your Custom Domain with TinyURL.run</h2>
+            <p class="text-muted">Follow these simple steps to start using your own domain for custom short URLs</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-6 fade-in-up">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 start-0 m-3">
+                        <span class="badge bg-primary rounded-circle" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">1</span>
+                    </div>
+                    <div class="card-body p-4 pt-5">
+                        <h3 class="h5 fw-bold mb-3">Choose Your Custom Domain</h3>
+                        <p class="text-muted mb-3">
+                            Select a memorable subdomain for your custom URL shortener. Popular choices include 
+                            links.yourbrand.com, go.yourbrand.com, or short.yourbrand.com.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">Domain Naming Best Practices:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>Keep it short and memorable</li>
+                                <li>Use action words like "go" or "visit"</li>
+                                <li>Maintain brand consistency</li>
+                                <li>Avoid special characters or numbers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 fade-in-up" style="animation-delay: 0.1s;">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 start-0 m-3">
+                        <span class="badge bg-primary rounded-circle" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">2</span>
+                    </div>
+                    <div class="card-body p-4 pt-5">
+                        <h3 class="h5 fw-bold mb-3">Add Domain to TinyURL.run</h3>
+                        <p class="text-muted mb-3">
+                            Log into your TinyURL.run Pro account and navigate to Custom Domains. 
+                            Add your chosen domain and we'll provide specific DNS instructions.
+                        </p>
+                        <div class="p-3 bg-primary bg-opacity-5 rounded">
+                            <h6 class="small fw-semibold mb-2">What You'll Need:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>TinyURL.run Pro account ($12/month)</li>
+                                <li>Access to your domain's DNS settings</li>
+                                <li>Your chosen subdomain name</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 start-0 m-3">
+                        <span class="badge bg-primary rounded-circle" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">3</span>
+                    </div>
+                    <div class="card-body p-4 pt-5">
+                        <h3 class="h5 fw-bold mb-3">Configure DNS CNAME Record</h3>
+                        <p class="text-muted mb-3">
+                            In your domain registrar's DNS panel, create a CNAME record pointing your subdomain 
+                            to redirect.tinyurl.run. This usually takes 5-10 minutes to propagate.
+                        </p>
+                        <div class="p-3 bg-light rounded">
+                            <h6 class="small fw-semibold mb-2">DNS Configuration:</h6>
+                            <div class="row small">
+                                <div class="col-4 fw-medium">Type:</div>
+                                <div class="col-8">CNAME</div>
+                                <div class="col-4 fw-medium">Name:</div>
+                                <div class="col-8">links (or your chosen subdomain)</div>
+                                <div class="col-4 fw-medium">Value:</div>
+                                <div class="col-8"><code>redirect.tinyurl.run</code></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 fade-in-up" style="animation-delay: 0.3s;">
+                <div class="card border-0 shadow-sm h-100 position-relative">
+                    <div class="position-absolute top-0 start-0 m-3">
+                        <span class="badge bg-success rounded-circle" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">4</span>
+                    </div>
+                    <div class="card-body p-4 pt-5">
+                        <h3 class="h5 fw-bold mb-3">Verify & Start Creating URLs</h3>
+                        <p class="text-muted mb-3">
+                            Once DNS propagates, we'll automatically verify your domain and issue an SSL certificate. 
+                            You can then start creating custom short URLs with your own domain!
+                        </p>
+                        <div class="p-3 bg-success bg-opacity-10 rounded">
+                            <h6 class="small fw-semibold mb-2 text-success">You're Ready When:</h6>
+                            <ul class="small mb-0 ps-3">
+                                <li>Domain shows "Verified" status</li>
+                                <li>SSL certificate is active</li>
+                                <li>Custom URLs redirect properly</li>
+                                <li>Analytics tracking is enabled</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <div class="alert alert-info d-inline-block border-0">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-headset text-info me-3"></i>
+                    <div class="text-start">
+                        <h6 class="mb-1">Need Help Setting Up?</h6>
+                        <p class="mb-0 small">Our support team provides free custom domain setup assistance for all Pro users.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Testimonials with Long-tail Keywords -->
+<section class="py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">What Users Say About TinyURL.run's Custom URL Shortener</h2>
+            <p class="text-muted">Join thousands of businesses using custom domains for their short URL campaigns</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 fade-in-up">
+                <div class="testimonial-card h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning me-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <small class="text-muted">5.0 out of 5</small>
+                        </div>
+                        <p class="mb-3">
+                            "TinyURL.run's custom domain feature transformed our email marketing. Using our own domain 
+                            for short URLs increased our click-through rates by 45% and eliminated the spam filter issues 
+                            we had with generic shorteners."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar me-3 bg-primary d-flex align-items-center justify-content-center text-white fw-bold">
+                                SM
+                            </div>
+                            <div>
+                                <h5 class="h6 fw-bold mb-0">Sarah Mitchell</h5>
+                                <p class="small text-muted mb-0">Email Marketing Manager, TechFlow Solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 fade-in-up" style="animation-delay: 0.1s;">
+                <div class="testimonial-card h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning me-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <small class="text-muted">5.0 out of 5</small>
+                        </div>
+                        <p class="mb-3">
+                            "The QR code generator is fantastic! We use custom URLs with QR codes on all our print 
+                            materials. The analytics show 60% higher scan rates compared to when we used generic 
+                            QR codes. Setup was incredibly easy too."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar me-3 bg-success d-flex align-items-center justify-content-center text-white fw-bold">
+                                MJ
+                            </div>
+                            <div>
+                                <h5 class="h6 fw-bold mb-0">Marcus Johnson</h5>
+                                <p class="small text-muted mb-0">Creative Director, BrandCraft Agency</p>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="testimonial-card h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning me-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <small class="text-muted">5.0 out of 5</small>
+                        </div>
+                        <p class="mb-3">
+                            "As a digital marketing agency, we needed a custom URL shortener that could handle multiple 
+                            client domains. TinyURL.run's enterprise features and white-label options are perfect. 
+                            Our clients love seeing their own branded short links."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar me-3 bg-info d-flex align-items-center justify-content-center text-white fw-bold">
+                                AL
+                            </div>
+                            <div>
+                                <h5 class="h6 fw-bold mb-0">Amanda Liu</h5>
+                                <p class="small text-muted mb-0">CEO, Digital Growth Partners</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="/testimonials/" class="btn btn-outline-primary">
+                <i class="bi bi-chat-quote me-2"></i>Read More Success Stories
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Comprehensive FAQ Section with Long-tail Keywords -->
+<section class="py-5 bg-white" id="faq">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">Frequently Asked Questions About Custom URL Shorteners</h2>
+            <p class="text-muted">Everything you need to know about TinyURL.run's custom domain features</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                What is a custom URL shortener and how does it differ from regular short links?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>A custom URL shortener allows you to create branded short links using your own domain name instead of generic domains like bit.ly or tinyurl.com. With TinyURL.run's custom URL shortener, you can create links like:</p>
+                                <ul>
+                                    <li><strong>Custom domain:</strong> yourbrand.com/summer-sale</li>
+                                    <li><strong>Generic domain:</strong> tinyurl.com/a1b2c3</li>
+                                </ul>
+                                <p>Custom URLs provide several advantages: they're more memorable, build brand trust, increase click-through rates by up to 42%, and look professional in all your marketing materials. They also include free QR code generation and advanced analytics tracking.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                How do I set up my own custom domain with TinyURL.run's URL shortener?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>Setting up your custom domain with TinyURL.run is straightforward:</p>
+                                <ol>
+                                    <li><strong>Choose your subdomain:</strong> Popular choices include links.yourbrand.com, go.yourbrand.com, or short.yourbrand.com</li>
+                                    <li><strong>Upgrade to Pro:</strong> Custom domains require a TinyURL.run Pro account ($12/month)</li>
+                                    <li><strong>Add domain in dashboard:</strong> Navigate to Custom Domains and add your chosen subdomain</li>
+                                    <li><strong>Configure DNS:</strong> Create a CNAME record pointing to <code>redirect.tinyurl.run</code></li>
+                                    <li><strong>Verify & activate:</strong> We'll automatically verify your domain and issue an SSL certificate</li>
+                                </ol>
+                                <p>The entire process typically takes 15-30 minutes, and our support team provides free setup assistance for all Pro users.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Does TinyURL.run include a free QR code generator for custom URLs?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>Yes! Every custom short URL created with TinyURL.run automatically includes a professional QR code generator at no extra cost. Our QR code features include:</p>
+                                <ul>
+                                    <li><strong>Multiple formats:</strong> Download as PNG, SVG, or PDF for different use cases</li>
+                                    <li><strong>High resolution:</strong> Print-ready quality for business cards, flyers, and posters</li>
+                                    <li><strong>Custom branding:</strong> Add your logo and brand colors (Pro feature)</li>
+                                    <li><strong>Analytics tracking:</strong> Monitor QR code scan rates and user behavior</li>
+                                    <li><strong>Mobile optimized:</strong> Scans perfectly on all smartphone cameras</li>
+                                </ul>
+                                <p>QR codes are particularly effective when combined with custom domains because users can see where the code leads (e.g., yourbrand.com/menu) before scanning, which increases trust and scan rates.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                What analytics and tracking features are included with custom short URLs?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>TinyURL.run provides comprehensive analytics for all custom short URLs, including:</p>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <h6 class="fw-semibold">Basic Analytics (Free):</h6>
+                                        <ul class="small">
+                                            <li>Total clicks and unique visitors</li>
+                                            <li>Geographic location data</li>
+                                            <li>Device and browser information</li>
+                                            <li>Referral sources and traffic origins</li>
+                                            <li>Click timestamps and patterns</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="fw-semibold">Advanced Analytics (Pro):</h6>
+                                        <ul class="small">
+                                            <li>UTM parameter tracking</li>
+                                            <li>Conversion goal monitoring</li>
+                                            <li>Campaign comparison tools</li>
+                                            <li>Custom reporting dashboards</li>
+                                            <li>Data export capabilities</li>
+                                            <li>QR code scan analytics</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p class="mt-3">All data is updated in real-time and can be viewed through our intuitive dashboard or accessed via API for integration with your existing analytics tools.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                How secure and reliable is TinyURL.run's custom URL shortener service?
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>TinyURL.run prioritizes security and reliability with enterprise-grade infrastructure:</p>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <h6 class="fw-semibold">Security Features:</h6>
+                                        <ul class="small">
+                                            <li>HTTPS SSL encryption for all custom domains</li>
+                                            <li>Malware and phishing URL scanning</li>
+                                            <li>Password protection for sensitive links</li>
+                                            <li>Link expiration and access controls</li>
+                                            <li>Geographic restrictions (Enterprise)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="fw-semibold">Reliability Standards:</h6>
+                                        <ul class="small">
+                                            <li>99.9% uptime guarantee</li>
+                                            <li>Global CDN for fast redirects</li>
+                                            <li>Automatic SSL certificate management</li>
+                                            <li>24/7 monitoring and support</li>
+                                            <li>Regular security audits and updates</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p class="mt-3">Our infrastructure is hosted on enterprise-grade cloud servers with automatic scaling to handle traffic spikes, ensuring your custom URLs are always accessible when your audience needs them.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingSix">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                Can I create bulk custom short URLs for large marketing campaigns?
+                            </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>Yes! TinyURL.run offers several options for bulk custom URL creation, perfect for large marketing campaigns:</p>
+                                <ul>
+                                    <li><strong>CSV Upload:</strong> Create hundreds of custom URLs at once by uploading a spreadsheet with your long URLs and desired custom paths</li>
+                                    <li><strong>REST API:</strong> Integrate TinyURL.run with your existing systems for automated URL creation</li>
+                                    <li><strong>Webhook Support:</strong> Receive real-time notifications for URL events and analytics</li>
+                                    <li><strong>Campaign Organization:</strong> Group related URLs into campaigns for easier management and reporting</li>
+                                </ul>
+                                <p>Bulk features are available on Pro ($12/month) and Enterprise ($49/month) plans. Enterprise users also get dedicated account management, priority support, and white-label options for agency use.</p>
+                                <div class="alert alert-info border-0 mt-3">
+                                    <i class="bi bi-lightbulb me-2"></i>
+                                    <strong>Pro Tip:</strong> Use consistent naming conventions for bulk URLs (e.g., brand-product-variant) to make analytics tracking and campaign management much easier.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingSeven">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                What's the difference between TinyURL.run's pricing plans for custom domains?
+                            </button>
+                        </h2>
+                        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="card border">
+                                            <div class="card-body p-3">
+                                                <h6 class="fw-bold text-muted">Free Plan</h6>
+                                                <p class="h4 fw-bold mb-2">$0<small class="text-muted">/month</small></p>
+                                                <ul class="small mb-0">
+                                                    <li>100 URLs/month</li>
+                                                    <li>TinyURL.run domains only</li>
+                                                    <li>Basic analytics</li>
+                                                    <li>QR codes included</li>
+                                                    <li>Community support</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card border-primary">
+                                            <div class="card-body p-3">
+                                                <h6 class="fw-bold text-primary">Pro Plan</h6>
+                                                <p class="h4 fw-bold mb-2">$12<small class="text-muted">/month</small></p>
+                                                <ul class="small mb-0">
+                                                    <li>Unlimited URLs</li>
+                                                    <li>3 custom domains</li>
+                                                    <li>Advanced analytics</li>
+                                                    <li>Branded QR codes</li>
+                                                    <li>Priority support</li>
+                                                    <li>Bulk URL creation</li>
+                                                    <li>API access</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card border-success">
+                                            <div class="card-body p-3">
+                                                <h6 class="fw-bold text-success">Enterprise</h6>
+                                                <p class="h4 fw-bold mb-2">$49<small class="text-muted">/month</small></p>
+                                                <ul class="small mb-0">
+                                                    <li>Everything in Pro</li>
+                                                    <li>Unlimited custom domains</li>
+                                                    <li>White-label options</li>
+                                                    <li>Team management</li>
+                                                    <li>Dedicated support</li>
+                                                    <li>Advanced security</li>
+                                                    <li>Custom reporting</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0">All plans include SSL encryption, malware protection, and 99.9% uptime guarantee. Enterprise plans also include onboarding assistance and custom integrations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-5">
+                    <a href="/help/" class="btn btn-primary me-3">
+                        <i class="bi bi-question-circle me-2"></i>View All Help Articles
+                    </a>
+                    <a href="/contact/" class="btn btn-outline-primary">
+                        <i class="bi bi-chat-dots me-2"></i>Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ROI Calculator for Custom URL Shortener -->
+<section class="py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-2 gradient-bottom-border">Calculate Your Custom URL ROI</h2>
+            <p class="text-muted">See how much additional revenue custom URLs could generate for your business</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <form id="roi-calculator">
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <label for="monthly-clicks" class="form-label fw-semibold mb-2">Monthly Link Clicks</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-mouse"></i></span>
+                                        <input type="number" class="form-control" id="monthly-clicks" value="25000" min="1000" step="1000">
+                                    </div>
+                                    <div class="form-text small">
+                                        <i class="bi bi-info-circle text-primary me-1"></i>Total monthly clicks on your marketing links
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="conversion-rate" class="form-label fw-semibold mb-2">Current Conversion Rate (%)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-percent"></i></span>
+                                        <input type="number" class="form-control" id="conversion-rate" value="3.2" min="0.1" max="100" step="0.1">
+                                    </div>
+                                    <div class="form-text small">
+                                        <i class="bi bi-info-circle text-primary me-1"></i>Percentage of clicks that convert to sales
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <label for="avg-order-value" class="form-label fw-semibold mb-2">Average Order Value ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                                        <input type="number" class="form-control" id="avg-order-value" value="85" min="1" step="1">
+                                    </div>
+                                    <div class="form-text small">
+                                        <i class="bi bi-info-circle text-primary me-1"></i>Average value per successful conversion
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="improvement-rate" class="form-label fw-semibold mb-2">Custom URL Improvement</label>
+                                    <select class="form-select" id="improvement-rate">
+                                        <option value="1.25">25% - Conservative Estimate</option>
+                                        <option value="1.42" selected>42% - Industry Average</option>
+                                        <option value="1.60">60% - Premium Brands</option>
+                                    </select>
+                                    <div class="form-text small">
+                                        <i class="bi bi-info-circle text-primary me-1"></i>Expected click-through rate improvement
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-primary btn-lg" id="calculate-roi">
+                                    <i class="bi bi-calculator me-2"></i>Calculate My ROI
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="mt-5 p-4 bg-light rounded-3 text-center" id="roi-results" style="display: none;">
+                            <h4 class="h5 fw-bold mb-4">Your Estimated Monthly Impact</h4>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-white rounded shadow-sm">
+                                        <p class="small text-muted mb-1">Current Monthly Revenue</p>
+                                        <h5 class="fw-bold mb-0 text-dark" id="current-revenue">$68,000</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-white rounded shadow-sm">
+                                        <p class="small text-muted mb-1">Projected Monthly Revenue</p>
+                                        <h5 class="fw-bold mb-0 text-success" id="projected-revenue">$96,560</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-success bg-opacity-10 rounded">
+                                        <p class="small text-muted mb-1">Monthly Revenue Increase</p>
+                                        <h5 class="fw-bold mb-0 text-success" id="revenue-increase">$28,560</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-primary bg-opacity-10 rounded">
+                                <h6 class="fw-bold mb-2">Annual Revenue Impact</h6>
+                                <p class="h4 fw-bold text-primary mb-2" id="annual-increase">$342,720</p>
+                                <p class="small text-muted mb-0">
+                                    Investment: $144/year for TinyURL.run Pro | 
+                                    ROI: <span class="fw-bold text-success" id="roi-percentage">238,000%</span>
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <a href="#custom-url-form" class="btn btn-success btn-lg">
+                                    <i class="bi bi-rocket me-2"></i>Start Creating Custom URLs Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Domain Selection Handler
+        const domainSelect = document.getElementById('id_domain');
+        const customDomainField = document.getElementById('customDomainField');
+        const domainPrefix = document.getElementById('domain-prefix');
+        const previewUrl = document.getElementById('preview-url');
+        
+        if (domainSelect && customDomainField && domainPrefix) {
+            // Initial setup
+            domainPrefix.textContent = domainSelect.value + '/';
+            
+            // Handle domain changes
+            domainSelect.addEventListener('change', function() {
+                if (this.value === 'custom') {
+                    customDomainField.classList.remove('d-none');
+                    
+                    // Get the custom domain input
+                    const customDomainInput = document.getElementById('id_custom_domain');
+                    if (customDomainInput) {
+                        // Update prefix immediately if there's a value
+                        if (customDomainInput.value) {
+                            domainPrefix.textContent = customDomainInput.value + '/';
+                            if (previewUrl) updatePreviewUrl();
+                        } else {
+                            domainPrefix.textContent = 'yourdomain.com/';
+                            if (previewUrl) updatePreviewUrl();
+                        }
+                        
+                        // Listen for input changes
+                        customDomainInput.addEventListener('input', function() {
+                            if (this.value) {
+                                domainPrefix.textContent = this.value + '/';
+                            } else {
+                                domainPrefix.textContent = 'yourdomain.com/';
+                            }
+                            if (previewUrl) updatePreviewUrl();
+                        });
+                    }
+                } else {
+                    customDomainField.classList.add('d-none');
+                    domainPrefix.textContent = this.value + '/';
+                    if (previewUrl) updatePreviewUrl();
+                }
+            });
+        }
+        
+        // Custom URL validation and preview update
+        const customShortCodeInput = document.getElementById('id_custom_short_code');
+        
+        if (customShortCodeInput) {
+            customShortCodeInput.addEventListener('input', function() {
+                // Remove any characters that aren't allowed
+                this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '');
+                
+                // Enforce length restrictions
+                if (this.value.length > 20) {
+                    this.value = this.value.slice(0, 20);
+                }
+                
+                // Update preview
+                if (previewUrl) updatePreviewUrl();
+                
+                // Show path suggestions if input has 3+ characters
+                if (this.value.length >= 3) {
+                    showPathSuggestions(this.value);
+                } else {
+                    document.getElementById('path-suggestions').style.display = 'none';
+                }
+            });
+        }
+        
+        // Update preview URL
+        function updatePreviewUrl() {
+            const domain = domainPrefix.textContent;
+            const path = customShortCodeInput.value || 'your-custom-path';
+            previewUrl.textContent = domain + path;
+        }
+        
+        // Path suggestions based on input
+        function showPathSuggestions(input) {
+            const suggestionsDiv = document.getElementById('path-suggestions');
+            const suggestionButtons = document.getElementById('suggestion-buttons');
+            
+            if (!suggestionsDiv || !suggestionButtons) return;
+            
+            // Generate suggestions based on input
+            const suggestions = [];
+            
+            // Add base word
+            suggestions.push(input);
+            
+            // Add variations
+            if (input.length >= 3) {
+                suggestions.push(input + '-promo');
+                suggestions.push(input + '-offer');
+                
+                // Add hyphen variation if no hyphens
+                if (!input.includes('-') && input.length >= 5) {
+                    const middle = Math.floor(input.length / 2);
+                    suggestions.push(input.slice(0, middle) + '-' + input.slice(middle));
+                }
+            }
+            
+            // Clear existing suggestions
+            suggestionButtons.innerHTML = '';
+            
+            // Add suggestion buttons
+            suggestions.forEach(suggestion => {
+                if (suggestion !== input) { // Don't suggest exactly what's already typed
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'btn btn-sm btn-outline-primary';
+                    button.textContent = suggestion;
+                    button.addEventListener('click', function() {
+                        customShortCodeInput.value = suggestion;
+                        updatePreviewUrl();
+                        suggestionsDiv.style.display = 'none';
+                    });
+                    suggestionButtons.appendChild(button);
+                }
+            });
+            
+            // Show suggestions if we have any
+            if (suggestionButtons.childNodes.length > 0) {
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsDiv.style.display = 'none';
+            }
+        }
+        
+        // Advanced options toggle handlers
+        const passwordProtectCheckbox = document.getElementById('password_protect');
+        const passwordField = document.getElementById('passwordField');
+        
+        if (passwordProtectCheckbox && passwordField) {
+            passwordProtectCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    passwordField.classList.remove('d-none');
+                } else {
+                    passwordField.classList.add('d-none');
+                }
+            });
+        }
+        
+        const enableExpiryCheckbox = document.getElementById('enable_expiry');
+        const expiryField = document.getElementById('expiryField');
+        
+        if (enableExpiryCheckbox && expiryField) {
+            enableExpiryCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    expiryField.classList.remove('d-none');
+                } else {
+                    expiryField.classList.add('d-none');
+                }
+            });
+        }
+        
+        // ROI Calculator
+        const calculateRoiButton = document.getElementById('calculate-roi');
+        if (calculateRoiButton) {
+            calculateRoiButton.addEventListener('click', function() {
+                const monthlyVisitors = parseFloat(document.getElementById('monthly-visitors').value) || 10000;
+                const conversionRate = parseFloat(document.getElementById('conversion-rate').value) || 2.5;
+                const avgOrderValue = parseFloat(document.getElementById('avg-order-value').value) || 75;
+                const improvementFactor = parseFloat(document.getElementById('improvement-factor').value) || 1.34;
+                
+                // Calculate current revenue
+                const currentConversions = monthlyVisitors * (conversionRate / 100);
+                const currentRevenue = currentConversions * avgOrderValue;
+                
+                // Calculate projected revenue with improvement
+                const projectedVisitors = monthlyVisitors * improvementFactor;
+                const projectedConversions = projectedVisitors * (conversionRate / 100);
+                const projectedRevenue = projectedConversions * avgOrderValue;
+                
+                // Calculate increase
+                const revenueIncrease = projectedRevenue - currentRevenue;
+                
+                // Update display
+                document.getElementById('current-revenue').textContent = '$' + currentRevenue.toLocaleString(undefined, {maximumFractionDigits: 0});
+                document.getElementById('projected-revenue').textContent = '$' + projectedRevenue.toLocaleString(undefined, {maximumFractionDigits: 0});
+                document.getElementById('revenue-increase').textContent = '$' + revenueIncrease.toLocaleString(undefined, {maximumFractionDigits: 0});
+                
+                // Show results
+                document.getElementById('roi-results').style.display = 'block';
+            });
+        }
+        
+        // Animate stats counters
+        const statCounters = document.querySelectorAll('.stat-counter');
+        
+        if (statCounters.length > 0) {
+            // Check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+            
+            // Animate counter
+            function animateCounter(counter) {
+                const target = parseInt(counter.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 40; // Animate over 40 frames
+                
+                const interval = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    
+                    // Update display
+                    counter.innerHTML = counter.innerHTML.replace(/\d+/, Math.floor(current));
+                }, 50);
+            }
+            
+            // Check if counters are in viewport and start animation
+            function checkCounters() {
+                statCounters.forEach(counter => {
+                    if (isInViewport(counter) && !counter.classList.contains('animated')) {
+                        counter.classList.add('animated');
+                        animateCounter(counter);
+                    }
+                });
+            }
+            
+            // Initial check and add scroll listener
+            checkCounters();
+            window.addEventListener('scroll', checkCounters);
+        }
+        
+        // Smooth scroll to form when CTA clicked
+        document.querySelectorAll('a[href="#custom-url-form"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = document.getElementById('custom-url-form');
+                if (form) {
+                    form.scrollIntoView({ behavior: 'smooth' });
+                    // Focus on first input after scrolling
+                    setTimeout(() => {
+                        document.getElementById('id_original_url').focus();
+                    }, 800);
+                }
+            });
+        });
+        
+        // Initialize preview
+        if (previewUrl) updatePreviewUrl();
+    });
+</script>
+{% endblock %}
+{% endblock %}

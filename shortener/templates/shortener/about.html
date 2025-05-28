@@ -1,0 +1,488 @@
+{% extends 'base.html' %}
+
+{% block title %}About TinyURL.run - Professional URL Shortener Service{% endblock %}
+
+{% block head_extra %}
+<meta name="description" content="Learn about TinyURL.run, our mission to simplify link sharing, and the team behind our powerful URL shortening service.">
+<meta name="keywords" content="about tinyurl.run, url shortener company, link shortening service, url shortener team">
+{% endblock %}
+
+{% block content %}
+<!-- About Hero Section with Enhanced Visual Design -->
+<section class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #003A5C 0%, #0F2B46 100%); padding-top: 80px; padding-bottom: 100px;">
+    <!-- Decorative background elements -->
+    <div class="position-absolute" style="top: 15%; left: 5%; width: 300px; height: 300px; border-radius: 50%; background: linear-gradient(45deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15)); filter: blur(40px); transform: rotate(-10deg);"></div>
+    <div class="position-absolute" style="bottom: 10%; right: 5%; width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); filter: blur(40px);"></div>
+    
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-white mb-5 mb-lg-0" data-aos="fade-right">
+                <!-- Company Badge -->
+                <div class="d-inline-block px-3 py-1 mb-3 rounded-pill bg-white bg-opacity-10 border border-white border-opacity-20">
+                    <span class="text-white opacity-90 text-sm fw-medium">
+                        <i class="bi bi-lightning-charge me-1"></i>Est. 2023 • Trusted by 500K+ Users
+                    </span>
+                </div>
+                
+                <h1 class="display-4 fw-bold mb-4 text-white text-shadow">About <span class="highlight-text">TinyURL.run</span></h1>
+                <p class="lead mb-4">TinyURL.run transforms long, complex URLs into short, memorable links that boost engagement and provide valuable insights. We're on a mission to make link sharing effortless for everyone.</p>
+                
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a href="{% url 'index' %}" class="btn btn-light btn-lg px-4">
+                        Try Our Service
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-4">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center" data-aos="fade-left">
+                <!-- Replaced placeholder with SVG illustration -->
+                <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" class="img-fluid">
+                    <defs>
+                        <linearGradient id="linkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#4F46E5;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#000" flood-opacity="0.3"/>
+                        </filter>
+                    </defs>
+                    
+                    <!-- Background elements -->
+                    <rect x="50" y="20" width="400" height="260" rx="20" fill="#ffffff" filter="url(#shadow)"/>
+                    <path d="M50,150 Q150,50 300,150 T550,150" stroke="#e5e7eb" stroke-width="2" fill="none"/>
+                    
+                    <!-- Website URL bar -->
+                    <rect x="80" y="60" width="340" height="50" rx="25" fill="#f3f4f6"/>
+                    <rect x="100" y="75" width="200" height="20" rx="10" fill="#d1d5db"/>
+                    <circle cx="380" cy="85" r="15" fill="url(#linkGradient)"/>
+                    
+                    <!-- URL transformation illustration -->
+                    <rect x="100" y="140" width="300" height="40" rx="5" fill="#f8fafc"/>
+                    <text x="110" y="165" font-family="Arial" font-size="12" fill="#94a3b8">https://example.com/very-long-path?param=value&amp;utm=source</text>
+                    
+                    <path d="M250,190 L250,210" stroke="#6366F1" stroke-width="2"/>
+                    <polygon points="245,205 250,215 255,205" fill="#6366F1"/>
+                    
+                    <rect x="150" y="220" width="200" height="40" rx="5" fill="#6366F1"/>
+                    <text x="175" y="245" font-family="Arial" font-size="14" font-weight="bold" fill="#ffffff">tinyurl.run/abc123</text>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wave Divider -->
+    <div class="position-absolute bottom-0 left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 150" preserveAspectRatio="none" style="width: 100%; height: auto; display: block; margin-bottom: -2px;">
+            <path fill="#ffffff" fill-opacity="1" d="M0,96L48,85.3C96,75,192,53,288,53.3C384,53,480,75,576,90.7C672,107,768,117,864,112C960,107,1056,85,1152,74.7C1248,64,1344,64,1392,64L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Our Story Section with Enhanced Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
+                <!-- Custom SVG illustration representing company journey -->
+                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="img-fluid">
+                    <defs>
+                        <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366F1;stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:#4F46E5;stop-opacity:0.8" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Timeline elements -->
+                    <line x1="200" y1="20" x2="200" y2="380" stroke="#e5e7eb" stroke-width="4" stroke-dasharray="8 4"/>
+                    
+                    <!-- 2023 - Founded -->
+                    <circle cx="200" cy="80" r="30" fill="url(#circleGradient)"/>
+                    <text x="200" y="85" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">2023</text>
+                    <rect x="240" y="60" width="120" height="40" rx="5" fill="#f8fafc" stroke="#e5e7eb"/>
+                    <text x="300" y="85" font-family="Arial" font-size="12" fill="#1e293b" text-anchor="middle">Founded</text>
+                    
+                    <!-- 100K users -->
+                    <circle cx="200" cy="180" r="30" fill="url(#circleGradient)"/>
+                    <text x="200" y="185" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Q2</text>
+                    <rect x="40" y="160" width="120" height="40" rx="5" fill="#f8fafc" stroke="#e5e7eb"/>
+                    <text x="100" y="185" font-family="Arial" font-size="12" fill="#1e293b" text-anchor="middle">100K Users</text>
+                    
+                    <!-- New Features -->
+                    <circle cx="200" cy="280" r="30" fill="url(#circleGradient)"/>
+                    <text x="200" y="285" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Q3</text>
+                    <rect x="240" y="260" width="120" height="40" rx="5" fill="#f8fafc" stroke="#e5e7eb"/>
+                    <text x="300" y="285" font-family="Arial" font-size="12" fill="#1e293b" text-anchor="middle">API Launch</text>
+                    
+                    <!-- Today -->
+                    <circle cx="200" cy="380" r="30" fill="url(#circleGradient)"/>
+                    <text x="200" y="385" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Today</text>
+                    <rect x="40" y="360" width="120" height="40" rx="5" fill="#f8fafc" stroke="#e5e7eb"/>
+                    <text x="100" y="385" font-family="Arial" font-size="12" fill="#1e293b" text-anchor="middle">500K+ Users</text>
+                </svg>
+            </div>
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="mb-4">
+                    <span class="badge bg-primary-light text-primary px-3 py-2 rounded-pill">Our Journey</span>
+                    <h2 class="display-5 fw-bold mt-3 mb-4">The TinyURL.run Story</h2>
+                </div>
+                
+                <p class="lead mb-4">TinyURL.run began as a solution to a common problem in the digital age: the inefficiency of sharing long URLs across platforms.</p>
+                
+                <div class="mb-4">
+                    <h3 class="h5 fw-bold mb-3">🚀 Our Beginning</h3>
+                    <p>In early 2023, our founding team of web developers and digital marketers recognized a gap in the market. While URL shorteners existed, they lacked the comprehensive analytics, reliability, and user-friendly features needed by modern businesses and individual users.</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="h5 fw-bold mb-3">🌱 Growth & Evolution</h3>
+                    <p>Within our first quarter, we surpassed 100,000 users and processed over 1 million shortened URLs. Listening to our users, we quickly expanded our feature set to include custom domains, QR code generation, and advanced click analytics.</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="h5 fw-bold mb-3">🌍 Where We Are Today</h3>
+                    <p>Today, TinyURL.run serves over 500,000 users worldwide, from social media managers and digital marketers to casual web users looking for an easier way to share links. We've maintained our commitment to a free core service while expanding our technology to ensure industry-leading reliability and security.</p>
+                </div>
+                
+                <div class="mt-4">
+                    <p class="fst-italic">"Our mission is to make the web more accessible by simplifying how people share links, while providing the insights needed to understand audience engagement."</p>
+                    <p class="fw-bold mb-0">— The TinyURL.run Team</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="display-4 fw-bold text-primary mb-2">500K+</div>
+                        <h3 class="h5 fw-bold">Active Users</h3>
+                        <p class="text-muted small mb-0">Trusting our service daily</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="display-4 fw-bold text-primary mb-2">10M+</div>
+                        <h3 class="h5 fw-bold">URLs Shortened</h3>
+                        <p class="text-muted small mb-0">And growing every day</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="display-4 fw-bold text-primary mb-2">99.9%</div>
+                        <h3 class="h5 fw-bold">Uptime</h3>
+                        <p class="text-muted small mb-0">Ensuring link reliability</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="display-4 fw-bold text-primary mb-2">200+</div>
+                        <h3 class="h5 fw-bold">Countries</h3>
+                        <p class="text-muted small mb-0">Global user base</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Values Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="badge bg-primary-light text-primary px-3 py-2 rounded-pill mb-2">Our Principles</span>
+            <h2 class="display-5 fw-bold mb-3">Core Values</h2>
+            <p class="lead mb-0 mx-auto" style="max-width: 700px;">These values guide everything we do at TinyURL.run, from product development to customer service.</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3 text-center" style="width: 60px; height: 60px;">
+                                <i class="bi bi-lightning-charge fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Simplicity</h3>
+                        </div>
+                        <p class="mb-0">We believe in elegant solutions to complex problems. Our tools are powerful yet intuitive, delivering maximum value with minimum friction.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3 text-center" style="width: 60px; height: 60px;">
+                                <i class="bi bi-shield-check fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Reliability</h3>
+                        </div>
+                        <p class="mb-0">Links should work, period. We've built our infrastructure to ensure your shortened URLs are always accessible, with enterprise-grade uptime and performance.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3 text-center" style="width: 60px; height: 60px;">
+                                <i class="bi bi-graph-up fs-4 text-primary"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Insightful</h3>
+                        </div>
+                        <p class="mb-0">We believe link shortening should do more than save space—it should provide valuable data. Our analytics empower you to understand audience behavior and optimize engagement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section with Enhanced Content -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="badge bg-primary-light text-primary px-3 py-2 rounded-pill mb-2">Meet Our Team</span>
+            <h2 class="display-5 fw-bold mb-3">The People Behind TinyURL.run</h2>
+            <p class="lead mb-0 mx-auto" style="max-width: 700px;">Our diverse team combines experience in web development, digital marketing, and data analytics to create the best URL shortening experience.</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm team-card h-100">
+                    <div class="position-relative">
+                        <!-- Replace with actual image or custom SVG avatar -->
+                        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="card-img-top">
+                            <rect width="300" height="200" fill="#e5e7eb"/>
+                            <circle cx="150" cy="80" r="60" fill="#6366F1"/>
+                            <circle cx="150" cy="65" r="25" fill="#ffffff"/>
+                            <path d="M150,90 C117,90 100,120 100,150 L200,150 C200,120 183,90 150,90Z" fill="#ffffff"/>
+                            <rect x="0" y="150" width="300" height="50" fill="#f8fafc"/>
+                        </svg>
+                        <div class="position-absolute top-0 end-0 p-3">
+                            <span class="badge bg-primary">Founder</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-1">Alex Morgan</h3>
+                        <p class="text-primary mb-3">CEO & Co-Founder</p>
+                        <p class="text-muted mb-3">Former Google engineer with 15+ years of experience building web applications. Alex leads our product vision and technical strategy.</p>
+                        <div class="social-icons">
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-2"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm team-card h-100">
+                    <div class="position-relative">
+                        <!-- Replace with actual image or custom SVG avatar -->
+                        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="card-img-top">
+                            <rect width="300" height="200" fill="#e5e7eb"/>
+                            <circle cx="150" cy="80" r="60" fill="#3B82F6"/>
+                            <circle cx="150" cy="65" r="25" fill="#ffffff"/>
+                            <path d="M150,90 C117,90 100,120 100,150 L200,150 C200,120 183,90 150,90Z" fill="#ffffff"/>
+                            <rect x="0" y="150" width="300" height="50" fill="#f8fafc"/>
+                        </svg>
+                        <div class="position-absolute top-0 end-0 p-3">
+                            <span class="badge bg-info">Technical</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-1">Sarah Chen</h3>
+                        <p class="text-primary mb-3">CTO & Co-Founder</p>
+                        <p class="text-muted mb-3">Full-stack developer specializing in scalable web applications. Sarah architected our high-performance infrastructure and analytics systems.</p>
+                        <div class="social-icons">
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-2"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm team-card h-100">
+                    <div class="position-relative">
+                        <!-- Replace with actual image or custom SVG avatar -->
+                        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="card-img-top">
+                            <rect width="300" height="200" fill="#e5e7eb"/>
+                            <circle cx="150" cy="80" r="60" fill="#10B981"/>
+                            <circle cx="150" cy="65" r="25" fill="#ffffff"/>
+                            <path d="M150,90 C117,90 100,120 100,150 L200,150 C200,120 183,90 150,90Z" fill="#ffffff"/>
+                            <rect x="0" y="150" width="300" height="50" fill="#f8fafc"/>
+                        </svg>
+                        <div class="position-absolute top-0 end-0 p-3">
+                            <span class="badge bg-success">Growth</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-1">David Wilson</h3>
+                        <p class="text-primary mb-3">Head of Marketing</p>
+                        <p class="text-muted mb-3">Digital marketing strategist with experience at top SaaS companies. David leads our growth initiatives and user acquisition strategies.</p>
+                        <div class="social-icons">
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-2"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4" data-aos="fade-up">
+            <p class="lead mb-4">Interested in joining our team?</p>
+            <a href="{% url 'contact' %}" class="btn btn-primary">
+                <i class="bi bi-send-fill me-2"></i>Get in Touch
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="badge bg-primary-light text-primary px-3 py-2 rounded-pill mb-2">Testimonials</span>
+            <h2 class="display-5 fw-bold mb-3">What Our Users Say</h2>
+            <p class="lead mb-0 mx-auto" style="max-width: 700px;">Don't just take our word for it - here's what marketers, developers, and everyday users say about TinyURL.run.</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="mb-4">"As a digital marketer, I manage dozens of campaigns across multiple platforms. TinyURL.run's analytics have been a game-changer for tracking performance and optimizing our strategies."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-person-fill fs-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Jessica T.</h4>
+                                <p class="small text-muted mb-0">Marketing Director, SaaS Company</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="mb-4">"I've tried several URL shorteners for our e-commerce business, and TinyURL.run stands out for its reliability and custom domain support. Being able to use our brand in shortened links has significantly increased our click-through rates."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-person-fill fs-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Marcus R.</h4>
+                                <p class="small text-muted mb-0">E-commerce Entrepreneur</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </div>
+                        </div>
+                        <p class="mb-4">"The QR code generation feature saves me so much time! I can quickly create and download codes for all my marketing materials. Plus, being able to track scans gives me valuable insight into which physical promotions are performing best."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-person-fill fs-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-bold mb-0">Laura K.</h4>
+                                <p class="small text-muted mb-0">Event Coordinator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced CTA Section -->
+<section class="py-5 position-relative" style="background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);">
+    <!-- Decorative shapes -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-image: url('data:image/svg+xml,%3Csvg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.05\" fill-rule=\"evenodd\"%3E%3Cpath d=\"M0 40L40 0H20L0 20M40 40V20L20 40\"%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'); opacity: 0.3;"></div>
+    
+    <div class="container position-relative">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8 text-white" data-aos="zoom-in">
+                <h2 class="display-5 fw-bold mb-3">Ready to Start Shortening URLs?</h2>
+                <p class="lead mb-4">Join over 500,000 users who trust TinyURL.run for their link shortening needs. No registration required to get started!</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'index' %}" class="btn btn-light btn-lg px-4 py-2">
+                        <i class="bi bi-link-45deg me-2"></i>Create Your First Short URL
+                    </a>
+                    <a href="{% url 'faq' %}" class="btn btn-outline-light btn-lg px-4 py-2">
+                        <i class="bi bi-question-circle me-2"></i>Learn More
+                    </a>
+                </div>
+                
+                <div class="d-flex justify-content-center gap-3 mt-5">
+                    <div class="bg-white bg-opacity-10 rounded-pill px-3 py-2">
+                        <i class="bi bi-check-circle me-2"></i>Free to Use
+                    </div>
+                    <div class="bg-white bg-opacity-10 rounded-pill px-3 py-2">
+                        <i class="bi bi-check-circle me-2"></i>No Registration
+                    </div>
+                    <div class="bg-white bg-opacity-10 rounded-pill px-3 py-2">
+                        <i class="bi bi-check-circle me-2"></i>Instant Setup
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

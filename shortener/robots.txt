@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /static/admin/
+
+# Allow crawling of stats pages
+Allow: /stats/
+
+Sitemap: https://tinyurl.run/sitemap.xml
+
+# Be nice to crawlers
+Crawl-delay: 1

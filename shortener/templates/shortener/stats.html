@@ -1,0 +1,413 @@
+{% extends 'base.html' %}
+
+{% block title %}URL Statistics - TinyURL{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                        <h1 class="h4 mb-0"><i class="bi bi-graph-up me-2"></i>URL Statistics</h1>
+                        {% if url.is_expired %}
+                            <span class="badge bg-danger">Expired</span>
+                        {% elif url.expiry_date %}
+                            <span class="badge bg-warning">Expires: {{ url.expiry_date|date:"M d, Y" }}</span>
+                        {% else %}
+                            <span class="badge bg-success">Active</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h2 class="h5 mb-3">Short URL:</h2>
+                            <div class="input-group">
+                                <input type="text" id="shortUrl" class="form-control" value="{{ short_url }}" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard()">
+                                    <i class="bi bi-clipboard me-1"></i>Copy
+                                </button>
+                            </div>
+                            <div id="copyMessage" class="text-success mt-2" style="display: none;">
+                                <i class="bi bi-check-circle me-1"></i>Copied to clipboard!
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h2 class="h5 mb-3">Original URL:</h2>
+                            <p class="text-break bg-light p-3 rounded">{{ url.original_url }}</p>
+                        </div>
+                        
+                        <!-- QR Code Section -->
+                        <div class="row mb-4">
+                            <div class="col-md-4 text-center mb-3 mb-md-0 d-flex align-items-center justify-content-center">
+                                <div>
+                                    <h3 class="h5 mb-3">QR Code</h3>
+                                    <div class="qr-code-container bg-light p-3 rounded d-inline-block">
+                                        <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="img-fluid" style="max-width: 150px;">
+                                    </div>
+                                    <div class="mt-2">
+                                        <a href="data:image/png;base64,{{ qr_code }}" download="qr_code.png" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-download me-1"></i>Download
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h3 class="h5 mb-3">URL Information</h3>
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 150px;">Created On:</th>
+                                            <td>{{ url.created_at|date:"F j, Y, g:i a" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Short Code:</th>
+                                            <td>{{ url.short_code }}{% if url.custom_code %} <span class="badge bg-info">Custom</span>{% endif %}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Expiration:</th>
+                                            <td>{% if url.expiry_date %}{{ url.expiry_date|date:"F j, Y, g:i a" }}{% else %}Never{% endif %}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Password Protection:</th>
+                                            <td>{% if url.password %}Yes{% else %}No{% endif %}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Statistics Cards -->
+                        <div class="row mb-4">
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <div class="card bg-primary text-white h-100 stat-card">
+                                    <div class="card-body text-center py-4">
+                                        <i class="bi bi-eye h1 mb-2"></i>
+                                        <h2 class="display-5 fw-bold mb-1">{{ url.clicks }}</h2>
+                                        <p class="mb-0">Total Clicks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <div class="card bg-success text-white h-100 stat-card">
+                                    <div class="card-body text-center py-4">
+                                        <i class="bi bi-calendar-check h1 mb-2"></i>
+                                        <h2 class="display-5 fw-bold mb-1">{{ days|length }}</h2>
+                                        <p class="mb-0">Active Days</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <div class="card bg-info text-white h-100 stat-card">
+                                    <div class="card-body text-center py-4">
+                                        <i class="bi bi-globe h1 mb-2"></i>
+                                        <h2 class="display-5 fw-bold mb-1">{{ referrers|length }}</h2>
+                                        <p class="mb-0">Referrers</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white h-100 stat-card">
+                                    <div class="card-body text-center py-4">
+                                        <i class="bi bi-laptop h1 mb-2"></i>
+                                        <h2 class="display-5 fw-bold mb-1">{{ browsers|length }}</h2>
+                                        <p class="mb-0">Browsers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Charts -->
+                        <div class="row mb-4">
+                            <div class="col-lg-8 mb-4 mb-lg-0">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h3 class="h5 mb-0">Clicks Over Time</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="clicksChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h3 class="h5 mb-0">Top Referrers</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        {% if referrers %}
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Source</th>
+                                                        <th class="text-end">Clicks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for ref in referrers %}
+                                                    <tr>
+                                                        <td class="text-truncate" style="max-width: 200px;">
+                                                            {% if ref.referrer %}
+                                                                {{ ref.referrer }}
+                                                            {% else %}
+                                                                Direct
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-end">{{ ref.count }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% else %}
+                                        <div class="text-center py-4">
+                                            <i class="bi bi-exclamation-circle text-muted h1 mb-2"></i>
+                                            <p class="text-muted">No referrer data available</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Charts -->
+                        <div class="row">
+                            <div class="col-lg-6 mb-4 mb-lg-0">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h3 class="h5 mb-0">Browsers</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        {% if browsers %}
+                                        <div class="chart-container">
+                                            <canvas id="browsersChart"></canvas>
+                                        </div>
+                                        {% else %}
+                                        <div class="text-center py-4">
+                                            <i class="bi bi-exclamation-circle text-muted h1 mb-2"></i>
+                                            <p class="text-muted">No browser data available</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h3 class="h5 mb-0">Share Your URL</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Share on social media:</label>
+                                            <div class="d-flex">
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                                <a href="https://twitter.com/intent/tweet?url={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
+                                                    <i class="fab fa-linkedin-in"></i>
+                                                </a>
+                                                <a href="https://wa.me/?text={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
+                                                    <i class="fab fa-whatsapp"></i>
+                                                </a>
+                                                <a href="mailto:?subject=Check out this link&body={{ short_url|urlencode }}" class="btn btn-outline-primary mx-1">
+                                                    <i class="fas fa-envelope"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="form-label">Embed as QR Code:</label>
+                                            <textarea class="form-control mb-2" rows="2" readonly><img src="data:image/png;base64,{{ qr_code }}" alt="QR Code"></textarea>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="copyEmbed()">
+                                                <i class="bi bi-clipboard me-1"></i>Copy Embed Code
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-4 text-center">
+                            <a href="{% url 'index' %}" class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-1"></i>Shorten Another URL
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Copy to clipboard function
+    function copyToClipboard() {
+        const shortUrlInput = document.getElementById('shortUrl');
+        const copyMessage = document.getElementById('copyMessage');
+        
+        shortUrlInput.select();
+        shortUrlInput.setSelectionRange(0, 99999);
+        
+        navigator.clipboard.writeText(shortUrlInput.value).then(function() {
+            copyMessage.style.display = 'block';
+            
+            setTimeout(function() {
+                copyMessage.style.display = 'none';
+            }, 3000);
+        });
+    }
+    
+    // Copy embed code
+    function copyEmbed() {
+        const embedCode = document.querySelector('textarea').value;
+        
+        navigator.clipboard.writeText(embedCode).then(function() {
+            alert('Embed code copied to clipboard!');
+        });
+    }
+    
+    // Charts initialization
+    document.addEventListener('DOMContentLoaded', function() {
+        // Clicks Over Time Chart
+        const clicksChartEl = document.getElementById('clicksChart');
+        if (clicksChartEl) {
+            const clicksChart = new Chart(clicksChartEl, {
+                type: 'line',
+                data: {
+                    labels: {{ days|safe }},
+                    datasets: [{
+                        label: 'Clicks',
+                        data: {{ counts|safe }},
+                        backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                        borderColor: 'rgba(13, 110, 253, 1)',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: true,
+                        pointBackgroundColor: 'rgba(13, 110, 253, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Browsers Chart
+        const browsersChartEl = document.getElementById('browsersChart');
+        if (browsersChartEl && {{ browsers|length }} > 0) {
+            // Extract browser names and counts from the browsers data
+            const browserData = {
+                labels: [
+                    {% for browser in browsers %}
+                    "{{ browser.user_agent|truncatechars:20 }}",
+                    {% endfor %}
+                ],
+                counts: [
+                    {% for browser in browsers %}
+                    {{ browser.count }},
+                    {% endfor %}
+                ]
+            };
+            
+            // Generate random colors for the chart
+            const backgroundColors = [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)'
+            ];
+            
+            const browsersChart = new Chart(browsersChartEl, {
+                type: 'doughnut',
+                data: {
+                    labels: browserData.labels,
+                    datasets: [{
+                        data: browserData.counts,
+                        backgroundColor: backgroundColors,
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 15,
+                                padding: 10
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
