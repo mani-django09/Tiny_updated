@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Rate Limited - TinyURL.run{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-shield-exclamation text-warning" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="h4 fw-bold text-warning mb-3">Rate Limit Exceeded</h2>
+                    <p class="text-muted mb-4">
+                        You've exceeded the maximum number of URLs you can create. 
+                        Please wait before creating more links.
+                    </p>
+                    <div class="alert alert-info">
+                        <strong>Limits:</strong><br>
+                        • 50 URLs per hour<br>
+                        • 500 URLs per day
+                    </div>
+                    <a href="{% url 'index' %}" class="btn btn-primary">
+                        <i class="bi bi-arrow-left me-2"></i>Go Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

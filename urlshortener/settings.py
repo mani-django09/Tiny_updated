@@ -51,7 +51,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shortener.middleware.CustomDomainMiddleware', 
+   'shortener.security.middleware.SecurityMiddleware',
 ]
+
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "cdnjs.cloudflare.com", "fonts.googleapis.com")
+CSP_SCRIPT_SRC = ("'self'", "cdnjs.cloudflare.com", "www.google.com", "www.gstatic.com")
+CSP_FONT_SRC = ("'self'", "fonts.gstatic.com")
+CSP_IMG_SRC = ("'self'", "data:")
+
 
 ROOT_URLCONF = 'urlshortener.urls'
 
@@ -78,8 +88,12 @@ WSGI_APPLICATION = 'urlshortener.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tinyurl',
+        'USER': 'tinyurl_user',        
+        'PASSWORD': 'postgres',   
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -139,3 +153,47 @@ EMAIL_HOST_USER = 'manikant007y@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'erqn dmba exkl zwht'  # Your email password or app password
 DEFAULT_FROM_EMAIL = 'TinyURL.run <manikant007y@gmail.com>'
 CONTACT_EMAIL = 'manikant007y@gmail.com'  # Where contact form submissions go
+
+
+VIRUSTOTAL_API_KEY = '724cca4517d25aa58c44f45ab29a2e2f76f023850143f2b67ebc65af33ce9916'  
+GOOGLE_SAFEBROWSING_API_KEY = 'AIzaSyCkJUWUiWlWu2GQcN6LW-yRZrAnaM24qm8'  
+
+# Redis Cache for Rate Limiting
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+    }
+}
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'security_file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/security.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'security': {
+            'handlers': ['security_file', 'console'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}

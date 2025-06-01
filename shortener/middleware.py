@@ -45,3 +45,4 @@ class CustomDomainMiddleware:
         # Continue with the regular request processing
         response = self.get_response(request)
         return response
+    

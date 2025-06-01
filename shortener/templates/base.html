@@ -6,7 +6,7 @@
     <title>{% block title %}TinyURL.run - URL Shortener{% endblock %}</title>
     
     <!-- SEO Meta Tags -->
-     <meta name="description" content="Free URL shortener with analytics & QR codes. Create custom short links, track clicks & boost CTR by 34%. TinyURL.run - fast & secure.">
+    <meta name="description" content="Free URL shortener with analytics & QR codes. Create custom short links, track clicks. TinyURL.run - fast & secure.">
     <meta name="keywords" content="url shortener, link shortener, tinyurl, free url shortener, short links, custom URLs, tinyurl.run, link tracking, QR codes">
     
     <!-- Open Graph Meta Tags for Social Sharing -->
@@ -22,8 +22,18 @@
     <meta name="twitter:description" content="Shorten, customize, and track your links with TinyURL.run - the professional free URL shortener service.">
     <meta name="twitter:image" content="https://tinyurl.run/static/img/twitter-image.jpg">
     
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://tinyurl.run/">
+ 
+
+    <!-- Performance optimizations -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RMKSQZJ51D"></script>
 <script>
@@ -42,13 +52,18 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"></noscript>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="256x256" href="/static/images/apple-touch-icon.png">
+<link rel="shortcut icon" href="/static/images/favicon.png">
+
     <!-- AOS Animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     {% block extra_css %}{% endblock %}
@@ -57,7 +72,7 @@
 </head>
 <body>
     <!-- Navbar with fixed background -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="{% url 'index' %}">
                 <i class="bi bi-link-45deg me-1"></i>TinyURL<span class="text-primary">.run</span>
@@ -174,13 +189,7 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <!-- Custom Scripts -->
-    <script src="/static/js/script.js"></script>
+   
     <script>
         // Initialize AOS animations
         AOS.init({
@@ -234,6 +243,12 @@
             }
         });
     </script>
+
     {% block extra_js %}{% endblock %}
+    <!-- Move these to bottom with defer -->
+<script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script defer src="/static/js/script.js"></script>
 </body>
 </html>

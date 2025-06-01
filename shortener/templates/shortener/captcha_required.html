@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Security Verification - TinyURL.run{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-shield-check text-primary" style="font-size: 3rem;"></i>
+                        <h2 class="h4 fw-bold mt-3">Security Verification Required</h2>
+                        <p class="text-muted">Please complete the verification to continue</p>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- reCAPTCHA would go here -->
+                        <div class="mb-4">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                In a production environment, a reCAPTCHA widget would appear here.
+                            </div>
+                            <input type="hidden" name="captcha_response" value="demo_passed">
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>Verify & Continue
+                            </button>
+                            <a href="{% url 'index' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Link Blocked - TinyURL.run{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-shield-x text-danger" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="h4 fw-bold text-danger mb-3">Link Blocked</h2>
+                    <p class="text-muted mb-4">
+                        This shortened link has been blocked for security reasons.
+                    </p>
+                    <div class="alert alert-danger">
+                        <strong>Reason:</strong> {{ reason }}
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <a href="{% url 'index' %}" class="btn btn-primary">
+                            <i class="bi bi-home me-2"></i>Go to Homepage
+                        </a>
+                        <a href="{% url 'report_link' url.short_code %}" class="btn btn-outline-warning">
+                            <i class="bi bi-flag me-2"></i>Report This Link
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
