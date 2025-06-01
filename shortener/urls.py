@@ -27,6 +27,3 @@ urlpatterns = [
     path('<str:short_code>/', views.redirect_to_original, name='redirect'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

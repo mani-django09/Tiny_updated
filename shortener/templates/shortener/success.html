@@ -29,12 +29,14 @@
                             </h2>
                             <div class="input-group">
                                 <input type="text" id="shortUrl" class="form-control form-control-lg" value="{{ short_url }}" readonly>
-                                <button class="btn btn-primary" type="button" onclick="copyToClipboard()">
+                                <button class="btn btn-primary" type="button" id="copyButton">
                                     <i class="bi bi-clipboard me-1"></i>Copy
                                 </button>
                             </div>
-                            <div id="copyMessage" class="text-success mt-2" style="display: none;">
-                                <i class="bi bi-check-circle me-1"></i>Copied to clipboard!
+                            <div id="copyMessage" class="mt-2" style="display: none;">
+                                <div class="alert alert-success mb-0">
+                                    <i class="bi bi-check-circle me-1"></i>Copied to clipboard!
+                                </div>
                             </div>
                         </div>
                         
@@ -56,48 +58,22 @@
                             </div>
                             {% endif %}
                             
-                            {% if url.expiry_date %}
-                            <div class="col-md-{% if is_custom %}6{% else %}6{% endif %} mb-3 mb-md-0">
-                                <div class="card bg-light h-100">
-                                    <div class="card-body text-center p-3">
-                                        <i class="bi bi-hourglass-split text-primary mb-2 h3"></i>
-                                        <h3 class="h6 mb-1">Expires On</h3>
-                                        <p class="mb-0">{{ url.expiry_date|date:"F j, Y g:i A" }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
-                            
-                            {% if url.password %}
-                            <div class="col-md-{% if is_custom %}6{% else %}6{% endif %} mb-3 mb-md-0">
-                                <div class="card bg-light h-100">
-                                    <div class="card-body text-center p-3">
-                                        <i class="bi bi-shield-lock text-primary mb-2 h3"></i>
-                                        <h3 class="h6 mb-1">Password Protected</h3>
-                                        <p class="mb-0">Your link is password protected</p>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
-                            
-                            {% if not url.expiry_date and not url.password and not is_custom %}
-                            <div class="col-md-6 mb-3 mb-md-0">
-                                <div class="card bg-light h-100">
-                                    <div class="card-body text-center p-3">
-                                        <i class="bi bi-infinity text-primary mb-2 h3"></i>
-                                        <h3 class="h6 mb-1">No Expiration</h3>
-                                        <p class="mb-0">This link will never expire</p>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
-                            
-                            <div class="col-md-{% if is_custom or url.expiry_date or url.password %}6{% else %}6{% endif %}">
+                            <div class="col-md-{% if is_custom %}6{% else %}6{% endif %}">
                                 <div class="card bg-light h-100">
                                     <div class="card-body text-center p-3">
                                         <i class="bi bi-calendar text-primary mb-2 h3"></i>
                                         <h3 class="h6 mb-1">Created On</h3>
                                         <p class="mb-0">{{ url.created_at|date:"F j, Y" }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card bg-light h-100">
+                                    <div class="card-body text-center p-3">
+                                        <i class="bi bi-infinity text-primary mb-2 h3"></i>
+                                        <h3 class="h6 mb-1">No Expiration</h3>
+                                        <p class="mb-0">This link will never expire</p>
                                     </div>
                                 </div>
                             </div>
@@ -119,26 +95,26 @@
                         <!-- Share Section -->
                         <div class="mb-4">
                             <h2 class="h5 mb-3">Share your link:</h2>
-                            <div class="d-flex justify-content-center">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
-                                    <i class="fab fa-facebook-f"></i>
+                            <div class="d-flex justify-content-center flex-wrap gap-2">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary">
+                                    <i class="fab fa-facebook-f me-1"></i>Facebook
                                 </a>
-                                <a href="https://twitter.com/intent/tweet?url={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
-                                    <i class="fab fa-twitter"></i>
+                                <a href="https://twitter.com/intent/tweet?url={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary">
+                                    <i class="fab fa-twitter me-1"></i>Twitter
                                 </a>
-                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
-                                    <i class="fab fa-linkedin-in"></i>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary">
+                                    <i class="fab fa-linkedin-in me-1"></i>LinkedIn
                                 </a>
-                                <a href="https://wa.me/?text={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary mx-1">
-                                    <i class="fab fa-whatsapp"></i>
+                                <a href="https://wa.me/?text={{ short_url|urlencode }}" target="_blank" class="btn btn-outline-primary">
+                                    <i class="fab fa-whatsapp me-1"></i>WhatsApp
                                 </a>
-                                <a href="mailto:?subject=Check out this link&body={{ short_url|urlencode }}" class="btn btn-outline-primary mx-1">
-                                    <i class="fas fa-envelope"></i>
+                                <a href="mailto:?subject=Check out this link&body={{ short_url|urlencode }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-envelope me-1"></i>Email
                                 </a>
                             </div>
                         </div>
                         
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between flex-wrap gap-2">
                             {% if is_custom %}
                             <a href="{% url 'custom_url' %}" class="btn btn-primary">
                                 <i class="bi bi-plus-circle me-1"></i>Create Another Custom URL
@@ -176,23 +152,210 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    function copyToClipboard() {
-        const shortUrlInput = document.getElementById('shortUrl');
-        const copyMessage = document.getElementById('copyMessage');
-        
-        shortUrlInput.select();
-        shortUrlInput.setSelectionRange(0, 99999);
-        
-        navigator.clipboard.writeText(shortUrlInput.value).then(function() {
-            copyMessage.style.display = 'block';
-            
-            setTimeout(function() {
-                copyMessage.style.display = 'none';
-            }, 3000);
-        }).catch(function(err) {
-            alert('Failed to copy: ' + err);
-        });
+<style>
+    #copyMessage {
+        transition: all 0.3s ease;
     }
+    
+    .btn {
+        transition: all 0.2s ease;
+    }
+    
+    .copy-success {
+        animation: fadeInOut 3s ease-in-out;
+    }
+    
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateY(-10px); }
+        20% { opacity: 1; transform: translateY(0); }
+        80% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-10px); }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const copyButton = document.getElementById('copyButton');
+    const shortUrlInput = document.getElementById('shortUrl');
+    const copyMessage = document.getElementById('copyMessage');
+    
+    // Check if all elements exist
+    if (!copyButton || !shortUrlInput || !copyMessage) {
+        console.error('Copy button elements not found');
+        return;
+    }
+    
+    // Add click event listener
+    copyButton.addEventListener('click', function() {
+        copyToClipboard();
+    });
+    
+    // Auto-select URL on input click
+    shortUrlInput.addEventListener('click', function() {
+        this.select();
+        this.setSelectionRange(0, 99999);
+    });
+    
+    shortUrlInput.addEventListener('focus', function() {
+        this.select();
+        this.setSelectionRange(0, 99999);
+    });
+    
+    // Keyboard shortcut support
+    document.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
+            if (document.activeElement === shortUrlInput) {
+                setTimeout(() => {
+                    showCopySuccess('Copied with keyboard shortcut!');
+                }, 100);
+            }
+        }
+    });
+    
+    function copyToClipboard() {
+        console.log('Copy button clicked');
+        
+        const urlToCopy = shortUrlInput.value;
+        const originalButtonHTML = copyButton.innerHTML;
+        
+        // Show loading state
+        copyButton.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Copying...';
+        copyButton.disabled = true;
+        
+        // Method 1: Try modern Clipboard API (works on HTTPS)
+        if (navigator.clipboard && window.isSecureContext) {
+            console.log('Using Clipboard API');
+            navigator.clipboard.writeText(urlToCopy)
+                .then(() => {
+                    console.log('Clipboard API success');
+                    showCopySuccess('Copied to clipboard!');
+                    resetButton(originalButtonHTML);
+                })
+                .catch((err) => {
+                    console.log('Clipboard API failed:', err);
+                    tryFallbackMethods(urlToCopy, originalButtonHTML);
+                });
+        } else {
+            console.log('Clipboard API not available, using fallback');
+            tryFallbackMethods(urlToCopy, originalButtonHTML);
+        }
+    }
+    
+    function tryFallbackMethods(urlToCopy, originalButtonHTML) {
+        // Method 2: Try execCommand with input selection
+        try {
+            console.log('Trying execCommand with input');
+            shortUrlInput.focus();
+            shortUrlInput.select();
+            shortUrlInput.setSelectionRange(0, 99999);
+            
+            const successful = document.execCommand('copy');
+            console.log('execCommand result:', successful);
+            
+            if (successful) {
+                showCopySuccess('Copied to clipboard!');
+                resetButton(originalButtonHTML);
+                return;
+            }
+        } catch (err) {
+            console.log('execCommand with input failed:', err);
+        }
+        
+        // Method 3: Create temporary textarea
+        try {
+            console.log('Trying temporary textarea method');
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = urlToCopy;
+            tempTextarea.style.position = 'fixed';
+            tempTextarea.style.left = '-9999px';
+            tempTextarea.style.top = '-9999px';
+            tempTextarea.style.opacity = '0';
+            tempTextarea.setAttribute('readonly', '');
+            
+            document.body.appendChild(tempTextarea);
+            
+            tempTextarea.focus();
+            tempTextarea.select();
+            tempTextarea.setSelectionRange(0, 99999);
+            
+            const successful = document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            console.log('Textarea method result:', successful);
+            
+            if (successful) {
+                showCopySuccess('Copied to clipboard!');
+                resetButton(originalButtonHTML);
+                return;
+            }
+        } catch (err) {
+            console.log('Textarea method failed:', err);
+        }
+        
+        // Method 4: Show manual copy instructions
+        console.log('All copy methods failed');
+        showCopyError(urlToCopy, originalButtonHTML);
+    }
+    
+    function showCopySuccess(message) {
+        console.log('Showing success message:', message);
+        
+        copyMessage.innerHTML = `
+            <div class="alert alert-success mb-0 copy-success">
+                <i class="bi bi-check-circle me-1"></i>${message}
+            </div>
+        `;
+        copyMessage.style.display = 'block';
+        
+        // Update button
+        copyButton.innerHTML = '<i class="bi bi-check me-1"></i>Copied!';
+        copyButton.classList.remove('btn-primary');
+        copyButton.classList.add('btn-success');
+        
+        // Hide message after 3 seconds
+        setTimeout(() => {
+            copyMessage.style.display = 'none';
+        }, 3000);
+    }
+    
+    function showCopyError(urlToCopy, originalButtonHTML) {
+        console.log('Showing error message');
+        
+        copyMessage.innerHTML = `
+            <div class="alert alert-warning mb-0">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Copy failed. Please manually select and copy the URL above, or try right-click → Copy.
+            </div>
+        `;
+        copyMessage.style.display = 'block';
+        
+        // Update button
+        copyButton.innerHTML = '<i class="bi bi-x me-1"></i>Try Again';
+        copyButton.classList.remove('btn-primary');
+        copyButton.classList.add('btn-warning');
+        
+        // Select the input for manual copying
+        setTimeout(() => {
+            shortUrlInput.focus();
+            shortUrlInput.select();
+            shortUrlInput.setSelectionRange(0, 99999);
+        }, 100);
+        
+        // Reset after 5 seconds
+        setTimeout(() => {
+            resetButton(originalButtonHTML);
+            copyMessage.style.display = 'none';
+        }, 5000);
+    }
+    
+    function resetButton(originalButtonHTML) {
+        setTimeout(() => {
+            copyButton.innerHTML = originalButtonHTML;
+            copyButton.classList.remove('btn-success', 'btn-warning', 'btn-danger');
+            copyButton.classList.add('btn-primary');
+            copyButton.disabled = false;
+        }, 2000);
+    }
+});
 </script>
 {% endblock %}

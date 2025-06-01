@@ -41,7 +41,18 @@ INSTALLED_APPS = [
     'shortener',
 ]
 
-SITE_URL = 'https://tinyurl.run' 
+if DEBUG:
+    # Development settings
+    SITE_DOMAIN = 'localhost:8000'
+    SITE_SCHEME = 'http'
+else:
+    # Production settings
+    SITE_DOMAIN = 'tinyurl.run'
+    SITE_SCHEME = 'https'
+
+# Build the complete site URL
+SITE_URL = f"{SITE_SCHEME}://{SITE_DOMAIN}/"
+
 
 MIDDLEWARE = [
     'shortener.middleware.CustomDomainMiddleware',  
@@ -51,7 +62,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'shortener.middleware.CustomDomainMiddleware', 
    'shortener.security.middleware.SecurityMiddleware',
 ]
 
@@ -91,7 +101,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tinyurl',
         'USER': 'tinyurl_user',        
-        'PASSWORD': 'postgres',   
+        'PASSWORD':'postgres',   
         'HOST': 'localhost',
         'PORT': '5432',
     }

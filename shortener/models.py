@@ -14,13 +14,10 @@ class URL(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     clicks = models.IntegerField(default=0)
     domain = models.CharField(max_length=255, blank=True, null=True)
-
-    # Existing fields
     custom_code = models.BooleanField(default=False)
-    expiry_date = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
     
-    # NEW SECURITY FIELDS
+    # Security fields
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     is_safe = models.BooleanField(default=True)
     last_security_scan = models.DateTimeField(null=True, blank=True)
@@ -41,14 +38,6 @@ class URL(models.Model):
             if not cls.objects.filter(short_code=short_code).exists():
                 return short_code
     
-    def is_expired(self):
-        """Check if URL is expired"""
-        if self.expiry_date and timezone.now() > self.expiry_date:
-            self.is_active = False
-            self.save()
-            return True
-        return False
-    
     def increment_clicks(self):
         """Increment click count"""
         self.clicks += 1
@@ -56,6 +45,7 @@ class URL(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+
 class ClickAnalytics(models.Model):
     """Model to track click analytics"""
     url = models.ForeignKey(URL, on_delete=models.CASCADE, related_name='analytics')
@@ -67,27 +57,6 @@ class ClickAnalytics(models.Model):
 
     def __str__(self):
         return f"Click on {self.url.short_code} at {self.clicked_at}"
-
-from django.db import migrations, models
-
-class Migration(migrations.Migration):
-
-    dependencies = [
-        ('shortener', '0002_previous_migration'),  # Replace with your previous migration
-    ]
-
-    operations = [
-        migrations.AddField(
-            model_name='url',
-            name='domain',
-            field=models.CharField(blank=True, max_length=255, null=True),
-        ),
-        migrations.AddField(
-            model_name='clickanalytics',
-            name='domain_used',
-            field=models.CharField(blank=True, max_length=255, null=True),
-        ),
-    ]
 
 class SecuritySettings(models.Model):
     """Global security settings"""

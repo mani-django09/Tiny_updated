@@ -25,9 +25,10 @@ class URLAdmin(admin.ModelAdmin):
         'short_code', 'original_url_display', 'clicks', 'is_safe', 
         'is_active', 'created_at', 'user', 'security_score', 'view_stats'
     ]
+    # FIXED: Removed 'expiry_date' from list_filter
     list_filter = [
         'is_safe', 'is_active', 'custom_code', 'temporarily_blocked',
-        'created_at', 'expiry_date'
+        'created_at'
     ]
     search_fields = ['short_code', 'original_url', 'user__username']
     readonly_fields = [
@@ -36,12 +37,13 @@ class URLAdmin(admin.ModelAdmin):
     ordering = ['-created_at']
     list_per_page = 50
     
+    # FIXED: Removed 'expiry_date' from fieldsets
     fieldsets = (
         ('Basic Information', {
             'fields': ('short_code', 'original_url', 'user', 'created_at')
         }),
         ('Settings', {
-            'fields': ('is_active', 'custom_code', 'expiry_date', 'domain')
+            'fields': ('is_active', 'custom_code', 'domain')
         }),
         ('Analytics', {
             'fields': ('clicks',)

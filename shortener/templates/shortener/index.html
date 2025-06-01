@@ -75,29 +75,32 @@
                         </div>
                         
                         <!-- FIXED FORM: Improved for accessibility and interaction -->
-                        <form method="post" id="shortener-form">
-                            {% csrf_token %}
-                            
-                            <!-- Original URL Input - FIXED -->
-                            <div class="mb-3">
-                                <label for="id_original_url" class="form-label fw-medium small mb-1">Enter your long URL</label>
-                                <input type="url" class="form-control form-control-lg" id="id_original_url" name="original_url" placeholder="https://example.com/your-long-url" required>
-                            </div>
-                            
-                            <!-- Customize Link - FIXED -->
-                            <div class="mb-3">
-                                <label for="id_custom_alias" class="form-label fw-medium small mb-1">Customize your link (optional)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light fw-medium">tinyurl.run/</span>
-                                    <input type="text" class="form-control" id="id_custom_alias" name="custom_alias" placeholder="my-brand-name">
-                                </div>
-                                <div class="form-text small">Use letters, numbers, and dashes</div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
-                                <i class="bi bi-scissors me-2"></i>Shorten URL Now
-                            </button>
-                        </form>
+                        <!-- FIXED FORM: Corrected field names to match Django view -->
+<form method="post" id="shortener-form">
+    {% csrf_token %}
+    
+    <!-- Original URL Input - FIXED -->
+    <div class="mb-3">
+        <label for="id_original_url" class="form-label fw-medium small mb-1">Enter your long URL</label>
+        <input type="url" class="form-control form-control-lg" id="id_original_url" name="original_url" placeholder="https://example.com/your-long-url" required>
+    </div>
+    
+    <!-- Customize Link - FIXED: Changed from custom_alias to custom_short_code -->
+    <div class="mb-3">
+        <label for="id_custom_short_code" class="form-label fw-medium small mb-1">Customize your link (optional)</label>
+        <div class="input-group">
+            <span class="input-group-text bg-light fw-medium">tinyurl.run/</span>
+            <input type="text" class="form-control" id="id_custom_short_code" name="custom_short_code" placeholder="my-brand-name">
+        </div>
+        <div class="form-text small">Use letters, numbers, and dashes</div>
+    </div>
+    
+    
+    
+    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+        <i class="bi bi-scissors me-2"></i>Shorten URL Now
+    </button>
+</form>
                         
                         <div class="text-center mt-3">
                             <p class="mb-0 small text-muted">By using our service, you agree to our <a href="{% url 'terms' %}" class="text-decoration-none">Terms of Service</a></p>
