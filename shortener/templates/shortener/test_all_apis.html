@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test All Security APIs - URL Shortener Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .api-status-card {
+            border-left: 4px solid #6c757d;
+            transition: all 0.3s ease;
+        }
+        .api-status-card.configured {
+            border-left-color: #198754;
+        }
+        .api-status-card.not-configured {
+            border-left-color: #dc3545;
+        }
+        .result-card {
+            margin-top: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+        }
+        .result-safe { border-left: 4px solid #198754; }
+        .result-malicious { border-left: 4px solid #dc3545; }
+        .result-suspicious { border-left: 4px solid #ffc107; }
+        .result-error { border-left: 4px solid #6c757d; }
+        .recommendation {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0.375rem;
+        }
+        .recommendation.success { background-color: #d1edff; border-left: 4px solid #198754; }
+        .recommendation.warning { background-color: #fff3cd; border-left: 4px solid #ffc107; }
+        .recommendation.error { background-color: #f8d7da; border-left: 4px solid #dc3545; }
+        .recommendation.info { background-color: #d1ecf1; border-left: 4px solid #0dcaf0; }
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-link"></i> URL Shortener
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'security_dashboard' %}">
+                    <i class="fas fa-shield-alt"></i> Security Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1><i class="fas fa-shield-alt text-primary"></i> Test Security APIs</h1>
+                    <a href="{% url 'security_dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- API Status Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card api-status-card {% if google_configured %}configured{% else %}not-configured{% endif %}">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fab fa-google"></i> Google Safe Browsing
+                                </h5>
+                                <p class="card-text">
+                                    {% if google_configured %}
+                                        <span class="badge bg-success">Configured</span>
+                                        <small class="text-muted d-block">API key is present</small>
+                                    {% else %}
+                                        <span class="badge bg-danger">Not Configured</span>
+                                        <small class="text-muted d-block">Missing API key</small>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card api-status-card {% if virustotal_configured %}configured{% else %}not-configured{% endif %}">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-virus"></i> VirusTotal
+                                </h5>
+                                <p class="card-text">
+                                    {% if virustotal_configured %}
+                                        <span class="badge bg-success">Configured</span>
+                                        <small class="text-muted d-block">API key is present</small>
+                                    {% else %}
+                                        <span class="badge bg-danger">Not Configured</span>
+                                        <small class="text-muted d-block">Missing API key</small>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card api-status-card configured">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-cog"></i> Local Scanner
+                                </h5>
+                                <p class="card-text">
+                                    <span class="badge bg-info">Optional</span>
+                                    <small class="text-muted d-block">Internal security checks</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-flask"></i> Test Security APIs
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="testForm">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="testUrl" class="form-label">Test URL</label>
+                                <input type="url" class="form-control" id="testUrl" name="test_url" 
+                                       value="http://malware.testing.google.test/testing/malware/" required>
+                                <div class="form-text">Enter a URL to test security scanning capabilities</div>
+                            </div>
+                            
+                            <!-- Predefined Test URLs -->
+                            <div class="mb-3">
+                                <label class="form-label">Quick Test URLs:</label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for test_url in test_urls %}
+                                    <button type="button" class="btn btn-sm btn-outline-secondary quick-url" 
+                                            data-url="{{ test_url }}">
+                                        {{ test_url|truncatechars:30 }}
+                                    </button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" id="testButton">
+                                <span id="testSpinner" class="spinner-border spinner-border-sm d-none me-2"></span>
+                                <i class="fas fa-play" id="testIcon"></i> Run Test
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" class="d-none">
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-chart-line"></i> Test Results
+                            </h5>
+                        </div>
+                        <div class="card-body" id="resultsContent">
+                            <!-- Results will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const testForm = document.getElementById('testForm');
+            const testButton = document.getElementById('testButton');
+            const testSpinner = document.getElementById('testSpinner');
+            const testIcon = document.getElementById('testIcon');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContent = document.getElementById('resultsContent');
+            const testUrlInput = document.getElementById('testUrl');
+
+            // Quick URL buttons
+            document.querySelectorAll('.quick-url').forEach(button => {
+                button.addEventListener('click', function() {
+                    testUrlInput.value = this.dataset.url;
+                });
+            });
+
+            // Form submission
+            testForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                testButton.disabled = true;
+                testSpinner.classList.remove('d-none');
+                testIcon.classList.add('d-none');
+                
+                const formData = new FormData(testForm);
+                
+                fetch('{% url "test_all_apis" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayResults(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    displayError('An error occurred while testing the APIs');
+                })
+                .finally(() => {
+                    // Reset loading state
+                    testButton.disabled = false;
+                    testSpinner.classList.add('d-none');
+                    testIcon.classList.remove('d-none');
+                });
+            });
+
+            function displayResults(data) {
+                resultsSection.classList.remove('d-none');
+                
+                if (!data.success) {
+                    displayError(data.error || 'Unknown error occurred');
+                    return;
+                }
+
+                let html = `
+                    <div class="alert alert-info">
+                        <strong>Test URL:</strong> <code>${data.test_url}</code>
+                    </div>
+                `;
+
+                // Display results for each service
+                const services = [
+                    { key: 'google_safebrowsing', name: 'Google Safe Browsing', icon: 'fab fa-google' },
+                    { key: 'virustotal', name: 'VirusTotal', icon: 'fas fa-virus' },
+                    { key: 'local_scan', name: 'Local Scanner', icon: 'fas fa-cog' }
+                ];
+
+                services.forEach(service => {
+                    const result = data.results[service.key];
+                    if (result) {
+                        html += createResultCard(service, result);
+                    }
+                });
+
+                // Display recommendations
+                if (data.recommendations && data.recommendations.length > 0) {
+                    html += '<h6 class="mt-4 mb-3"><i class="fas fa-lightbulb"></i> Recommendations</h6>';
+                    data.recommendations.forEach(rec => {
+                        html += `
+                            <div class="recommendation ${rec.type}">
+                                <strong>${rec.service}:</strong> ${rec.message}
+                            </div>
+                        `;
+                    });
+                }
+
+                resultsContent.innerHTML = html;
+            }
+
+            function createResultCard(service, result) {
+                const statusClass = getStatusClass(result.status);
+                const statusIcon = getStatusIcon(result.status);
+                
+                let detailsHtml = '';
+                
+                // Format details based on service
+                if (service.key === 'google_safebrowsing' && result.threats) {
+                    detailsHtml = `
+                        <div class="mt-2">
+                            <strong>Threats detected:</strong>
+                            <ul class="mb-0">
+                                ${result.threats.map(threat => `<li>${threat.threatType}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else if (service.key === 'virustotal' && result.positives !== undefined) {
+                    detailsHtml = `
+                        <div class="mt-2">
+                            <strong>Detection rate:</strong> ${result.positives}/${result.total} engines
+                        </div>
+                    `;
+                } else if (result.message) {
+                    detailsHtml = `
+                        <div class="mt-2">
+                            <strong>Message:</strong> ${result.message}
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="result-card ${statusClass}">
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <i class="${service.icon}"></i> ${service.name}
+                                <span class="badge bg-secondary ms-2">${statusIcon} ${result.status.toUpperCase()}</span>
+                            </h6>
+                            ${detailsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            function getStatusClass(status) {
+                switch(status) {
+                    case 'safe': return 'result-safe';
+                    case 'malicious': return 'result-malicious';
+                    case 'suspicious': return 'result-suspicious';
+                    default: return 'result-error';
+                }
+            }
+
+            function getStatusIcon(status) {
+                switch(status) {
+                    case 'safe': return '✅';
+                    case 'malicious': return '🚫';
+                    case 'suspicious': return '⚠️';
+                    default: return '❌';
+                }
+            }
+
+            function displayError(message) {
+                resultsSection.classList.remove('d-none');
+                resultsContent.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Error:</strong> ${message}
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

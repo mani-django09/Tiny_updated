@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Analytics - URL Shortener</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-link"></i> URL Shortener
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'security_dashboard' %}">
+                    <i class="fas fa-shield-alt"></i> Security Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="fas fa-chart-bar text-primary"></i> Security Analytics</h1>
+            <div class="text-muted">
+                <i class="fas fa-calendar"></i> {{ date_range.start }} to {{ date_range.end }}
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-search fa-2x mb-2"></i>
+                        <h4>{{ daily_scans|length }}</h4>
+                        <p class="mb-0">Daily Scans</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-virus fa-2x mb-2"></i>
+                        <h4>{{ threat_distribution|length }}</h4>
+                        <p class="mb-0">Threat Types</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                        <h4>{{ vt_stats.malicious|default:0 }}</h4>
+                        <p class="mb-0">VirusTotal Detections</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-ban fa-2x mb-2"></i>
+                        <h4>{{ top_blocked_domains|length }}</h4>
+                        <p class="mb-0">Blocked Domains</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-line"></i> Daily Scan Activity</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="dailyScansChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Threat Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="threatChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VirusTotal Stats -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-virus"></i> VirusTotal Statistics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <h3 class="text-primary">{{ vt_stats.total_scans|default:0 }}</h3>
+                                <p class="text-muted">Total Scans</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h3 class="text-danger">{{ vt_stats.malicious|default:0 }}</h3>
+                                <p class="text-muted">Malicious</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h3 class="text-warning">{{ vt_stats.suspicious|default:0 }}</h3>
+                                <p class="text-muted">Suspicious</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h3 class="text-success">{{ vt_stats.safe|default:0 }}</h3>
+                                <p class="text-muted">Safe</p>
+                            </div>
+                        </div>
+                        {% if vt_stats.total_scans > 0 %}
+                        <div class="progress mt-3" style="height: 20px;">
+                            <div class="progress-bar bg-success" style="width: {{ vt_stats.safe|mul:100|div:vt_stats.total_scans }}%">
+                                Safe
+                            </div>
+                            <div class="progress-bar bg-warning" style="width: {{ vt_stats.suspicious|mul:100|div:vt_stats.total_scans }}%">
+                                Suspicious
+                            </div>
+                            <div class="progress-bar bg-danger" style="width: {{ vt_stats.malicious|mul:100|div:vt_stats.total_scans }}%">
+                                Malicious
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Blocked Domains -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-list"></i> Top Blocked Domains</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if top_blocked_domains %}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Domain</th>
+                                            <th>Blocked Count</th>
+                                            <th>Percentage</th>
+                                            <th>Risk Level</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for domain, count in top_blocked_domains %}
+                                        <tr>
+                                            <td><code>{{ domain }}</code></td>
+                                            <td>{{ count }}</td>
+                                            <td>
+                                                <div class="progress" style="height: 15px;">
+                                                    <div class="progress-bar bg-danger" style="width: {{ count|mul:100|div:top_blocked_domains.0.1 }}%"></div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {% if count > 10 %}
+                                                    <span class="badge bg-danger">High</span>
+                                                {% elif count > 5 %}
+                                                    <span class="badge bg-warning">Medium</span>
+                                                {% else %}
+                                                    <span class="badge bg-info">Low</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center">No blocked domains in the selected time period</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Daily Scans Chart
+        const dailyScansData = {{ daily_scans|safe }};
+        const dailyLabels = [...new Set(dailyScansData.map(item => item.day))];
+        const scanCounts = dailyLabels.map(day => 
+            dailyScansData.filter(item => item.day === day).reduce((sum, item) => sum + item.count, 0)
+        );
+
+        new Chart(document.getElementById('dailyScansChart'), {
+            type: 'line',
+            data: {
+                labels: dailyLabels,
+                datasets: [{
+                    label: 'Daily Scans',
+                    data: scanCounts,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Threat Distribution Chart
+        const threatData = {{ threat_distribution|safe }};
+        const threatLabels = Object.keys(threatData);
+        const threatCounts = Object.values(threatData);
+
+        if (threatLabels.length > 0) {
+            new Chart(document.getElementById('threatChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: threatLabels,
+                    datasets: [{
+                        data: threatCounts,
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0',
+                            '#9966FF',
+                            '#FF9F40'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        } else {
+            document.getElementById('threatChart').innerHTML = '<p class="text-muted text-center mt-5">No threat data available</p>';
+        }
+    </script>
+</body>
+</html>

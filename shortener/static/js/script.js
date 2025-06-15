@@ -819,3 +819,373 @@ function setupResponsiveNavbar() {
     });
   }
 }
+
+/**
+ * Enhanced form validation with improved custom short code validation
+ */
+function setupFormValidation() {
+    const urlForm = document.getElementById('shortener-form');
+    
+    if (!urlForm) return;
+    
+    // Get form elements
+    const urlInput = document.getElementById('id_original_url');
+    const customShortCodeInput = document.getElementById('id_custom_short_code');
+    
+    // Form submission validation
+    urlForm.addEventListener('submit', function(event) {
+        let isValid = true;
+        
+        // Validate URL
+        if (urlInput && urlInput.value) {
+            if (!isValidURL(urlInput.value)) {
+                event.preventDefault();
+                showError(urlInput, 'Please enter a valid URL, including http:// or https://');
+                isValid = false;
+            } else {
+                clearError(urlInput);
+            }
+        }
+        
+        // Validate custom short code
+        if (customShortCodeInput && customShortCodeInput.value.trim()) {
+            const validationResult = validateCustomShortCode(customShortCodeInput.value.trim());
+            if (!validationResult.isValid) {
+                event.preventDefault();
+                showError(customShortCodeInput, validationResult.message);
+                isValid = false;
+            } else {
+                clearError(customShortCodeInput);
+            }
+        }
+        
+        // Add form-level success feedback for better UX
+        if (isValid) {
+            addSubmitAnimation(urlForm);
+        }
+    });
+    
+    // Real-time validation for URL input
+    if (urlInput) {
+        let urlValidationTimeout;
+        urlInput.addEventListener('input', function() {
+            clearTimeout(urlValidationTimeout);
+            urlValidationTimeout = setTimeout(() => {
+                const value = this.value.trim();
+                if (value) {
+                    if (!isValidURL(value)) {
+                        showError(this, 'Please enter a valid URL, including http:// or https://');
+                    } else {
+                        clearError(this);
+                        showSuccess(this);
+                    }
+                } else {
+                    clearError(this);
+                }
+            }, 300);
+        });
+    }
+    
+    // Enhanced real-time validation for custom short code
+    if (customShortCodeInput) {
+        let aliasTimeout;
+        let duplicateCheckTimeout;
+        
+        customShortCodeInput.addEventListener('input', function() {
+            clearTimeout(aliasTimeout);
+            clearTimeout(duplicateCheckTimeout);
+            
+            const value = this.value.trim();
+            
+            // Clear any existing error states first
+            clearError(this);
+            
+            if (!value) {
+                // Empty input is okay (optional field)
+                return;
+            }
+            
+            // Immediate validation (no delay for instant feedback)
+            const validationResult = validateCustomShortCode(value);
+            if (!validationResult.isValid) {
+                showError(this, validationResult.message);
+                return;
+            }
+            
+            // Show success for valid format
+            showSuccess(this);
+            
+            // Check for duplicates after a delay (to avoid too many requests)
+            duplicateCheckTimeout = setTimeout(() => {
+                checkShortCodeAvailability(value, this);
+            }, 500);
+        });
+        
+        // Also validate on blur for better UX
+        customShortCodeInput.addEventListener('blur', function() {
+            const value = this.value.trim();
+            if (value) {
+                const validationResult = validateCustomShortCode(value);
+                if (!validationResult.isValid) {
+                    showError(this, validationResult.message);
+                } else {
+                    checkShortCodeAvailability(value, this);
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Enhanced custom short code validation function
+ */
+function validateCustomShortCode(code) {
+    // Check length constraints
+    if (code.length < 3) {
+        return {
+            isValid: false,
+            message: 'Custom short code must be at least 3 characters long.'
+        };
+    }
+    
+    if (code.length > 10) {
+        return {
+            isValid: false,
+            message: 'Custom short code cannot be more than 10 characters long.'
+        };
+    }
+    
+    // Check for valid characters
+    const validPattern = /^[a-zA-Z0-9_-]+$/;
+    if (!validPattern.test(code)) {
+        return {
+            isValid: false,
+            message: 'Custom short code can only contain letters, numbers, hyphens, and underscores.'
+        };
+    }
+    
+    // Check against reserved words
+    const reservedWords = [
+        'admin', 'api', 'www', 'mail', 'ftp', 'localhost', 'stats', 'analytics',
+        'dashboard', 'login', 'logout', 'register', 'signup', 'signin', 'user',
+        'users', 'profile', 'settings', 'config', 'help', 'support', 'contact',
+        'about', 'terms', 'privacy', 'policy', 'legal', 'dmca', 'abuse',
+        'security', 'qr', 'qrcode', 'short', 'url', 'link', 'redirect',
+        'goto', 'go', 'click', 'visit', 'view', 'show', 'display', 'index',
+        'home', 'test', 'demo', 'example', 'sample'
+    ];
+    
+    if (reservedWords.includes(code.toLowerCase())) {
+        return {
+            isValid: false,
+            message: `The short code '${code}' is reserved. Please choose a different one.`
+        };
+    }
+    
+    return { isValid: true };
+}
+
+/**
+ * Check if short code is available (AJAX call to backend)
+ */
+function checkShortCodeAvailability(code, inputElement) {
+    // Create a simple availability check endpoint call
+    fetch('/check-availability/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({ short_code: code })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.available) {
+            showSuccess(inputElement);
+            showAvailabilityMessage(inputElement, `✓ "${code}" is available!`, 'success');
+        } else {
+            showError(inputElement, `The short code '${code}' is not available. Please choose a different one.`);
+        }
+    })
+    .catch(error => {
+        console.log('Availability check failed:', error);
+        // Don't show error to user for availability check failures
+        // Just remove any existing availability messages
+        removeAvailabilityMessage(inputElement);
+    });
+}
+
+/**
+ * Show availability message below input
+ */
+function showAvailabilityMessage(inputElement, message, type) {
+    removeAvailabilityMessage(inputElement);
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `availability-message small mt-1 text-${type === 'success' ? 'success' : 'danger'}`;
+    messageDiv.textContent = message;
+    messageDiv.style.fontSize = '0.875rem';
+    
+    inputElement.parentElement.appendChild(messageDiv);
+    
+    // Auto-remove success messages after 3 seconds
+    if (type === 'success') {
+        setTimeout(() => removeAvailabilityMessage(inputElement), 3000);
+    }
+}
+
+/**
+ * Remove availability message
+ */
+function removeAvailabilityMessage(inputElement) {
+    const existingMessage = inputElement.parentElement.querySelector('.availability-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+}
+
+/**
+ * Get CSRF token for AJAX requests
+ */
+function getCSRFToken() {
+    const name = 'csrftoken';
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+/**
+ * Enhanced error display with better styling
+ */
+function showError(inputElement, message) {
+    // Clear previous states
+    clearError(inputElement);
+    removeAvailabilityMessage(inputElement);
+    
+    // Add error class with animation
+    inputElement.classList.add('is-invalid');
+    inputElement.style.borderColor = '#dc3545';
+    
+    // Create error message with better styling
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'invalid-feedback d-block';
+    errorDiv.innerHTML = `<i class="bi bi-exclamation-circle me-1"></i>${message}`;
+    errorDiv.style.fontSize = '0.875rem';
+    errorDiv.style.marginTop = '0.25rem';
+    
+    // Add after input with animation
+    inputElement.parentElement.appendChild(errorDiv);
+    
+    // Add shake animation
+    inputElement.style.animation = 'shake 0.5s';
+    setTimeout(() => {
+        inputElement.style.animation = '';
+    }, 500);
+}
+
+/**
+ * Enhanced success display
+ */
+function showSuccess(inputElement) {
+    inputElement.classList.remove('is-invalid');
+    inputElement.classList.add('is-valid');
+    inputElement.style.borderColor = '#198754';
+}
+
+/**
+ * Enhanced error clearing
+ */
+function clearError(inputElement) {
+    // Remove error classes and styles
+    inputElement.classList.remove('is-invalid', 'is-valid');
+    inputElement.style.borderColor = '';
+    inputElement.style.animation = '';
+    
+    // Remove error message
+    const existingError = inputElement.parentElement.querySelector('.invalid-feedback');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    // Remove availability message when clearing errors
+    removeAvailabilityMessage(inputElement);
+}
+
+/**
+ * Enhanced URL validation
+ */
+function isValidURL(url) {
+    try {
+        // Add protocol if missing
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'https://' + url;
+        }
+        
+        const urlObj = new URL(url);
+        
+        // Basic validation - must have a valid domain
+        return urlObj.hostname && urlObj.hostname.includes('.');
+    } catch (err) {
+        return false;
+    }
+}
+
+/**
+ * Add CSS animations for better UX
+ */
+function addValidationStyles() {
+    if (document.getElementById('validation-styles')) return;
+    
+    const style = document.createElement('style');
+    style.id = 'validation-styles';
+    style.textContent = `
+        @keyframes shake {
+            0%, 20%, 40%, 60%, 80% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        }
+        
+        .form-control.is-valid {
+            border-color: #198754;
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+        }
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        
+        .availability-message {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .invalid-feedback {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    addValidationStyles();
+    setupFormValidation();
+});

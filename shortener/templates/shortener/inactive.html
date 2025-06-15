@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Inactive - Link Not Available</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .inactive-container {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+        .inactive-card {
+            border: 2px solid #6c757d;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .inactive-icon {
+            font-size: 4rem;
+            color: #6c757d;
+            animation: fadeInOut 3s infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        .info-bg {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-link"></i> URL Shortener
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'index' %}">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container inactive-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card inactive-card">
+                    <div class="card-header info-bg text-white text-center py-4">
+                        <i class="fas fa-unlink inactive-icon"></i>
+                        <h2 class="mb-0 mt-3">Link Inactive</h2>
+                        <p class="mb-0">This shortened URL is no longer available</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- Status Message -->
+                        <div class="alert alert-warning d-flex align-items-center" role="alert">
+                            <i class="fas fa-info-circle fa-2x me-3"></i>
+                            <div>
+                                <h5 class="alert-heading mb-2">URL Deactivated</h5>
+                                <p class="mb-0">This link has been deactivated and is no longer accessible. This may have happened for security or administrative reasons.</p>
+                            </div>
+                        </div>
+
+                        <!-- URL Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6><i class="fas fa-link text-primary"></i> Requested Short URL:</h6>
+                                <div class="bg-light p-3 rounded">
+                                    <code class="text-dark">{{ request.build_absolute_uri|slice:":-1" }}{% url 'redirect' url.short_code %}</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Possible Reasons -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-question-circle text-info"></i> Why might this happen?</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-shield-alt text-warning me-3"></i>
+                                    <div>
+                                        <strong>Security Concerns:</strong> The link was deactivated due to security issues
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-clock text-info me-3"></i>
+                                    <div>
+                                        <strong>Expiration:</strong> The link had an expiration date that has passed
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-user-times text-secondary me-3"></i>
+                                    <div>
+                                        <strong>User Request:</strong> The creator deactivated the link
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-gavel text-danger me-3"></i>
+                                    <div>
+                                        <strong>Policy Violation:</strong> The link violated our terms of service
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- URL Statistics (if available) -->
+                        {% if url %}
+                        <div class="mb-4">
+                            <h6><i class="fas fa-chart-bar text-success"></i> Link Information:</h6>
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <div class="bg-light p-3 rounded">
+                                        <h5 class="text-primary mb-0">{{ url.clicks }}</h5>
+                                        <small class="text-muted">Total Clicks</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="bg-light p-3 rounded">
+                                        <h5 class="text-info mb-0">{{ url.created_at|timesince }}</h5>
+                                        <small class="text-muted">Age</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="bg-light p-3 rounded">
+                                        <h5 class="text-warning mb-0">{{ url.security_score }}/100</h5>
+                                        <small class="text-muted">Security Score</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                            <a href="{% url 'index' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-home"></i> Create New Link
+                            </a>
+                            <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-arrow-left"></i> Go Back
+                            </a>
+                        </div>
+
+                        <!-- Help Section -->
+                        <div class="mt-4 text-center">
+                            <p class="text-muted mb-2">Need help or believe this is an error?</p>
+                            <div class="btn-group">
+                                <a href="{% url 'contact' %}" class="btn btn-outline-info btn-sm">
+                                    <i class="fas fa-envelope"></i> Contact Support
+                                </a>
+                                <a href="{% url 'faq' %}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-question-circle"></i> FAQ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="card-footer bg-light text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle"></i> 
+                            {% if url %}
+                                Short Code: {{ url.short_code }} | 
+                                Status: Inactive | 
+                                Last Updated: {{ url.last_security_scan|date:"M d, Y H:i"|default:"N/A" }}
+                            {% else %}
+                                Short URL not found in our database
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Additional Information Cards -->
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-plus-circle fa-2x text-success mb-3"></i>
+                                <h6>Create a New Link</h6>
+                                <p class="card-text small">Start fresh with a new shortened URL that's active and secure.</p>
+                                <a href="{% url 'index' %}" class="btn btn-success btn-sm">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+                                <h6>Security First</h6>
+                                <p class="card-text small">We prioritize your safety by monitoring and managing link security.</p>
+                                <a href="{% url 'about' %}" class="btn btn-primary btn-sm">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-scroll to top on load
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
+
+        // Add some interactivity to the cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

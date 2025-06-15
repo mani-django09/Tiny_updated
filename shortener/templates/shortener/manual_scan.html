@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual URL Scan - Security Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .result-card {
+            border-left: 4px solid #6c757d;
+            margin-top: 1rem;
+        }
+        .result-safe { border-left-color: #28a745; }
+        .result-malicious { border-left-color: #dc3545; }
+        .result-suspicious { border-left-color: #ffc107; }
+        .result-error { border-left-color: #6c757d; }
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .google-icon { background-color: #4285f4; color: white; }
+        .vt-icon { background-color: #394eff; color: white; }
+        .local-icon { background-color: #28a745; color: white; }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-link"></i> URL Shortener
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'security_dashboard' %}">
+                    <i class="fas fa-shield-alt"></i> Security Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1><i class="fas fa-search text-primary"></i> Manual URL Scan</h1>
+                    <a href="{% url 'security_dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- Scan Form -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-globe"></i> Scan URL for Security Threats</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="scanForm">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="url" class="form-label">URL to Scan</label>
+                                <input type="url" class="form-control form-control-lg" id="url" name="url" 
+                                       placeholder="https://example.com" required>
+                                <div class="form-text">Enter a complete URL including http:// or https://</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Security Services</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="services" value="google" id="googleCheck" checked>
+                                            <label class="form-check-label" for="googleCheck">
+                                                <i class="fab fa-google text-primary"></i> Google Safe Browsing
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="services" value="virustotal" id="vtCheck" checked>
+                                            <label class="form-check-label" for="vtCheck">
+                                                <i class="fas fa-virus text-danger"></i> VirusTotal
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="services" value="local" id="localCheck" checked>
+                                            <label class="form-check-label" for="localCheck">
+                                                <i class="fas fa-cog text-success"></i> Local Scanner
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg" id="scanButton">
+                                <span id="scanSpinner" class="spinner-border spinner-border-sm d-none me-2"></span>
+                                <i class="fas fa-search" id="scanIcon"></i> Scan URL
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Quick Test URLs -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-lightning-bolt"></i> Quick Test URLs</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <button class="btn btn-outline-success btn-sm w-100 quick-url" data-url="https://www.google.com">
+                                    <i class="fas fa-check"></i> Safe URL (Google)
+                                </button>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <button class="btn btn-outline-danger btn-sm w-100 quick-url" data-url="http://malware.testing.google.test/testing/malware/">
+                                    <i class="fas fa-virus"></i> Test Malware URL
+                                </button>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <button class="btn btn-outline-warning btn-sm w-100 quick-url" data-url="http://g00gle.com">
+                                    <i class="fas fa-exclamation-triangle"></i> Suspicious URL
+                                </button>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <button class="btn btn-outline-info btn-sm w-100 quick-url" data-url="https://github.com">
+                                    <i class="fas fa-code"></i> Another Safe URL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" class="d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-chart-line"></i> Scan Results</h5>
+                        </div>
+                        <div class="card-body" id="resultsContent">
+                            <!-- Results will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scanForm = document.getElementById('scanForm');
+            const scanButton = document.getElementById('scanButton');
+            const scanSpinner = document.getElementById('scanSpinner');
+            const scanIcon = document.getElementById('scanIcon');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContent = document.getElementById('resultsContent');
+            const urlInput = document.getElementById('url');
+
+            // Quick URL buttons
+            document.querySelectorAll('.quick-url').forEach(button => {
+                button.addEventListener('click', function() {
+                    urlInput.value = this.dataset.url;
+                });
+            });
+
+            // Form submission
+            scanForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get selected services
+                const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked'))
+                    .map(cb => cb.value);
+                
+                if (selectedServices.length === 0) {
+                    alert('Please select at least one security service');
+                    return;
+                }
+                
+                // Show loading state
+                scanButton.disabled = true;
+                scanSpinner.classList.remove('d-none');
+                scanIcon.classList.add('d-none');
+                
+                const formData = new FormData(scanForm);
+                selectedServices.forEach(service => formData.append('services', service));
+                
+                fetch('{% url "manual_scan" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayResults(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    displayError('An error occurred while scanning the URL');
+                })
+                .finally(() => {
+                    // Reset loading state
+                    scanButton.disabled = false;
+                    scanSpinner.classList.add('d-none');
+                    scanIcon.classList.remove('d-none');
+                });
+            });
+
+            function displayResults(data) {
+                resultsSection.classList.remove('d-none');
+                
+                if (!data.success) {
+                    displayError(data.error || 'Unknown error occurred');
+                    return;
+                }
+
+                let html = `
+                    <div class="alert alert-info">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Scanned URL:</strong> <code>${data.url}</code>
+                            </div>
+                            <div>
+                                <span class="badge ${getOverallStatusClass(data.overall_status)} fs-6">
+                                    ${getStatusIcon(data.overall_status)} ${data.overall_status.toUpperCase()}
+                                </span>
+                            </div>
+                        </div>
+                        <small class="text-muted">Scanned at: ${new Date(data.scanned_at).toLocaleString()}</small>
+                    </div>
+                `;
+
+                // Display results for each service
+                const services = [
+                    { key: 'google_safebrowsing', name: 'Google Safe Browsing', icon: 'fab fa-google', class: 'google-icon' },
+                    { key: 'virustotal', name: 'VirusTotal', icon: 'fas fa-virus', class: 'vt-icon' },
+                    { key: 'local_scan', name: 'Local Scanner', icon: 'fas fa-cog', class: 'local-icon' }
+                ];
+
+                services.forEach(service => {
+                    const result = data.scan_results[service.key];
+                    if (result) {
+                        html += createResultCard(service, result);
+                    }
+                });
+
+                resultsContent.innerHTML = html;
+            }
+
+            function createResultCard(service, result) {
+                const statusClass = getStatusClass(result.status);
+                const statusIcon = getStatusIcon(result.status);
+                
+                let detailsHtml = '';
+                
+                // Format details based on service
+                if (service.key === 'google_safebrowsing' && result.threats) {
+                    detailsHtml = `
+                        <div class="mt-3">
+                            <h6>Detected Threats:</h6>
+                            <ul class="mb-0">
+                                ${result.threats.map(threat => `<li><strong>${threat.threatType}</strong> on ${threat.platformType}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else if (service.key === 'virustotal') {
+                    if (result.positives !== undefined) {
+                        const percentage = result.total > 0 ? ((result.positives / result.total) * 100).toFixed(1) : 0;
+                        detailsHtml = `
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><strong>Detection Rate:</strong> ${result.positives}/${result.total} engines</span>
+                                    <span class="badge bg-secondary">${percentage}%</span>
+                                </div>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar ${result.positives > 0 ? 'bg-danger' : 'bg-success'}" 
+                                         style="width: ${percentage}%">
+                                        ${result.positives > 0 ? 'Detected' : 'Clean'}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (result.message) {
+                        detailsHtml = `
+                            <div class="mt-3">
+                                <p class="text-muted mb-0">${result.message}</p>
+                            </div>
+                        `;
+                    }
+                } else if (service.key === 'local_scan') {
+                    if (result.warnings && result.warnings.length > 0) {
+                        detailsHtml = `
+                            <div class="mt-3">
+                                <h6>Security Warnings:</h6>
+                                <ul class="mb-0">
+                                    ${result.warnings.map(warning => `<li>${warning}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                    if (result.risk_score !== undefined) {
+                        const riskColor = result.risk_score > 70 ? 'danger' : result.risk_score > 40 ? 'warning' : 'success';
+                        detailsHtml += `
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span><strong>Risk Score:</strong></span>
+                                    <span class="badge bg-${riskColor}">${result.risk_score}/100</span>
+                                </div>
+                                <div class="progress" style="height: 15px;">
+                                    <div class="progress-bar bg-${riskColor}" style="width: ${result.risk_score}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else if (result.message) {
+                    detailsHtml = `
+                        <div class="mt-3">
+                            <p class="text-muted mb-0">${result.message}</p>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="result-card ${statusClass}">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start">
+                                <div class="service-icon ${service.class}">
+                                    <i class="${service.icon}"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">${service.name}</h6>
+                                        <span class="badge ${getStatusBadgeClass(result.status)}">
+                                            ${statusIcon} ${result.status.toUpperCase()}
+                                        </span>
+                                    </div>
+                                    ${detailsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function getStatusClass(status) {
+                switch(status) {
+                    case 'safe': return 'result-safe';
+                    case 'malicious': return 'result-malicious';
+                    case 'suspicious': return 'result-suspicious';
+                    default: return 'result-error';
+                }
+            }
+
+            function getStatusBadgeClass(status) {
+                switch(status) {
+                    case 'safe': return 'bg-success';
+                    case 'malicious': return 'bg-danger';
+                    case 'suspicious': return 'bg-warning';
+                    default: return 'bg-secondary';
+                }
+            }
+
+            function getOverallStatusClass(status) {
+                switch(status) {
+                    case 'safe': return 'bg-success';
+                    case 'malicious': return 'bg-danger';
+                    case 'suspicious': return 'bg-warning';
+                    default: return 'bg-secondary';
+                }
+            }
+
+            function getStatusIcon(status) {
+                switch(status) {
+                    case 'safe': return '✅';
+                    case 'malicious': return '🚫';
+                    case 'suspicious': return '⚠️';
+                    default: return '❓';
+                }
+            }
+
+            function displayError(message) {
+                resultsSection.classList.remove('d-none');
+                resultsContent.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Error:</strong> ${message}
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -171,8 +171,8 @@ GOOGLE_SAFEBROWSING_API_KEY = 'AIzaSyCkJUWUiWlWu2GQcN6LW-yRZrAnaM24qm8'
 # Redis Cache for Rate Limiting
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
     }
 }
 
