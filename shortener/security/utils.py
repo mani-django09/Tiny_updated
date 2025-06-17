@@ -16,17 +16,18 @@ from ..models import (
 class SecurityScanner:
     """Enhanced security scanning utilities"""
     
-    # Known malicious TLDs and suspicious domains
-    SUSPICIOUS_TLDS = [
-        '.tk', '.ml', '.ga', '.cf', '.click', '.download', '.zip', '.review',
-        '.country', '.kim', '.cricket', '.science', '.work', '.party', '.trade'
+    # Only block major competitors - not legitimate services
+    BLOCKED_SHORTENERS = [
+        'bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'ow.ly', 'is.gd', 
+        'short.link', 'tiny.cc', 'v.gd', 'cutt.ly'
     ]
     
-    # Known URL shortener domains (to prevent nested shortening)
-    SHORTENER_DOMAINS = [
-        'bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'ow.ly', 'is.gd', 
-        'buff.ly', 'short.link', 'tiny.cc', 'v.gd', 'rb.gy', 'cutt.ly',
-        'shorte.st', 'adf.ly', 'bc.vc', 'ouo.io', 'sh.st', 'linkvertise.com'
+    # Allow these legitimate services (don't treat as "shorteners")
+    ALLOWED_SERVICES = [
+        'sharepoint.com', 'onedrive.live.com', 'drive.google.com',
+        'dropbox.com', 'imgur.com', 'imgchest.com', 'gyazo.com',
+        'github.io', 'gitlab.io', 'netlify.app', 'vercel.app',
+        'cloudfront.net', 'amazonaws.com', 'azure.com'
     ]
     
     # Suspicious URL patterns
@@ -49,7 +50,7 @@ class SecurityScanner:
     
     @staticmethod
     def comprehensive_url_check(url):
-        """Perform comprehensive security check on URL"""
+        """Updated comprehensive security check with better logic"""
         results = {
             'status': 'safe',
             'risk_score': 0,
@@ -72,44 +73,57 @@ class SecurityScanner:
                 results['status'] = 'safe'
                 return results
             
-            # 3. Check for nested shorteners
-            if SecurityScanner.is_nested_shortener(url):
-                results['status'] = 'blocked'
-                results['blocked_reasons'].append('Nested URL shortener detected')
+            # 3. Check for allowed services first
+            if any(allowed in domain for allowed in SecurityScanner.ALLOWED_SERVICES):
+                results['status'] = 'safe'
+                results['risk_score'] = 10  # Very low risk
                 return results
             
-            # 4. Check suspicious TLDs
+            # 4. Check for nested shorteners (only competing ones)
+            if SecurityScanner.is_nested_shortener(url):
+                results['status'] = 'blocked'
+                results['blocked_reasons'].append('Competing URL shortener detected')
+                return results
+            
+            # 5. Check suspicious TLDs (but don't auto-block)
             for tld in SecurityScanner.SUSPICIOUS_TLDS:
                 if domain.endswith(tld):
-                    results['risk_score'] += 30
+                    results['risk_score'] += 20  # Reduced from 30
                     results['warnings'].append(f'Suspicious TLD: {tld}')
             
-            # 5. Check suspicious patterns
+            # 6. Check suspicious patterns (but be less aggressive)
+            pattern_count = 0
             for pattern in SecurityScanner.SUSPICIOUS_PATTERNS:
                 if re.search(pattern, url.lower()):
-                    results['risk_score'] += 25
+                    pattern_count += 1
                     results['warnings'].append(f'Suspicious pattern detected')
             
-            # 6. Domain age and reputation check
+            # Only add risk if multiple patterns match
+            if pattern_count >= 2:
+                results['risk_score'] += 25
+            elif pattern_count == 1:
+                results['risk_score'] += 10
+            
+            # 7. Domain risk check (less aggressive)
             domain_risk = SecurityScanner.check_domain_risk(domain)
-            results['risk_score'] += domain_risk['score']
+            results['risk_score'] += domain_risk['score'] * 0.5  # Reduce impact by 50%
             results['warnings'].extend(domain_risk['warnings'])
             
-            # 7. Check URL structure
+            # 8. URL structure analysis (less aggressive)
             structure_risk = SecurityScanner.analyze_url_structure(url)
-            results['risk_score'] += structure_risk['score']
+            results['risk_score'] += structure_risk['score'] * 0.5  # Reduce impact by 50%
             results['warnings'].extend(structure_risk['warnings'])
             
-            # 8. Try to resolve domain (check if it exists)
+            # 9. Domain resolution check
             if not SecurityScanner.can_resolve_domain(domain):
-                results['risk_score'] += 40
+                results['risk_score'] += 30  # Reduced from 40
                 results['warnings'].append('Domain cannot be resolved')
             
-            # Determine final status based on risk score
-            if results['risk_score'] >= 70:
+            # Determine final status with higher thresholds
+            if results['risk_score'] >= 80:  # Increased from 70
                 results['status'] = 'blocked'
                 results['blocked_reasons'].append(f'High risk score: {results["risk_score"]}')
-            elif results['risk_score'] >= 40:
+            elif results['risk_score'] >= 50:  # Increased from 40
                 results['status'] = 'suspicious'
             else:
                 results['status'] = 'safe'
@@ -274,9 +288,16 @@ class SecurityScanner:
     
     @staticmethod
     def is_nested_shortener(url):
-        """Check if URL is from another URL shortener"""
+        """Check if URL is from a competing URL shortener - updated logic"""
+        from urllib.parse import urlparse
         domain = urlparse(url).netloc.lower()
-        return any(shortener in domain for shortener in SecurityScanner.SHORTENER_DOMAINS)
+        
+        # First check if it's an allowed service
+        if any(allowed in domain for allowed in SecurityScanner.ALLOWED_SERVICES):
+            return False
+        
+        # Only block major competing shorteners
+        return any(shortener in domain for shortener in SecurityScanner.BLOCKED_SHORTENERS)
     
     @staticmethod
     def check_url_safety_with_google(url):

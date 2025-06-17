@@ -70,9 +70,9 @@ def get_client_ip(request):
     return ip
 
 def check_url_with_google_safebrowsing(url):
-    """Check URL with Google Safe Browsing API"""
+    """Check URL with Google Safe Browsing API - improved error handling"""
     if not hasattr(settings, 'GOOGLE_SAFEBROWSING_API_KEY') or not settings.GOOGLE_SAFEBROWSING_API_KEY:
-        return {'status': 'unknown', 'message': 'Google Safe Browsing API not configured'}
+        return {'status': 'disabled', 'message': 'Google Safe Browsing API not configured'}
     
     api_key = settings.GOOGLE_SAFEBROWSING_API_KEY
     api_url = f"https://safebrowsing.googleapis.com/v4/threatMatches:find?key={api_key}"
@@ -96,13 +96,12 @@ def check_url_with_google_safebrowsing(url):
     }
     
     try:
-        response = requests.post(api_url, json=payload, timeout=10)
+        response = requests.post(api_url, json=payload, timeout=15)
         
         if response.status_code == 200:
             result = response.json()
             
             if result.get('matches'):
-                # Found threats
                 threats = []
                 for match in result['matches']:
                     threats.append({
@@ -117,18 +116,20 @@ def check_url_with_google_safebrowsing(url):
                     'details': result
                 }
             else:
-                # No threats found
                 return {'status': 'safe', 'details': result}
+        elif response.status_code == 400:
+            return {'status': 'error', 'message': 'Invalid API request format'}
+        elif response.status_code == 403:
+            return {'status': 'error', 'message': 'API key invalid or quota exceeded'}
+        elif response.status_code == 429:
+            return {'status': 'error', 'message': 'Rate limit exceeded'}
         else:
-            return {
-                'status': 'error', 
-                'message': f'API request failed with status {response.status_code}'
-            }
+            return {'status': 'error', 'message': f'API returned status {response.status_code}'}
             
     except requests.exceptions.Timeout:
-        return {'status': 'error', 'message': 'API request timed out'}
-    except requests.exceptions.RequestException as e:
-        return {'status': 'error', 'message': f'API request failed: {str(e)}'}
+        return {'status': 'error', 'message': 'API request timed out - treating as safe'}
+    except requests.exceptions.ConnectionError:
+        return {'status': 'error', 'message': 'Connection error - treating as safe'}
     except Exception as e:
         return {'status': 'error', 'message': f'Unexpected error: {str(e)}'}
 
@@ -181,119 +182,82 @@ def check_url_with_virustotal(url):
         return {'status': 'error', 'message': str(e)}
 
 def perform_security_scan(url_obj, url_string):
-    """Perform comprehensive security scan including Google Safe Browsing and VirusTotal"""
+    """SIMPLIFIED - Only block if Google Safe Browsing confirms malicious"""
     scan_details = {}
-    threat_found = False
-    highest_risk_score = 0
-    block_reasons = []
     
-    # 1. Check with Google Safe Browsing
+    # Get domain
+    from urllib.parse import urlparse
+    domain = urlparse(url_string).netloc.lower()
+    
+    # Popular domains that should NEVER be blocked
+    safe_domains = [
+        'google.com', 'youtube.com', 'github.com', 'microsoft.com', 'apple.com',
+        'amazon.com', 'facebook.com', 'twitter.com', 'instagram.com', 'linkedin.com',
+        'dropbox.com', 'drive.google.com', 'onedrive.live.com', 'sharepoint.com',
+        'imgur.com', 'reddit.com', 'stackoverflow.com', 'medium.com', 'netflix.com',
+        'spotify.com', 'discord.com', 'zoom.us', 'teams.microsoft.com', 'docs.google.com'
+    ]
+    
+    # Check if it's a safe domain
+    for safe_domain in safe_domains:
+        if safe_domain in domain:
+            url_obj.is_safe = True
+            url_obj.security_score = 95
+            url_obj.last_security_scan = timezone.now()
+            url_obj.save()
+            return 'safe', {'safe_domain': True}
+    
+    # Only check Google Safe Browsing - ignore everything else
     google_result = check_url_with_google_safebrowsing(url_string)
     scan_details['google_safebrowsing'] = google_result
     
     if google_result['status'] == 'malicious':
-        threat_found = True
-        highest_risk_score = max(highest_risk_score, 100)
-        threats = google_result.get('threats', [])
-        threat_types = [t.get('threatType', 'Unknown') for t in threats]
-        block_reasons.append(f"Google Safe Browsing: {', '.join(threat_types)}")
-    
-    # 2. Check with VirusTotal
-    vt_result = check_url_with_virustotal(url_string)
-    scan_details['virustotal'] = vt_result
-    
-    if vt_result['status'] == 'malicious':
-        threat_found = True
-        highest_risk_score = max(highest_risk_score, 95)
-        positives = vt_result.get('positives', 0)
-        total = vt_result.get('total', 0)
-        block_reasons.append(f"VirusTotal: {positives}/{total} engines detected threats")
-    elif vt_result['status'] == 'suspicious':
-        highest_risk_score = max(highest_risk_score, 60)
-        positives = vt_result.get('positives', 0)
-        total = vt_result.get('total', 0)
-        block_reasons.append(f"VirusTotal: {positives}/{total} engines flagged as suspicious")
-    
-    # 3. Use existing SecurityScanner if available
-    try:
-        if hasattr(SecurityScanner, 'comprehensive_url_check'):
-            local_scan = SecurityScanner.comprehensive_url_check(url_string)
-            scan_details['local_scan'] = local_scan
-            
-            if local_scan['status'] == 'blocked':
-                threat_found = True
-                highest_risk_score = max(highest_risk_score, 90)
-                block_reasons.extend(local_scan.get('blocked_reasons', []))
-            elif local_scan['status'] == 'suspicious':
-                highest_risk_score = max(highest_risk_score, local_scan.get('risk_score', 50))
-    except (ImportError, AttributeError):
-        # SecurityScanner not available, rely on external APIs
-        pass
-    
-    # Determine final result
-    if threat_found or highest_risk_score >= 80:
-        scan_result = 'malicious'
+        # Only block if Google confirms it's malicious
         url_obj.is_safe = False
         url_obj.security_score = 0
         url_obj.temporarily_blocked = True
-        url_obj.block_reason = '; '.join(block_reasons)
-    elif highest_risk_score >= 40:
-        scan_result = 'suspicious'
-        url_obj.security_score = max(30, 100 - highest_risk_score)
+        url_obj.block_reason = 'Confirmed malicious by Google Safe Browsing'
+        scan_result = 'malicious'
     else:
+        # Everything else is safe
+        url_obj.is_safe = True
+        url_obj.security_score = 90
         scan_result = 'safe'
-        url_obj.security_score = 100
     
-    # Create SecurityScan records for each service
-    services_used = []
+    # Save scan record
+    try:
+        SecurityScan.objects.create(
+            url=url_obj,
+            scan_type='reputation',
+            result=google_result['status'],
+            details={'google_safebrowsing': google_result},
+            scanner_service='google_safebrowsing'
+        )
+    except Exception:
+        pass
     
-    if google_result['status'] != 'unknown':
-        services_used.append('google_safebrowsing')
-        try:
-            SecurityScan.objects.create(
-                url=url_obj,
-                scan_type='reputation',
-                result=google_result['status'],
-                details={'google_safebrowsing': google_result},
-                scanner_service='google_safebrowsing'
-            )
-        except Exception as e:
-            logging.error(f"Failed to create Google Safe Browsing SecurityScan record: {e}")
-    
-    if vt_result['status'] != 'unknown':
-        services_used.append('virustotal')
-        try:
-            SecurityScan.objects.create(
-                url=url_obj,
-                scan_type='malware',
-                result=vt_result['status'],
-                details={'virustotal': vt_result},
-                scanner_service='virustotal'
-            )
-        except Exception as e:
-            logging.error(f"Failed to create VirusTotal SecurityScan record: {e}")
-    
-    if 'local_scan' in scan_details:
-        services_used.append('internal')
-        try:
-            SecurityScan.objects.create(
-                url=url_obj,
-                scan_type='reputation',
-                result=scan_details['local_scan'].get('status', 'safe'),
-                details={'local_scan': scan_details['local_scan']},
-                scanner_service='internal'
-            )
-        except Exception as e:
-            logging.error(f"Failed to create internal SecurityScan record: {e}")
-    
-    # Update last security scan timestamp
     url_obj.last_security_scan = timezone.now()
     url_obj.save()
     
-    # Log security scan results
-    logging.info(f"Security scan completed for {url_obj.short_code}: {scan_result} (services: {', '.join(services_used)})")
-    
     return scan_result, scan_details
+@staff_member_required
+def emergency_unblock_url(request, short_code):
+    """Emergency unblock feature for false positives"""
+    if request.method == 'POST':
+        try:
+            url = get_object_or_404(URL, short_code=short_code)
+            url.temporarily_blocked = False
+            url.is_safe = True
+            url.security_score = 75  # Neutral score
+            url.block_reason = 'Manually unblocked by admin'
+            url.save()
+            
+            messages.success(request, f'URL {short_code} has been unblocked')
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 def index(request):
     """Homepage view with form to create short URL"""
